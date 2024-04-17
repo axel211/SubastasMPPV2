@@ -23,7 +23,7 @@ import Footer2 from 'components/Footer2';
 const navItems: NavItems = [
   { title: 'Inicio', href: '/features' },
   { title: 'Informes', href: '/pricing' },
-  { title: 'Subastas', href: '/registerLotes' },
+  { title: 'Subastas', href: '/registerSubasta' },
   { title: 'Iniciar sesión', href: '/sign-up', outlined: true },
   { title: 'Registrarse', href: '/registro', outlined: true },
 ];

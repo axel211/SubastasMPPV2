@@ -1,6 +1,8 @@
-import styled from 'styled-components';
 import React, { useState } from 'react';
-import Modal from './Modal';
+import styled from 'styled-components';
+import { Navigate } from 'react-router-dom'; // Importa Navigate
+import ModalCreateSubasta from './ModalCreateSubasta';
+import Link from 'next/link'
 // Estilos para el contenedor de la tabla de subastas
 const AuctionTableWrapper = styled.div`
   margin: 0 auto;
@@ -36,6 +38,7 @@ const Td = styled.td`
 const TableRow = styled.tr`
   background-color: ${props => props.even ? "#f2f2f2" : "white"};
 `;
+
 // Estilos para el contenedor del botón de crear subasta
 const CreateButtonContainer = styled.div`
   display: flex;
@@ -64,7 +67,7 @@ const generateFakeSubastas = (cantidad: number) => {
       nombre: `Subasta ${i}`,
       fechaCreacion: new Date().toLocaleDateString(),
       fechaCierre: new Date(Date.now() + Math.random() * 10000000000).toLocaleDateString(), // Fecha aleatoria en los próximos 10 días
-      estado: 'Finalizado'
+      estado: i % 2 === 0 ? 'Finalizado' : 'Activo' // Estado alternado entre "Activo" y "Finalizado"
     });
   }
   return subastas;
@@ -74,18 +77,24 @@ function AuctionTable() {
   // Generar datos ficticios de subastas
   const subastas = generateFakeSubastas(10); // Generar 10 subastas ficticias
 
-   // Estado para controlar la apertura y cierre del modal
-   const [modalOpen, setModalOpen] = useState(false);
+  // Estado para controlar la apertura y cierre del modal
+  const [modalOpen, setModalOpen] = useState(false);
 
-   // Función para abrir el modal
-   const handleOpenModal = () => {
-     setModalOpen(true);
-   };
- 
-   // Función para cerrar el modal
-   const handleCloseModal = () => {
-     setModalOpen(false);
-   };
+  // Función para abrir el modal
+  const handleOpenModal = () => {
+    setModalOpen(true);
+  };
+
+  // Función para cerrar el modal
+  const handleCloseModal = () => {
+    setModalOpen(false);
+  };
+
+  // Función para manejar la redirección a la página de la subasta correspondiente
+  const handleRedirectToSubasta = (id:number) => {
+    console.log(`/registerLotes/${id}`)
+    return <Navigate to={`/registerLotes/${id}`} replace />;
+  };
 
   return (
     <AuctionTableWrapper>
@@ -98,6 +107,7 @@ function AuctionTable() {
             <Th>Fecha de Creación</Th>
             <Th>Fecha de Cierre</Th>
             <Th>Estado</Th>
+            <Th>Acciones</Th> {/* Nueva columna para el botón */}
           </tr>
         </thead>
         <tbody>
@@ -108,7 +118,13 @@ function AuctionTable() {
               <Td>{subasta.fechaCreacion}</Td>
               <Td>{subasta.fechaCierre}</Td>
               <Td>{subasta.estado}</Td>
-              {/* Puedes agregar más columnas según sea necesario */}
+              {/* Mostrar el botón solo si el estado es "Activo" */}
+              <Td>     {subasta.estado === "Activo" && (
+                  <Link href={`/subastaMenu/${subasta.id}`}>
+                    <a>Acción</a>
+                  </Link>
+                )}</Td>
+              
             </TableRow>
           ))}
         </tbody>
@@ -118,9 +134,9 @@ function AuctionTable() {
         <CreateButtonText>Crear una nueva subasta</CreateButtonText>
       </CreateButtonContainer>
       {/* Modal para crear una nueva subasta */}
-      <Modal isOpen={modalOpen} onClose={handleCloseModal}>
+      <ModalCreateSubasta isOpen={modalOpen} onClose={handleCloseModal}>
         {/* Contenido del modal aquí */}
-      </Modal>
+      </ModalCreateSubasta>
     </AuctionTableWrapper>
   );
 }
