@@ -7,6 +7,7 @@ const UserCardContainer = styled.div`
   background-color: #fff;
   border-radius: 10px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 20px;
 `;
 
 // Estilos para el encabezado de la card
@@ -57,6 +58,7 @@ type OptionClickHandler = (option: Option) => void;
 interface UserCardMenuProps {
   onOptionClick: OptionClickHandler;
 }
+
 // Componente de la card de usuario y menú
 function UserCardMenu({ onOptionClick }: UserCardMenuProps) {
     const handleOptionClick = (option: Option) => {
