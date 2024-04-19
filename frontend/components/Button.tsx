@@ -1,30 +1,40 @@
 import { PropsWithChildren } from 'react';
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 
 type ButtonProps = PropsWithChildren<{ transparent?: boolean }>;
 
+
+const clickAnimation = keyframes`
+  0% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+  100% { transform: scale(1); }
+`;
 const Button = styled.a<ButtonProps>`
-    font-size: 1rem; /* Tamaño del texto para pantallas pequeñas */
-    font-weight: 600; /* Grosor de la fuente */
-    padding: 0.75rem 1.5rem; /* Espaciado interno del botón */
-    border: none; /* Sin borde */
-    background-color: blue; /* Color de fondo */
-    color: white; /* Color del texto */
-    border-radius: 999px; /* Hace que el botón sea redondeado */
-    cursor: pointer; /* Cambia el cursor al pasar sobre el botón */
-    transition: background-color 0.3s, box-shadow 0.3s; /* Transiciones suaves */
+background-color: rgb(255, 211, 11);
+box-shadow: black 0.1rem 0.1rem;
+width: 171px;
+height: 45px;
+position: relative;
+left: -5px;
+top: -2px;
+padding: 8px;
+font-weight: bold;
+border: 2px solid black;
+border-radius: 9999px;
+cursor: pointer;
+display: flex;
+align-items: center;
+justify-content: center;
 
-    /* Estilos para pantallas medianas y grandes */
-    @media (min-width: 768px) {
-      font-size: 2.25rem; /* Tamaño del texto para pantallas medianas y grandes */
-      padding: 1rem 2.5rem; /* Espaciado interno del botón para pantallas medianas y grandes */
-    }
+/* Agregar estilos adicionales para cuando el botón está deshabilitado */
+&.disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
 
-    /* Efecto de sombra al pasar el cursor sobre el botón */
-    &:hover {
-      box-shadow: 0 0 20px rgba(0, 0, 255, 0.5); /* Sombra azul */
-      background-color: #0066cc; /* Cambia el color de fondo al pasar el cursor */
-    }
+&:active {
+  animation: ${clickAnimation} 0.1s ease;
+}
 `;
 
 export default Button;

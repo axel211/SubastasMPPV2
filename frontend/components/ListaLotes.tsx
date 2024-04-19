@@ -1,9 +1,9 @@
 import React from 'react';
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import Slider from './Slider';
-// Definir estilos para la tarjeta del lote
+import example from 'public/demo-illustration-2.svg'
 const Card = styled.div`
-  width: calc(25% - 20px); /* 25% del ancho de la fila menos el espacio entre tarjetas */
+  width: calc(33% - 20px);
   margin: 10px;
   background-color: #ffffff;
   border-radius: 8px;
@@ -11,46 +11,61 @@ const Card = styled.div`
   padding: 20px;
 `;
 
-// Definir estilos para el número de lote
 const LoteNumber = styled.div`
   font-weight: bold;
   font-size: 18px;
   margin-bottom: 10px;
 `;
 
-// Definir estilos para el valor actual y el monto
 const PriceContainer = styled.div`
   display: flex;
   justify-content: space-between;
   margin-top: 10px;
 `;
 
-// Definir estilos para el tiempo de cierre de la subasta
 const TimeLeft = styled.div`
   font-style: italic;
   margin-top: 10px;
+  margin-bottom: 10px;
 `;
 
-// Definir estilos para el botón de más información
+const clickAnimation = keyframes`
+  0% { transform: scale(1); }
+  50% { transform: scale(1.1); }
+  100% { transform: scale(1); }
+`;
+
 const MoreInfoButton = styled.button`
-  background-color: #007bff;
-  color: #ffffff;
-  border: none;
-  border-radius: 5px;
-  padding: 10px 20px;
-  margin-top: 20px;
+  background-color: rgb(255, 211, 11);
+  box-shadow: black 0.1rem 0.1rem;
+  width: 171px;
+  height: 45px;
+  position: relative;
+  left: -5px;
+  top: -2px;
+  padding: 8px;
+  font-weight: bold;
+  border: 2px solid black;
+  border-radius: 9999px;
   cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  &:active {
+    animation: ${clickAnimation} 0.1s ease;
+  }
 `;
 
 const ListaLotes = () => {
-  // Ejemplo de datos de lotes
   const lotes = [
     {
       numero: 'Lote 1',
-      fotos: ['foto1.jpg', 'foto2.jpg', 'foto3.jpg'],
+      fotos: ['example-image-1.jpeg', 'example-image-1.jpeg', 'example-image-1.jpeg'],
       valorActual: '$1000',
       monto: '$2000',
       tiempoCierre: '3 horas restantes',
+      rutaFotos: 'public', // Ruta relativa a la carpeta de fotos
     },
     {
       numero: 'Lote 2',
@@ -58,6 +73,7 @@ const ListaLotes = () => {
       valorActual: '$1500',
       monto: '$2500',
       tiempoCierre: '2 horas restantes',
+      rutaFotos: '../public/posts/test-article/', // Ruta relativa a la carpeta de fotos
     },
     // Agregar más lotes según sea necesario
   ];
@@ -69,10 +85,9 @@ const ListaLotes = () => {
         {lotes.map((lote, index) => (
           <Card key={index}>
             <LoteNumber>{lote.numero}</LoteNumber>
-            <Slider fotos = {lote.fotos}/>
+            <Slider fotos={lote.fotos.map(foto => lote.rutaFotos + foto)} /> {/* Concatena la ruta de las fotos con el nombre de cada foto */}
             <PriceContainer>
               <div>Valor Actual: {lote.valorActual}</div>
-              <div>Monto: {lote.monto}</div>
             </PriceContainer>
             <TimeLeft>Tiempo de cierre: {lote.tiempoCierre}</TimeLeft>
             <MoreInfoButton>Más Información</MoreInfoButton>

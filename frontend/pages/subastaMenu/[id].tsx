@@ -54,9 +54,10 @@ const Button = styled.button`
 `;
 
 const Content = styled.div`
-  width: 800px;
+  width: 750px;
   display: flex;
   flex-wrap: wrap;
+  margin-bottom: 20px;
 `;
 
 const SubastaTitle = styled.div`
@@ -91,10 +92,15 @@ const SubastaInfoContainer = styled.div`
 
 const ExtraContentContainer = styled.div`
   width: 100%;
-  max-width: 1200px;
+  max-width: 900px;
   margin-top: 50px;
-  background-color: #f2f2f2;
+  margin-bottom: 50px;
+  margin: 0 20px;
+  background-color:  #ffffff ; 
   padding: 20px;
+  border-radius: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+
 `;
 
 const PageContainer = styled.div`
@@ -144,8 +150,8 @@ const RegisterLotes = () => {
         <Content>
           <SubastaTitle>Subasta </SubastaTitle>
           <SubastaInfoContainer>
-            <SubastaName>Nombre de la Subasta</SubastaName>
-            <SubastaId>ID de la Subasta</SubastaId>
+            <SubastaName>Nombre: 5° Remate vehicular</SubastaName>
+            <SubastaId>ID: 45648</SubastaId>
           </SubastaInfoContainer>
           <Card>
             <CardTitle>Participantes</CardTitle>
@@ -171,11 +177,12 @@ const RegisterLotes = () => {
             <SubCardImage src={prueba} alt="folder" width="50" height="50" />
             <CardContent>Contenido del cronograma</CardContent>
           </Card>
+          <ExtraContentContainer>
+            {renderComponent()}
+            </ExtraContentContainer>
         </Content>
       </CardContainer>
-      <ExtraContentContainer>
-      {renderComponent()}
-      </ExtraContentContainer>
+      
       </PageContainer>
       
     

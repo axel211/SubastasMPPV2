@@ -21,11 +21,11 @@ import { NavItems } from 'types';
 import Footer2 from 'components/Footer2';
 
 const navItems: NavItems = [
-  { title: 'Inicio', href: '/features' },
-  { title: 'Informes', href: '/pricing' },
+  { title: 'Inicio', href: '/' }, //features
+  { title: 'Informes', href: '/' }, //pricing
   { title: 'Subastas', href: '/registerSubasta' },
-  { title: 'Iniciar sesión', href: '/sign-up', outlined: true },
-  { title: 'Registrarse', href: '/registro', outlined: true },
+ // { title: 'Iniciar sesión', href: '/', outlined: true }, //
+  //{ title: 'Registrarse', href: '/registro', outlined: true },
 ];
 
 const TinaCMS = dynamic(() => import('tinacms'), { ssr: false });
