@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { Navigate } from 'react-router-dom'; // Importa Navigate
 import ModalCreateSubasta from './ModalCreateSubasta';
-import Link from 'next/link'
+import Link from 'next/link';
 // Estilos para el contenedor de la tabla de subastas
 const AuctionTableWrapper = styled.div`
   margin: 0 auto;
@@ -73,9 +73,30 @@ const generateFakeSubastas = (cantidad: number) => {
   return subastas;
 }
 
+function formatDateString(dateString) {
+  const date = new Date(dateString);
+  const year = date.getFullYear();
+  let month = '' + (date.getMonth() + 1);
+  let day = '' + date.getDate();
+
+  if (month.length < 2) 
+    month = '0' + month;
+  if (day.length < 2) 
+    day = '0' + day;
+
+  return [year, month, day].join('-');
+}
+
 function AuctionTable() {
+  const [subastas , setSubastas] = useState([]) ;
+
+  useEffect(() => {
+    fetch('http://localhost:8080/api/subasta')
+      .then(response => response.json())
+      .then(data => setSubastas(data))
+      .catch(error => console.error('Error al obtener subastas:', error));
+  }, []);
   // Generar datos ficticios de subastas
-  const subastas = generateFakeSubastas(10); // Generar 10 subastas ficticias
 
   // Estado para controlar la apertura y cierre del modal
   const [modalOpen, setModalOpen] = useState(false);
@@ -94,6 +115,17 @@ function AuctionTable() {
   const handleRedirectToSubasta = (id:number) => {
     console.log(`/registerLotes/${id}`)
     return <Navigate to={`/registerLotes/${id}`} replace />;
+  };
+  const fetchSubastas = () => {
+    fetch('http://localhost:8080/api/subasta')
+      .then(response => response.json())
+      .then(data => setSubastas(data))
+      .catch(error => console.error('Error al obtener subastas:', error));
+  };
+
+  const handleNewSubastaAdded = () => {
+    // Vuelve a obtener las subastas después de agregar una nueva
+    fetchSubastas();
   };
 
   return (
@@ -115,8 +147,8 @@ function AuctionTable() {
             <TableRow key={index} even={index % 2 === 0}>
               <Td>{subasta.id}</Td>
               <Td>{subasta.nombre}</Td>
-              <Td>{subasta.fechaCreacion}</Td>
-              <Td>{subasta.fechaCierre}</Td>
+              <Td>{formatDateString(subasta.fechaCreacion)}</Td>
+              <Td>{formatDateString(subasta.fechaCierre)}</Td>
               <Td>{subasta.estado}</Td>
               {/* Mostrar el botón solo si el estado es "Activo" */}
               <Td>     {subasta.estado === "Activo" && (
@@ -134,7 +166,7 @@ function AuctionTable() {
         <CreateButtonText>Crear una nueva subasta</CreateButtonText>
       </CreateButtonContainer>
       {/* Modal para crear una nueva subasta */}
-      <ModalCreateSubasta isOpen={modalOpen} onClose={handleCloseModal}>
+      <ModalCreateSubasta onNewSubastaAdded = {handleNewSubastaAdded} isOpen={modalOpen} onClose={handleCloseModal} >
         {/* Contenido del modal aquí */}
       </ModalCreateSubasta>
     </AuctionTableWrapper>

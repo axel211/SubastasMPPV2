@@ -1,5 +1,6 @@
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
+import axios from 'axios'
 import styled from 'styled-components';
 import UserCardMenu from 'components/UserCardMenu';
 import ListaLotes from 'components/ListaLotes';
@@ -118,9 +119,20 @@ const SubCardImage = styled.img`
 const RegisterLotes = () => {
   const router = useRouter();
   const [selectedOption, setSelectedOption] = useState<'datosPersonales' | 'mostrarTabla' | 'listaLotes' | 'crearLotes'>('datosPersonales');
+  const [subastaData, setSubastaData] = useState(null);
   const { id } = router.query;
 
   useEffect(() => {
+    if (id) {
+      // Utiliza el ID para obtener los detalles de la subasta desde la API
+      axios.get(`http://localhost:8080/api/subasta/${id}`)
+        .then(response => {
+          setSubastaData(response.data); // Almacena los datos de la subasta en el estado
+        })
+        .catch(error => {
+          console.error('Error al obtener los detalles de la subasta:', error);
+        });
+    }
     // Aquí puedes utilizar el id para cargar y mostrar los detalles de la subasta
   }, [id]);
 
@@ -150,8 +162,8 @@ const RegisterLotes = () => {
         <Content>
           <SubastaTitle>Subasta </SubastaTitle>
           <SubastaInfoContainer>
-            <SubastaName>Nombre: 5° Remate vehicular</SubastaName>
-            <SubastaId>ID: 45648</SubastaId>
+            <SubastaName>{subastaData ? subastaData.nombre : 'Cargando...'}</SubastaName>
+            <SubastaId>ID: {subastaData ? subastaData.id : 'Cargando...'}</SubastaId>
           </SubastaInfoContainer>
           <Card>
             <CardTitle>Participantes</CardTitle>
