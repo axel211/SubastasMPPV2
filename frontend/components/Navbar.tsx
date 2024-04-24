@@ -79,7 +79,9 @@ export default function Navbar({ items }: NavbarProps) {
           ))}
         </NavItemList>
         <ButtonContainer>
+        <NextLink href="/register" passHref>
           <Button>Registrarse</Button>
+          </NextLink>
           <NextLink href="/login" passHref>
           <Button >Iniciar sesion </Button>
           </NextLink>
