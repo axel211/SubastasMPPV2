@@ -25,7 +25,8 @@ cursor: pointer;
 display: flex;
 align-items: center;
 justify-content: center;
-
+font-size:15px ; 
+margin-right: 15px ; 
 /* Agregar estilos adicionales para cuando el botón está deshabilitado */
 &.disabled {
   opacity: 0.7;

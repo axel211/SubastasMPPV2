@@ -20,17 +20,22 @@ import { NewsletterModalContextProvider, useNewsletterModalContext } from 'conte
 import { NavItems } from 'types';
 import Footer2 from 'components/Footer2';
 
+import { useState } from 'react';
+
+
 const navItems: NavItems = [
   { title: 'Inicio', href: '/' }, //features
   { title: 'Informes', href: '/' }, //pricing
   { title: 'Subastas', href: '/registerSubasta' },
- // { title: 'Iniciar sesión', href: '/', outlined: true }, //
-  //{ title: 'Registrarse', href: '/registro', outlined: true },
+  //{ title: 'Iniciar sesión', href: '/login' }, //
+  //{ title: 'Registrarse', href: '/register' },
+  //{ title: 'Registrarse', href: '/register', outlined: true },
 ];
 
 const TinaCMS = dynamic(() => import('tinacms'), { ssr: false });
 
 function MyApp({ Component, pageProps }: AppProps) {
+
   return (
     <>
       <Head>
@@ -52,7 +57,7 @@ function MyApp({ Component, pageProps }: AppProps) {
 
       <Providers>
         <Modals />
-        <Navbar items={navItems} />
+        <Navbar  items={navItems}/>
         <TinaEditProvider
           editMode={
             <TinaCMS

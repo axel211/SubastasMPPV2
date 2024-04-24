@@ -78,6 +78,13 @@ export default function Navbar({ items }: NavbarProps) {
             <NavItem key={singleItem.href} {...singleItem} />
           ))}
         </NavItemList>
+        <ButtonContainer>
+          <Button>Registrarse</Button>
+          <NextLink href="/login" passHref>
+          <Button >Iniciar sesion </Button>
+          </NextLink>
+          
+        </ButtonContainer>
         {/*<ColorSwitcherContainer>
           <ColorSwitcher />
         </ColorSwitcherContainer>*/}
@@ -117,7 +124,7 @@ const CustomButton = styled(Button)`
 const NavItemList = styled.div`
   display: flex;
   list-style: none;
-
+  
   ${media('<desktop')} {
     display: none;
   }
@@ -191,4 +198,10 @@ const Content = styled(Container)`
 const ColorSwitcherContainer = styled.div`
   width: 4rem;
   margin: 0 1rem;
+`;
+
+const ButtonContainer = styled.div`
+  margin-left:20px ;
+  display: flex;
+  align-items: center;
 `;
