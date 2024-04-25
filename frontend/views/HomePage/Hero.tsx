@@ -21,9 +21,11 @@ export default function Hero() {
         <Description>
         </Description>
         <CustomButtonGroup>
+        <NextLink href="/register" passHref>
           <Button >
             Regístrate 
           </Button>
+          </NextLink>
         </CustomButtonGroup>
       </Contents>
       <img src={bannerSubasta} alt="bannerSubasta" className="bannerSubasta" style={{ width: '800px', height: '450px' }} />

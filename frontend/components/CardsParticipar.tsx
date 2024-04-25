@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import register from 'public/cardsParticipar/Register.svg'
 import habilitado from 'public/cardsParticipar/Habilitado.svg'
 import lote from 'public/cardsParticipar/Lote.svg'
+import NextLink from 'next/link';
 // Estilos para el card principal
 const CardWrapper = styled.div`
   max-width: 1300px;
@@ -46,9 +47,7 @@ const SubCard = styled.div`
     justify-content: space-between;
     text-align: left ; 
 
-    &:hover {
-        background-color: #00224a; /* Cambiar color al pasar el mouse */
-      }
+
 `;
 
 const SubCardTitle = styled.h4`
@@ -56,18 +55,14 @@ const SubCardTitle = styled.h4`
   font-size: 20px;
   margin-bottom: 8px;
   text-align : center ; 
-  ${SubCard}:hover & {
-    color: white;
-  }
+
 `;
 
 const SubCardText = styled.p`
     margin-top: 20px; 
   color: #4a5568;
   font-size: 16px;
-  ${SubCard}:hover & {
-    color: #F4F6F7 ; 
-  }
+
 `;
 
 const SubCardLink = styled.a`
@@ -79,12 +74,7 @@ const SubCardLink = styled.a`
   text-decoration: none; /* Quitar subrayado */
   transition: color 0.3s ease; /* Transición suave */
   font-size : 15px ; 
-  &:hover {
-    color: #4a5568; /* Cambiar color al pasar el cursor */
-  }
-  ${SubCard}:hover & {
-    color: #3498DB ; 
-  }
+
 `;
 
 const SubCardContent = styled.div`
@@ -97,6 +87,7 @@ const SubCardLinkWrapper = styled.div`
 const SubCardImage = styled.img`
   display: block;
   margin: 0 auto; /* Esto centra la imagen horizontalmente */
+  cursor: pointer;
 `;
 
 function CardsParticipar() {
@@ -108,11 +99,14 @@ function CardsParticipar() {
         <SubCard>
           <SubCardContent>
             <SubCardTitle>Regístrate</SubCardTitle>
+            <NextLink href="/register" passHref>
             <SubCardImage src={register} alt="Register" width="100" height="100" />
+            </NextLink>
             <SubCardText>Llena nuestro formulario y crea una cuenta para que puedas participar en todas las subastas.</SubCardText>
+          
           </SubCardContent>
           <SubCardLinkWrapper>
-            <SubCardLink href="Register">Registrate</SubCardLink>
+            <SubCardLink href="register">Registrate</SubCardLink>
           </SubCardLinkWrapper>
         </SubCard>
         <SubCard>
