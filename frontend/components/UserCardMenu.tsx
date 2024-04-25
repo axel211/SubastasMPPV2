@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
-
+import cuentaIcono from 'public/IconosMenu/cuentaIcono.svg'
+import subastaIcono from 'public/IconosMenu/subastaIcono.svg'
 // Estilos para la card de usuario
 const UserCardContainer = styled.div`
   width: 300px;
@@ -44,9 +45,18 @@ const MenuItem = styled.li`
   padding: 10px 20px;
   cursor: pointer;
   transition: background-color 0.3s ease;
+  font-size:15px;
   &:hover {
     background-color: #f5f5f5;
   }
+`;
+
+const SubCardImage = styled.img`
+margin-right: 10px;
+width: 30px; /* Ajusta el ancho según tu diseño */
+height: 30px; /* Ajusta la altura según tu diseño */
+display: inline-block;
+vertical-align: bottom;
 `;
 
 type Option = 'datosPersonales' | 'mostrarTabla'; // Definir un tipo para las opciones válidas
@@ -73,8 +83,12 @@ function UserCardMenu({ onOptionClick }: UserCardMenuProps) {
         <UserEmail>usuario@example.com</UserEmail>
       </Header>
       <Menu>
-        <MenuItem onClick={() => handleOptionClick('datosPersonales')}>Mostrar Datos Personales</MenuItem>
-        <MenuItem onClick={() => handleOptionClick('mostrarTabla')}>Mostrar Tabla</MenuItem>
+        <MenuItem onClick={() => handleOptionClick('datosPersonales')}>
+          <SubCardImage src={cuentaIcono}/>Cuenta
+        </MenuItem>
+        <MenuItem onClick={() => handleOptionClick('mostrarTabla')}>
+        <SubCardImage src={subastaIcono}/>Subasta
+        </MenuItem>
       </Menu>
     </UserCardContainer>
   );

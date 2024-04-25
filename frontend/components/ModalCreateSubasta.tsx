@@ -38,6 +38,7 @@ const FormGroup = styled.div`
 
 const Label = styled.label`
   margin-bottom: 5px;
+  text-align: left;
 `;
 
 const Input = styled.input`

@@ -3,11 +3,13 @@ import styled from 'styled-components';
 import { Navigate } from 'react-router-dom'; // Importa Navigate
 import ModalCreateSubasta from './ModalCreateSubasta';
 import Link from 'next/link';
+import Page from './Page';
 // Estilos para el contenedor de la tabla de subastas
 const AuctionTableWrapper = styled.div`
-  margin: 0 auto;
-  max-width: 800px;
-  padding: 20px;
+  display: flex;
+  flex-direction: column; /* Cambia la dirección a una columna */
+  gap: 20px;
+  text-align: center; /* Centra el texto de los elementos */
 `;
 
 // Estilos para el título de la tabla
@@ -18,8 +20,10 @@ const TableTitle = styled.h2`
 
 // Estilos para la tabla
 const Table = styled.table`
-  width: 100%;
+  width: 650px;
   border-collapse: collapse;
+  margin: 0 20px;
+  margin-bottom: 20px;
 `;
 
 // Estilos para las celdas de la tabla
@@ -45,6 +49,8 @@ const CreateButtonContainer = styled.div`
   align-items: center;
   margin-top: 20px;
   cursor: pointer;
+  margin: 0 20px;
+  margin-bottom: 20px;
 `;
 
 // Estilos para el icono del botón
@@ -57,6 +63,22 @@ const CreateButtonIcon = styled.span`
 const CreateButtonText = styled.span`
   font-size: 16px;
 `;
+
+const PageContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 50px;
+`;
+
+const SubastaTitle = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  margin: 0 20px;
+  font-size: 30px;
+`;
+
 
 // Función para generar datos ficticios de subastas
 const generateFakeSubastas = (cantidad: number) => {
@@ -75,16 +97,15 @@ const generateFakeSubastas = (cantidad: number) => {
 
 function formatDateString(dateString) {
   const date = new Date(dateString);
+  const day = '' + date.getDate();
+  const month = '' + (date.getMonth() + 1);
   const year = date.getFullYear();
-  let month = '' + (date.getMonth() + 1);
-  let day = '' + date.getDate();
 
-  if (month.length < 2) 
-    month = '0' + month;
-  if (day.length < 2) 
-    day = '0' + day;
+  // Añadir ceros iniciales si es necesario
+  const formattedDay = day.length === 1 ? '0' + day : day;
+  const formattedMonth = month.length === 1 ? '0' + month : month;
 
-  return [year, month, day].join('-');
+  return [formattedDay, formattedMonth, year].join('-');
 }
 
 function AuctionTable() {
@@ -129,8 +150,10 @@ function AuctionTable() {
   };
 
   return (
-    <AuctionTableWrapper>
-      <TableTitle>Subastas</TableTitle>
+
+
+<AuctionTableWrapper>
+      <SubastaTitle>Subastas </SubastaTitle>
       <Table>
         <thead>
           <tr>
@@ -170,6 +193,8 @@ function AuctionTable() {
         {/* Contenido del modal aquí */}
       </ModalCreateSubasta>
     </AuctionTableWrapper>
+
+    
   );
 }
 
