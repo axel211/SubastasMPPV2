@@ -13,29 +13,18 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "Persona")
-public abstract class Persona {
+@Inheritance(strategy = InheritanceType.JOINED)
+public  class Persona {
     @Id
-    @GeneratedValue (strategy = GenerationType.IDENTITY)
-    private Long id  ;
-    @Column(name = "direccion")
-    private String direccion;
-    @Column(name = "telefono")
-    private String telefono;
-    @Column(name = "fechaNacimiento")
-    private Date fechaNacimiento;
-    @Column(name = "sexo")
-    private String sexo ;
-    @Column(name = "departamento")
-    private String departamento ;
-    @Column(name = "provincia")
-    private String provincia;
-    @Column(name = "distrito")
-    private String distrito;
-    @Column(name = "foto")
-    private byte[] foto;
-    @Column(name = "activo")
-    private Boolean activo ;
-    @Column(name = "habilitadoParticipar")
-    private Boolean habilitadoParticipar;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+    private String tipo ;
+    private String dni ;
+    private String ruc ;
+    private String apellido ;
+    private String razonsocial ;
+
+    @OneToOne
+    @JoinColumn(name = "usuario_id")
+    private Usuario usuario;
 }

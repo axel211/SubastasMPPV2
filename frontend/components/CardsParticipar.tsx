@@ -126,7 +126,7 @@ function CardsParticipar() {
             <SubCardText>Lista de lotes que se subastarán el día 24 de marzo</SubCardText>
           </SubCardContent>
           <SubCardLinkWrapper>
-            <SubCardLink href="Lotes">Lotes</SubCardLink>
+            <SubCardLink href="lotesCatalog">Lotes</SubCardLink>
           </SubCardLinkWrapper>
         </SubCard>
       </SubCardWrapper>

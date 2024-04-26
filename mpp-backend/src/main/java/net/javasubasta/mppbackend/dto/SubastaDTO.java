@@ -6,7 +6,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import net.javasubasta.mppbackend.entity.Lote;
 
-import javax.swing.text.StyledEditorKit;
 import java.util.Date;
 import java.util.List;
 
@@ -14,7 +13,7 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class SubastaDto {
+public class SubastaDTO {
 
     private  int id  ;
     private String nombre ;

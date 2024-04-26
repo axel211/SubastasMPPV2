@@ -1,12 +1,12 @@
 package net.javasubasta.mppbackend.mapper;
 
-import net.javasubasta.mppbackend.dto.SubastaDto;
+import net.javasubasta.mppbackend.dto.SubastaDTO;
 import net.javasubasta.mppbackend.entity.Subasta;
 
 public class SubastaMapper {
 
-    public static SubastaDto mapToSubastaDto(Subasta subasta) {
-        return new SubastaDto(
+    public static SubastaDTO mapToSubastaDto(Subasta subasta) {
+        return new SubastaDTO(
                 subasta.getId(),
                 subasta.getNombre(),
                 subasta.getDescripcion(),
@@ -17,7 +17,7 @@ public class SubastaMapper {
         );
     }
 
-    public static Subasta mapToSubasta(SubastaDto subastaDto) {
+    public static Subasta mapToSubasta(SubastaDTO subastaDto) {
         return new Subasta(
                 subastaDto.getId(),
                 subastaDto.getNombre(),

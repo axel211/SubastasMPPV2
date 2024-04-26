@@ -1,11 +1,11 @@
 package net.javasubasta.mppbackend.service;
 
-import net.javasubasta.mppbackend.dto.SubastaDto;
+import net.javasubasta.mppbackend.dto.SubastaDTO;
 
 import java.util.List;
 
 public interface SubastaService {
-    SubastaDto createSubasta(SubastaDto subastaDto);
-    SubastaDto getSubastaById(int id);
-    List<SubastaDto> getAllSubastas();
+    SubastaDTO createSubasta(SubastaDTO subastaDto);
+    SubastaDTO getSubastaById(int id);
+    List<SubastaDTO> getAllSubastas();
 }
