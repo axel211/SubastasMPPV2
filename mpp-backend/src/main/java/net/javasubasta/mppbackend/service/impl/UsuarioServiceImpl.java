@@ -27,5 +27,12 @@ public class UsuarioServiceImpl implements UsuarioService {
         return usuarioMapper.toDto(usuario) ;
     }
 
+    @Override
+    public UsuarioDTO obtenerUsuarioPorEmail(String email) {
+        Usuario usuario = new Usuario() ;
+        usuario = usuarioRepository.findByEmail(email) ;
+        return usuarioMapper.toDto(usuario) ;
+    }
+
 
 }

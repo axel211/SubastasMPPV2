@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import cuentaIcono from 'public/IconosMenu/cuentaIcono.svg'
 import subastaIcono from 'public/IconosMenu/subastaIcono.svg'
+import logoutIcono from 'public/IconosMenu/logoutIcono.svg'
 // Estilos para la card de usuario
 const UserCardContainer = styled.div`
   width: 300px;
@@ -58,7 +59,13 @@ height: 30px; /* Ajusta la altura según tu diseño */
 display: inline-block;
 vertical-align: bottom;
 `;
-
+const LogoutButton = styled(MenuItem)`
+  background-color: #f8f8f8; // Color de fondo del botón de cerrar sesión
+  color: #d32f2f; // Color del texto para el botón de cerrar sesión
+  &:hover {
+    background-color: #e0e0e0; // Color de hover
+  }
+`;
 type Option = 'datosPersonales' | 'mostrarTabla'; // Definir un tipo para las opciones válidas
 
 // Tipo para la función de clic en la opción del menú
@@ -75,6 +82,12 @@ function UserCardMenu({ onOptionClick }: UserCardMenuProps) {
         onOptionClick(option);
       };
 
+      const handleLogout = () => {
+        // Aquí deberías agregar la lógica para manejar el cierre de sesión
+        console.log('Cerrar sesión');
+    };
+
+
   return (
     <UserCardContainer>
       <Header>
@@ -89,6 +102,10 @@ function UserCardMenu({ onOptionClick }: UserCardMenuProps) {
         <MenuItem onClick={() => handleOptionClick('mostrarTabla')}>
         <SubCardImage src={subastaIcono}/>Subasta
         </MenuItem>
+
+        <LogoutButton onClick={handleLogout}>
+                    <SubCardImage src={logoutIcono}/>Cerrar Sesión
+                </LogoutButton>
       </Menu>
     </UserCardContainer>
   );

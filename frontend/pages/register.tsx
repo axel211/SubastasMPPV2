@@ -1,6 +1,9 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import Button from 'components/Button';
+import FormInputPersonalizado from 'components/FormInputPersonalizado';
+import axios from 'axios' ; 
+
 
 const Register = () => {
   const [formData, setFormData] = useState({
@@ -31,8 +34,11 @@ const Register = () => {
     floor: '',
   });
 
+
+
   const handleChange = (e) => {
     const { name, value, checked } = e.target;
+    
     setFormData((prevData) => ({
       ...prevData,
       [name]: name === 'termsChecked' || name === 'privacyChecked' ? checked : value,
@@ -40,11 +46,51 @@ const Register = () => {
   };
 
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Aquí puedes implementar la lógica para enviar los datos de registro al servidor
     console.log(formData); // Solo para propósitos de demostración
+    // Aquí puedes implementar la lógica para enviar los datos de registro al servidor
+    try{
+
+      const data = {
+        usuarioDTO: {
+          email: formData.email,
+          password: formData.password,
+          rol: 'Funcionario'
+        },
+        personaDTO: {
+          tipo: formData.userType,
+          dni: formData.dni,
+          nombres: formData.names,
+          apellido: formData.lastNames,
+          fechaNacimiento: formData.birthDate,
+          sexo: formData.sex,
+          estadoCivil: formData.civilStatus,
+          telefono: formData.phone,
+          departamento: formData.department,
+          provincia: formData.province,
+          distrito: formData.district,
+          direccion: formData.address,
+          numero: formData.number,
+          activo: true
+        }
+      };
+
+      const response = await axios.post('http://localhost:8080/api/usuarios/registrar', data);
+
+      console.log(response.data); // Muestra la respuesta del servidor
+
+
+    }catch(error){
+      console.error('Error al enviar la solicitud:', error);
+    }
   };
+
+  const botonPresionado = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    console.log("BOTON PRESIONADO")
+  }
+
 
   return (
     <RegisterContainer>
@@ -99,12 +145,13 @@ const Register = () => {
               />
             </FormRow>
             <FormRow>
-              <FormInput
+              <FormInputPersonalizado
                 type="text"
                 name="dni"
                 placeholder="DNI"
                 value={formData.dni}
                 onChange={handleChange}
+                maxLength={8}
                 required
               />
               <FormInput
@@ -228,7 +275,7 @@ const Register = () => {
                 required
               />
               <FormInput
-                type="date"
+                type="text"
                 name="direccion"
                 placeholder="Direccion"
                 value={formData.address}
@@ -247,37 +294,13 @@ const Register = () => {
                 required
               />
               <FormInput
-                type="date"
+                type="text"
                 name="piso"
                 placeholder="Piso"
                 value={formData.floor}
                 onChange={handleChange}
                 required
               />
-            </FormRow>
-            <FormRow>
-              <FormSelect
-                name="sex"
-                onChange={handleChange}
-                value={formData.sex}
-                required
-              >
-                <option value="">Seleccionar Sexo</option>
-                <option value="masculino">Masculino</option>
-                <option value="femenino">Femenino</option>
-              </FormSelect>
-              <FormSelect
-                name="civilStatus"
-                onChange={handleChange}
-                value={formData.civilStatus}
-                required
-              >
-                <option value="">Seleccionar Estado Civil</option>
-                <option value="soltero">Soltero(a)</option>
-                <option value="casado">Casado(a)</option>
-                <option value="divorciado">Divorciado(a)</option>
-                <option value="viudo">Viudo(a)</option>
-              </FormSelect>
             </FormRow>
         </div>
 
@@ -335,7 +358,7 @@ const Register = () => {
         </CheckboxContainer>
         
         <ButtonContainer>
-        <Button type="submit">Registrarse</Button>
+        <Button onClick={handleSubmit}>Registrarse</Button>
         </ButtonContainer>
         
       </RegisterForm>

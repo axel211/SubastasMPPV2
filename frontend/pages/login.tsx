@@ -20,19 +20,41 @@ const Login = () => {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("holas")
     if (!emailRegex.test(formData.username)) {
       setEmailError('Por favor, ingresa un correo electrónico válido.');
-      return; // Detener el envío del formulario si el correo no es válido
+      return;
     } else {
-      setEmailError(''); // Limpiar el mensaje de error si el correo es válido
+      setEmailError('');
     }
-    // Aquí puedes implementar la lógica para enviar los datos de inicio de sesión al servidor
-    console.log(formData); // Solo para propósitos de demostración
-    // Después de enviar, puedes redirigir a una página de inicio o hacer lo que sea necesario
-    router.push('/dashboard'); // Ejemplo de redirección
+  
+    try {
+      const response = await fetch('http://localhost:8080/api/usuarios/autenticar', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email: formData.username,
+          password: formData.password,
+        }),
+      });
+  
+      if (!response.ok) {
+        const errorData = await response.json();
+        throw new Error(errorData.error || `HTTP error! Status: ${response.status}`);
+      }
+  
+      const data = await response.json(); // Asumiendo que la respuesta es un objeto JSON
+      console.log('Login successful, data:', data);
+      localStorage.setItem('authToken', data.token); // Almacenamiento del token
+      // Aquí puedes decidir qué hacer con los datos del usuario
+      router.push('/registerSubasta');
+    } catch (error) {
+      console.error('Login error:', error);
+      setEmailError(error.message || 'Error al iniciar sesión');
+    }
   };
 
   return (

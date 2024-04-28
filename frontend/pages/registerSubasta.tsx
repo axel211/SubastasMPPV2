@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import React, { useState } from 'react';
 import UserData from 'components/UserData';
 import Page from 'components/Page';
+import withAuth from 'components/withAuth'
 // Estilos para el contenedor principal
 const Container = styled.div`
   display: flex;
@@ -39,7 +40,7 @@ const PageContainer = styled.div`
   margin-top: 50px;
 `;
 
-export default function RegisterLotes() {
+const RegisterLotes = () => {
 
   const userData = {
     names: 'Juan',
@@ -82,3 +83,5 @@ export default function RegisterLotes() {
 
   );
 }
+
+export default withAuth(RegisterLotes) ; 
