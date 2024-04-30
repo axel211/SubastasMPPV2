@@ -1,0 +1,44 @@
+body {
+    font-family: Roboto, Helvetica, Arial, sans-serif;
+  }
+
+/*
+body{
+    font-family:  'Montserrat' , 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif ;
+    margin: auto;
+}
+
+
+button {
+    width: 100%;
+    padding: 10px;
+    margin-top: 20px;
+    background: yellow;
+    border: 2px solid black;
+    border-radius: 25px;
+    box-shadow: 0.1rem 0.1rem black;
+    cursor: pointer;
+}
+
+
+input {
+    width: 100%;
+    padding: 15px;
+    margin-top: 5px;
+    border: 1px solid black;
+    border-radius: 25px;
+    outline: 2px solid black;
+    transition: all 0.3s;
+}
+
+input:focus {
+    outline-color: blue;
+}
+
+
+a {
+    color: blue;
+    text-decoration: underline;
+}
+
+*/

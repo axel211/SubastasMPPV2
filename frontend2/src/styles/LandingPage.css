@@ -1,0 +1,44 @@
+.container {
+    max-width: 1200px; /* Ajusta este valor según la anchura deseada para tu contenido */
+    margin: auto; /* Centra el contenedor en la página */
+    padding: 20px; /* Añade algo de espacio dentro del contenedor */
+  }
+  
+  .header h1{
+    font-size: 70px;
+    font-weight: bold;
+  }
+
+  
+  .header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 80px 0 20px; /* Ajusta para añadir espacio en la parte superior debido al Navbar */
+  }
+  
+  .main-section {
+    text-align: center;
+  }
+  
+  .card-container {
+    display: flex;
+    justify-content: space-around;
+    padding: 20px;
+  }
+  
+  .card {
+    flex: 1;
+    margin: 10px;
+    padding: 20px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    border-radius: 5px;
+  }
+  
+  
+  /*
+   Estilos adicionales para asegurar que el contenido no se oculte debajo del Navbar 
+  body {
+    padding-top: 70px; /* Ajusta esto dependiendo de la altura de tu Navbar 
+  }
+  */

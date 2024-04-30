@@ -1,0 +1,114 @@
+/*
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
+    background-color: #f8f9fa;
+    box-shadow: 0 2px 4px rgba(0,0,0,.1);
+}
+
+.navbar-logo img {
+    height: 50px; 
+}
+
+.navbar-links {
+    list-style: none;
+    display: flex;
+}
+
+.navbar-links li {
+    padding: 0 15px;
+}
+
+.navbar-links a {
+    text-decoration: none;
+    color: #333;
+}
+
+.navbar-buttons {
+    padding: 8px 16px;
+    margin-left: 10px;
+    text-decoration: none;
+    background-color: #ffcc00; 
+    border: 2px solid black;
+    border-radius: 25px;
+    color: #000; 
+    padding: 10px 20px;
+    font-weight:normal; 
+    font-size: 16px; 
+    cursor: pointer; 
+    box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.16); 
+    transition: all 0.3s ease; 
+}
+
+.navbar-buttons:hover {
+    background-color: #e6b800; 
+    box-shadow: 5px 5px 12px rgba(0, 0, 0, 0.2); 
+  }
+
+*/
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #ffffff;
+    padding: 0.5rem 2rem;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    position: fixed; /* Fija el Navbar en la parte superior */
+    top: 0; /* Asegura que el Navbar se quede en la parte superior de la página */
+    left: 0; /* Extiende el Navbar desde el lado izquierdo */
+    right: 0; /* Extiende el Navbar hasta el lado derecho */
+    z-index: 1000; /* Esto hará que el Navbar esté sobre otros elementos */
+  }
+  
+  .navbar-logo img {
+     /* Ajusta esto según el tamaño de tu logo */
+    width: 250px;
+    height: 70px;
+  }
+  
+  .navbar-menu {
+    display: flex;
+    justify-content: center; /* Esto separará automáticamente los elementos del menú */
+    flex-grow: 1;
+  }
+  
+  .navbar-item {
+    margin: 0 40px; /* Aumenta el espacio entre los elementos */
+    color: #16b5ee;
+    text-decoration: none;
+    font-weight: 600;
+    padding: 0.5rem 0;
+    transition: color 0.3s ease;
+  }
+  
+  .navbar-item:hover,
+  .navbar-item:focus {
+    color: #2080a4; /* Color más oscuro para el hover */
+  }
+  
+  .navbar-auth {
+    display: flex;
+  }
+  
+  .navbar-auth-btn {
+    margin-left: 1rem;
+    padding: 0.5rem 1rem;
+    border: 2px solid #16b5ee; /* Borde celeste */
+    border-radius: 5px;
+    background-color: transparent;
+    color: #16b5ee; /* Texto celeste */
+    text-decoration: none;
+    transition: all 0.3s ease;
+  }
+  
+  .navbar-auth-btn:hover {
+    background-color: #16b5ee; /* Fondo celeste para el hover */
+    color: white; /* Texto blanco para el hover */
+  }
+  
+  .navbar.scrolled {
+    background-color: #eef; /* Un color de fondo diferente cuando te desplazas */
+    /* Otros estilos que quieras cambiar al hacer scroll */
+  }

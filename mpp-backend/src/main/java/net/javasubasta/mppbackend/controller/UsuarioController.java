@@ -29,6 +29,42 @@ public class UsuarioController {
     @PostMapping("/registrar")
     public ResponseEntity<String> registrarUsuario(@RequestBody RegistroUsuarioPersonaDTO dto) {
         // Registrar la persona primero
+        System.out.println(dto.getPersonaDTO().getDni());
+        System.out.println(dto.getUsuarioDTO().getEmail());
+        UsuarioDTO usuarioDTO = usuarioService.obtenerUsuarioPorEmail(dto.getUsuarioDTO().getEmail());
+        System.out.println(dto.getUsuarioDTO().getEmail());
+        if (usuarioDTO != null ) {
+            Map<String, Object> error = new HashMap<>();
+            error.put("error", "usuario registrado en la bd email");
+            System.out.println("Usuario registrado en la bd por email");
+            return ResponseEntity.badRequest().body(error.toString());
+        }
+        System.out.println(dto.getPersonaDTO().getDni());
+        System.out.println(dto.getPersonaDTO().getRuc());
+        if(dto.getPersonaDTO().getDni()!=null) {
+            System.out.println(dto.getPersonaDTO().getDni());
+            PersonaDTO personaValidar = personaService.buscarPersonaPorDNI(dto.getPersonaDTO().getDni());
+            if(personaValidar!=null) {
+                Map<String, Object> error = new HashMap<>();
+                error.put("error", "Usuario registrado en la bd dni");
+                System.out.println("Usuario registrado en la bd por dni");
+                return ResponseEntity.badRequest().body(error.toString());
+            }
+        }
+        System.out.println(dto.getPersonaDTO().getDni());
+        System.out.println(dto.getPersonaDTO().getRuc());
+        if(dto.getPersonaDTO().getRuc()!=null) {
+            PersonaDTO personaValidar2 = personaService.buscarPersonaPorRuc(dto.getPersonaDTO().getRuc());
+            if(personaValidar2!=null) {
+                Map<String, Object> error = new HashMap<>();
+                error.put("error", "Usuario registrado en la bd ruc");
+                System.out.println("");
+                System.out.println("Usuario registrado en la bd por ruc");
+                return ResponseEntity.badRequest().body(error.toString());
+            }
+        }
+        System.out.println(dto.getPersonaDTO().getDni());
+        System.out.println(dto.getPersonaDTO().getRuc());
         PersonaDTO personaDTO = personaService.registrarPersona(dto.getPersonaDTO());
 
         // Crear un nuevo usuario

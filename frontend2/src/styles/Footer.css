@@ -1,0 +1,58 @@
+.footer {
+    background-color: #111;
+    color: #fff;
+    font-size: 20px;
+    padding: 20px 0;
+  }
+  
+  .footer-content {
+    display: flex;
+    justify-content: space-around;
+    align-items: start;
+    flex-wrap: wrap;
+    padding-bottom: 20px;
+  }
+  
+  .footer-section {
+    margin: 10px 0;
+  }
+  
+  .footer-logo {
+    max-width: 150px; /* Adjust logo size as needed */
+  }
+  
+  .footer-section h4 {
+    color: #f8f8f8;
+    margin-bottom: 10px;
+  }
+  
+  .footer-section ul {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .footer-section ul li a {
+    color: #aaaaaa;
+    text-decoration: none;
+    transition: color 0.3s;
+  }
+  
+  .footer-section ul li a:hover {
+    color: #fff;
+  }
+  
+  .footer-bottom {
+    text-align: center;
+    padding-top: 10px;
+    border-top: 1px solid #444;
+  }
+  
+  .footer a {
+    color: #ffcc00; /* Adjust the color to match the button in the image */
+    text-decoration: none;
+  }
+  
+  .footer a:hover {
+    text-decoration: underline;
+  }
+  

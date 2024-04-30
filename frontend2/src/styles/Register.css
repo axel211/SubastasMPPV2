@@ -1,0 +1,153 @@
+
+/*register-form-container {
+/*   max-width: 800px;
+/*   margin: auto;
+/*   padding: 1rem;
+/*   background: #e8ebf8;
+/*   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+/*   border-radius: 8px;
+/*   align-items: center;
+/* }
+/* 
+/* .register-form h1 {
+/*   text-align: center;
+/*   margin-bottom: 1rem;
+/* }
+/* 
+/* .register-form h2 {
+/*   text-align: left;
+/*   margin-bottom: 0.5rem;
+/*   color: #666;
+/*   font-size: 1.2rem;
+/* }
+/* 
+/* .form-section {
+/*   display: grid;
+/*   grid-template-columns: repeat(3, minmax(180px, 1fr));
+/*   gap: 1rem;
+/*   margin-bottom: 1rem;
+/* }
+/* 
+/* .form-group {
+/*   margin-right: auto;
+/*   
+/* }
+/* 
+/* .form-group label {
+/*   font-size: 0.9rem;
+/*   color: #333333;
+/*   margin-bottom: 0.5rem;
+/* }
+/* 
+/* .form-group input,
+/* .form-group select {
+/*   padding: 0.5rem;
+/*   border: 1px solid #ccc;
+/*   border-radius: 4px;
+/*   font-size: 0.9rem;
+/*   width: auto;
+/* }
+/* 
+/* 
+/* .button {
+/*   padding: 8px 16px;
+/*   margin-left: 10px;
+/*   text-decoration: none;
+/*   background-color: #ffcc00; /* Color amarillo del fondo */
+/*   border: black;
+/*   border-radius: 25px; /* Bordes redondeados */
+/*   color: #000; /* Color de texto negro */
+/*   padding: 10px 20px; /* Espaciado interno */
+/*   font-weight: bold; /* Texto en negrita */
+/*   font-size: 16px; /* Tamaño de la fuente */
+/*   cursor: pointer; /* Cambia el cursor a una mano cuando pasas por encima */
+/*   box-shadow: 3px 3px 6px rgba(0, 0, 0, 0.16); /* Sombra para darle profundidad */
+/*   transition: all 0.3s ease; /* Transición suave para efectos de hover */
+/* }
+/* 
+/* .button:hover {
+/*   background-color: #e6b800; /* Color de fondo un poco más oscuro al pasar el mouse */
+/*   box-shadow: 5px 5px 12px rgba(0, 0, 0, 0.2); 
+/* }
+/** Resetear los estilos por defecto para los botones de radio */
+/*radio-group input[type="radio"] {
+/*   
+/*   margin: 0;
+/*   box-shadow: none; /* Elimina sombras internas en iOS */
+/*   border: none; /* Elimina bordes en Firefox */
+/*   width: auto; /* Restablece el ancho por defecto */
+/*   height: auto; /* Restablece la altura por defecto */
+/*   -webkit-appearance: none; /* Desactiva los estilos por defecto en WebKit */
+/*   -moz-appearance: none; /* Desactiva los estilos por defecto en Firefox */
+/*   appearance: none; /* Desactiva los estilos por defecto */
+/* }
+/* 
+/* /* Estilo personalizado para los botones de radio */
+/* .radio-group input[type="radio"]::before {
+/*   content: '';
+/*   display: inline-block;
+/*   margin-right: .5rem;
+/*   width: 1.2em;
+/*   height: 1.2em;
+/*   border-radius: 50%;
+/*   border: 2px solid #000;
+/*   background-color: #fff;
+/*   vertical-align: -0.25em; /* Alinea verticalmente con el texto */
+/* }
+/* 
+/* /* Cambia el color de fondo del pseudo-elemento cuando está seleccionado */
+/* .radio-group input[type="radio"]:checked::before {
+/*   background-color: #000;
+/* }
+/* 
+/*
+/* .radio-group input[type="radio"]:focus {
+/*   outline: 1px solid #005fcc; /* Ejemplo de contorno de foco personalizado */
+/* }
+/*
+/* @media (max-width: 768px) {
+/*   .form-section {
+/*     grid-template-columns: 1fr;
+/*   }
+/* }
+  */  
+  .contenedor-registration {
+    background-color: rgb(229, 229, 229);
+  }
+  .bg-indigo {
+    background-color: #4835d4;
+  }
+  
+  @media (min-width: 1025px) {
+    .h-custom {
+      height: 100vh !important;
+    }
+  }
+  
+  @media (min-width: 759px) {
+    .card-registration-2 .bg-indigo {
+      border-top-right-radius: 15px;
+      border-bottom-right-radius: 15px;
+    }
+  }
+  
+  @media (max-width: 758px) {
+    .card-registration-2 .bg-indigo {
+      border-bottom-left-radius: 15px;
+      border-bottom-right-radius: 15px;
+    }
+  }
+  
+  @media (min-width: 759px) {
+    .card-registration-2 .bg-white {
+      border-top-left-radius: 15px;
+      border-bottom-left-radius: 15px;
+    }
+  }
+  
+  @media (max-width: 758px) {
+    .card-registration-2 .bg-white {
+      border-top-left-radius: 15px;
+      border-top-right-radius: 15px;
+    }
+  }
