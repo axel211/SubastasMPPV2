@@ -7,26 +7,37 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 @Getter
 @Setter
 @Entity
+@AllArgsConstructor
+@NoArgsConstructor
 @Table(name = "lote")
-@DiscriminatorColumn(name = "tipo_lote" , discriminatorType = DiscriminatorType.STRING)
-public abstract class Lote {
+public class Lote {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    @Column( nullable = false)
+    private String tipo_lote  ;
+    private String placa ;
+    private String nombre ;
     private String descripcion;
-    @Column( nullable = false)
+    private double km  ;
+    private int anio ;
+    private String modelo ;
+
+
+    @OneToMany(mappedBy = "lote", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Foto> fotos ;
+
+    private String moneda ;
     private double precioBase ;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "subasta_id")
     private Subasta subasta;
 
-    public Lote() {
 
-    }
 
 }

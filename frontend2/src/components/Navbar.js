@@ -41,7 +41,8 @@ const Navbar = () => {
       <div className="navbar-auth">
       {user ? (
                     <>
-                        <span>Hola,asdsadsadasd {user.name}</span> {/* Muestra el nombre del usuario */}
+                        <span>Hola,usuario    {user.name}</span> {/* Muestra el nombre del usuario */}
+                        <Link to="/dashboard">Menu personal</Link>
                         <button onClick={logout} className="btn btn-secondary">Cerrar Sesión</button>
                     </>
                 ) : (

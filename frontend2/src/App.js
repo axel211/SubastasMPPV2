@@ -8,6 +8,8 @@ import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import RegisterForm from './pages/RegisterForm';
 import LandingPage from './pages/LandingPage';
+import DetalleSubasta from './pages/DetalleSubasta';
+import Lotes from './pages/Lotes';
 // otros imports...
 
 function App() {
@@ -19,10 +21,10 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/registro" element={<RegisterForm />} />
         <Route path="/dashboard" element={
-                  <PrivateRoute>
                   <Dashboard />
-                  </PrivateRoute>
                   } />
+        <Route path='/detalle-subasta/:id' element={<DetalleSubasta/>}/>
+        <Route path='/detalle-subasta/:id/lotes' element = {<Lotes/>} />
         // otras rutas...
       </Routes>
       <Footer/>

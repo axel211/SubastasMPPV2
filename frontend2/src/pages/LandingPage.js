@@ -9,7 +9,7 @@ const LandingPage = () => {
         <header className="header">
           <div className='tituloSubasta'>
           <h1>Próxima subasta 23 de Marzo del 2024</h1>
-          <Link to="/registro" className="navbar-auth-btn" >Registrate</Link>
+          <Link to="/registro" className="navbar-auth-btn boton-registrate" >Registrate</Link>
           </div>
           
           <img src={banner} alt="Banner" className="banner"/>

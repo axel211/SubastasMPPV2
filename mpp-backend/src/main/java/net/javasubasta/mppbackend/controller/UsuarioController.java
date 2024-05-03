@@ -84,7 +84,7 @@ public class UsuarioController {
         return ResponseEntity.ok("Usuario y persona registrados correctamente");
     }
 
-    @CrossOrigin(origins = "http://localhost:3000") // Permitir solicitudes desde http://localhost:3000
+    @CrossOrigin(origins = "") // Permitir solicitudes desde http://localhost:3000
     @PostMapping("/autenticar")
     public ResponseEntity<Map<String, Object>> autenticar(@RequestBody UsuarioDTO usuarioDTO) {
         UsuarioDTO usuario = usuarioService.obtenerUsuarioPorEmail(usuarioDTO.getEmail());

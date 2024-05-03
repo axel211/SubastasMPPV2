@@ -2,18 +2,22 @@ package net.javasubasta.mppbackend.controller;
 
 import lombok.AllArgsConstructor;
 import net.javasubasta.mppbackend.dto.SubastaDTO;
+import net.javasubasta.mppbackend.dto.SubastaSoloDTO;
+import net.javasubasta.mppbackend.repository.SubastaRepository;
 import net.javasubasta.mppbackend.service.SubastaService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 
 @AllArgsConstructor
 @RestController
 @RequestMapping("/api/subasta")
 public class SubastaController {
+    private final SubastaRepository subastaRepository;
     private SubastaService subastaService;
 
     // Build add Subasta API REST
@@ -36,8 +40,9 @@ public class SubastaController {
     // Build Get all Subastas REST API
     @CrossOrigin(origins = "http://localhost:3000") // Permitir solicitudes desde http://localhost:3000
     @GetMapping()
-    public ResponseEntity<List<SubastaDTO>> getAllSubastas() {
-        List<SubastaDTO> subastas = subastaService.getAllSubastas();
-        return  ResponseEntity.ok(subastas);
+    public ResponseEntity<List<SubastaSoloDTO>> getAllSubastas() {
+        List<SubastaSoloDTO> subastas = subastaService.getAllSubastas();
+        return ResponseEntity.ok(subastas);
     }
+
 }

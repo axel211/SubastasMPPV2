@@ -25,9 +25,6 @@ function Login() {
 
     const handleSubmit = async (event) => {
         event.preventDefault();
-        console.log(email)
-        console.log(password)
-        console.log("BOTON APRETADO")
         const isAuthenticated = await login(email, password);
         if (isAuthenticated) {
           navigate('/dashboard');

@@ -2,6 +2,7 @@ package net.javasubasta.mppbackend.service.impl;
 
 import lombok.AllArgsConstructor;
 import net.javasubasta.mppbackend.dto.SubastaDTO;
+import net.javasubasta.mppbackend.dto.SubastaSoloDTO;
 import net.javasubasta.mppbackend.entity.Subasta;
 import net.javasubasta.mppbackend.exception.ResourceNotFoundException;
 import net.javasubasta.mppbackend.mapper.SubastaMapper;
@@ -35,8 +36,14 @@ public class SubastaServiceImpl implements SubastaService {
     }
 
     @Override
-    public List<SubastaDTO> getAllSubastas() {
-        List<Subasta> subastas = subastaRepository.findAll();
-        return subastas.stream().map(SubastaMapper::mapToSubastaDto).collect(Collectors.toList());
+    public List<SubastaSoloDTO> getAllSubastas() {
+        return subastaRepository.findAll().stream().map(subasta -> new SubastaSoloDTO(
+                subasta.getId(),
+                subasta.getNombre(),
+                subasta.getDescripcion(),
+                subasta.getFechaCierre(),
+                subasta.getFechaCreacion(),
+                subasta.getEstado()
+        )).collect(Collectors.toList());
     }
 }
