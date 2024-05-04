@@ -1,7 +1,7 @@
 package net.javasubasta.mppbackend.repository;
 
 import net.javasubasta.mppbackend.entity.Lote;
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface LoteRepository extends CrudRepository<Lote, Integer> {
+public interface LoteRepository extends JpaRepository<Lote, Integer> {
 }

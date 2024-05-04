@@ -4,14 +4,14 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
-
 @Getter
 @Setter
-@NoArgsConstructor
 @AllArgsConstructor
-public class LoteDto {
+@NoArgsConstructor
+public class LoteDTO {
     private String tipoLote;
     private String placa;
     private String nombre;
@@ -19,7 +19,8 @@ public class LoteDto {
     private double km;
     private int anio;
     private String modelo;
-    private double precioBase;
     private String moneda;
-    private List<String> fotos ;
+    private double precioBase;
+    private List<MultipartFile> imagenes;
+
 }

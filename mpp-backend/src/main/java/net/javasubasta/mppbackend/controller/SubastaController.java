@@ -24,7 +24,6 @@ public class SubastaController {
     @CrossOrigin(origins = "http://localhost:3000") // Permitir solicitudes desde http://localhost:3000
     @PostMapping()
     public ResponseEntity<SubastaDTO> createSubasta(@RequestBody SubastaDTO subastaDto) {
-        System.out.println(subastaDto.getDescripcion() + subastaDto.getNombre());
         SubastaDTO savedSubasta = subastaService.createSubasta(subastaDto);
         return new ResponseEntity<>(savedSubasta, HttpStatus.CREATED);
     }

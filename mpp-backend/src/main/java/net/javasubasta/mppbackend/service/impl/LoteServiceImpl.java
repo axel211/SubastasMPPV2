@@ -1,58 +1,58 @@
 package net.javasubasta.mppbackend.service.impl;
 
-import net.javasubasta.mppbackend.dto.LoteDto;
+import jakarta.transaction.Transactional;
+import net.javasubasta.mppbackend.dto.LoteDTO;
 import net.javasubasta.mppbackend.entity.Foto;
 import net.javasubasta.mppbackend.entity.Lote;
 import net.javasubasta.mppbackend.entity.Subasta;
-import net.javasubasta.mppbackend.mapper.LoteMapper;
+import net.javasubasta.mppbackend.repository.FotoRepository;
 import net.javasubasta.mppbackend.repository.LoteRepository;
 import net.javasubasta.mppbackend.repository.SubastaRepository;
 import net.javasubasta.mppbackend.service.LoteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import java.util.Base64;
-import java.util.List;
-import java.util.stream.Collectors;
+import org.springframework.web.multipart.MultipartFile;
 
 @Service
 public class LoteServiceImpl implements LoteService {
-
-
     @Autowired
     private LoteRepository loteRepository;
 
     @Autowired
-    private SubastaRepository subastaRepository;
-
-
+    private FotoRepository fotoRepository;
 
     @Autowired
-    private LoteMapper loteMapper;
+    private SubastaRepository subastaRepository;
 
     @Override
-    public Lote addLoteToSubasta(LoteDto loteDto, int subastaId) {
+    @Transactional
+    public Lote guardarLoteConFotos(LoteDTO loteDTO, int subastaId) throws Exception {
         Subasta subasta = subastaRepository.findById(subastaId)
-                .orElseThrow(() -> new RuntimeException("Subasta not found"));
+                .orElseThrow(() -> new Exception("Subasta no encontrada"));
 
-        Lote lote = loteMapper.toEntity(loteDto);
-        lote.setSubasta(subasta);
+        Lote lote = new Lote();
+        // Copiando manualmente cada propiedad del DTO al objeto de entidad
+        lote.setTipo_lote(loteDTO.getTipoLote());
+        lote.setPlaca(loteDTO.getPlaca());
+        lote.setNombre(loteDTO.getNombre());
+        lote.setDescripcion(loteDTO.getDescripcion());
+        lote.setKm(loteDTO.getKm());
+        lote.setAnio(loteDTO.getAnio());
+        lote.setModelo(loteDTO.getModelo());
+        lote.setMoneda(loteDTO.getMoneda());
+        lote.setPrecioBase(loteDTO.getPrecioBase());
+        lote.setSubasta(subasta); // Asignando la subasta
 
-        // Asumiendo que LoteDto tiene un campo List<String> fotos que contiene las imágenes en base64
-        if (loteDto.getFotos() != null && !loteDto.getFotos().isEmpty()) {
-            List<Foto> fotos = loteDto.getFotos().stream()
-                    .map(base64Image -> {
-                        Foto foto = new Foto();
-                        foto.setContenido(Base64.getDecoder().decode(base64Image));
-                        foto.setLote(lote); // Establecer el lote asociado a cada foto
-                        return foto;
-                    })
-                    .collect(Collectors.toList());
-            lote.setFotos(fotos); // Establecer las fotos al lote
+        lote = loteRepository.save(lote); // Guardar el lote en la base de datos
+
+        // Guardar cada imagen asociada con el lote
+        for (MultipartFile file : loteDTO.getImagenes()) {
+            Foto foto = new Foto();
+            foto.setContenido(file.getBytes());
+            foto.setLote(lote); // Asociar lote con foto
+            fotoRepository.save(foto); // Guardar la foto en la base de datos
         }
 
-        return loteRepository.save(lote);
+        return lote;
     }
-
-
 }

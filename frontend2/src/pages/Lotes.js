@@ -5,7 +5,6 @@ import { useParams } from 'react-router-dom';
 const Lotes = () => {
 
     const { id } = useParams();
-    console.log(id)
     const [showModal, setShowModal] = useState(false);
     const [loteType, setLoteType] = useState('');
     const [images, setImages] = useState([]);
@@ -48,25 +47,28 @@ const Lotes = () => {
 
     const handleRegisterLote = async () => {
         const loteData = new FormData();
-        // Añade el objeto LoteDto como un JSON string
-        loteData.append('lote', new Blob([JSON.stringify({
-            tipoLote: formData.tipoLote,
-            placa: formData.placa,
-            nombre: formData.nombre,
-            descripcion: formData.descripcion,
-            km: formData.km,
-            anio: formData.anio,
-            modelo: formData.modelo,
-            direccion: formData.direccion,
-            precioBase: formData.precioBase,
-            moneda: formData.moneda
-        })], { type: "application/json" }));
-    
-        // Añade imágenes
-        images.forEach(image => {
-            loteData.append('fotos', image);
-        });
-    
+
+            // Agregar cada campo del formulario como una entrada separada en el FormData
+            loteData.append('tipoLote', formData.tipoLote);
+            loteData.append('placa', formData.placa);
+            loteData.append('nombre', formData.nombre);
+            loteData.append('descripcion', formData.descripcion);
+            loteData.append('km', formData.km);
+            loteData.append('anio', formData.anio);
+            loteData.append('modelo', formData.modelo);
+            loteData.append('direccion', formData.direccion); // Asegúrate de que esto se maneje condicionalmente si es necesario
+            loteData.append('precioBase', formData.precioBase);
+            loteData.append('moneda', formData.moneda);
+
+            // Añade imágenes
+            images.forEach(image => {
+                loteData.append('imagenes', image);
+            });
+            
+            console.log(formData)
+            for (let key of loteData.keys()) {
+                console.log(key, loteData.getAll(key));
+            }
         try {
             const response = await axios.post(`http://localhost:8080/api/lotes/subasta/${id}`, loteData, {
                 headers: {
