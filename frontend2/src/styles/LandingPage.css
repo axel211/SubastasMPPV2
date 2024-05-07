@@ -1,9 +1,6 @@
 .container {
     max-width: 1200px; /* Ajusta este valor según la anchura deseada para tu contenido */
-    margin: auto; /* Centra el contenedor en la página */
-    margin-top: 80px;
-    margin-bottom: 80px;
-    
+    margin: auto; /* Centra el contenedor en la página */    
   }
   
   .header h1{

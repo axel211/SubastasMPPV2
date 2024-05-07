@@ -36,3 +36,21 @@
     transform: rotate(360deg);
   }
 }
+
+.app-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+.contenido {
+  flex: 1;
+  padding: 20px;
+  width: 100%; /* Controla el ancho para evitar cambios drásticos */
+  max-width: 1500px; /* Establece un máximo si es necesario */
+  margin-top: 40px;
+  margin-bottom: 20px;
+  margin-left: auto;
+  margin-right: auto;
+
+}

@@ -1,6 +1,6 @@
 .dashboard {
     display: flex;
-    height: 100vh; /* Ocupa todo el alto de la ventana */
+    min-height: 100vh; /* Ocupa todo el alto de la ventana */
   }
   
   .sidebar {

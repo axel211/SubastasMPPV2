@@ -1,7 +1,9 @@
 package net.javasubasta.mppbackend.service.impl;
 
 import jakarta.transaction.Transactional;
+import net.javasubasta.mppbackend.dto.FotoDTO;
 import net.javasubasta.mppbackend.dto.LoteDTO;
+import net.javasubasta.mppbackend.dto.LoteRecuperarDTO;
 import net.javasubasta.mppbackend.entity.Foto;
 import net.javasubasta.mppbackend.entity.Lote;
 import net.javasubasta.mppbackend.entity.Subasta;
@@ -12,6 +14,9 @@ import net.javasubasta.mppbackend.service.LoteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class LoteServiceImpl implements LoteService {
@@ -55,4 +60,22 @@ public class LoteServiceImpl implements LoteService {
 
         return lote;
     }
+
+    @Override
+    public List<LoteRecuperarDTO> obtenerLotesPorSubastaId(int subastaId) throws Exception {
+        List<Lote> lotes = loteRepository.findBySubastaIdWithFotos(subastaId);
+        return lotes.stream().map(this::convertirALoteDTO).collect(Collectors.toList());
+    }
+
+    private LoteRecuperarDTO convertirALoteDTO(Lote lote) {
+        LoteRecuperarDTO dto = new LoteRecuperarDTO();
+        // Asumiendo que has modificado LoteDTO para incluir una lista de byte[] para las imágenes
+        dto.setImagenes(lote.getFotos().stream().map(Foto::getContenido).collect(Collectors.toList()));
+        dto.setDescripcion(lote.getDescripcion());
+        dto.setKm(lote.getKm());
+        dto.setPlaca(lote.getPlaca());
+        // Copia otros campos necesarios
+        return dto;
+    }
+
 }

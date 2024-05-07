@@ -14,26 +14,26 @@ const Dashboard = () => {
   };
 
   return (
-    <div className='container'>
-            <div className="dashboard">
-        <div className="sidebar">
-            <div className="user-info">
-            <img src={userInfo.profilePic} alt="Profile" className="profile-pic" />
-            <h3>{userInfo.name}</h3>
-            <p>{userInfo.email}</p>
-            <p>{userInfo.role}</p>
-            </div>
-            <div className="menu-options">
-            <button onClick={() => setActiveMenu('home')}>Perfil</button>
-            <button onClick={() => setActiveMenu('subastas')}>Subastas</button>
-            <button onClick={() => setActiveMenu('settings')}>Configuraciones</button>
-            </div>
-        </div>
-        <div className="content">
-            {activeMenu === 'home' && <div><CardPerfil/></div>}
-            {activeMenu === 'subastas' && <div><Subasta/></div>}
-            {activeMenu === 'settings' && <div>Configuraciones del usuario</div>}
-        </div>
+    <div className='contenido'>
+          <div className="dashboard">
+              <div className="sidebar">
+                  <div className="user-info">
+                  <img src={userInfo.profilePic} alt="Profile" className="profile-pic" />
+                  <h3>{userInfo.name}</h3>
+                  <p>{userInfo.email}</p>
+                  <p>{userInfo.role}</p>
+                  </div>
+                  <div className="menu-options">
+                  <button onClick={() => setActiveMenu('home')}>Perfil</button>
+                  <button onClick={() => setActiveMenu('subastas')}>Subastas</button>
+                  <button onClick={() => setActiveMenu('settings')}>Configuraciones</button>
+                  </div>
+              </div>
+              <div className="content">
+                  {activeMenu === 'home' && <div><CardPerfil/></div>}
+                  {activeMenu === 'subastas' && <div><Subasta/></div>}
+                  {activeMenu === 'settings' && <div>Configuraciones del usuario</div>}
+              </div>
         </div>
     </div>
     
