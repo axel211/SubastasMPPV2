@@ -3,32 +3,6 @@
     min-height: 100vh; /* Ocupa todo el alto de la ventana */
   }
   
-  .sidebar {
-    width: 250px; /* Ancho del sidebar */
-    background-color: #f4f4f4; /* Color de fondo del sidebar */
-    padding: 20px;
-    display: flex;
-    flex-direction: column; /* Organiza verticalmente el contenido */
-    margin-top: 20px;
-  }
-  
-  .user-info {
-    text-align: center; /* Centra el contenido del usuario */
-  }
-  
-  .profile-pic {
-    width: 100px;
-    height: 100px;
-    border-radius: 50%; /* Hace la imagen circular */
-    margin-bottom: 10px;
-  }
-  
-  .menu-options button {
-    width: 100%;
-    padding: 10px;
-    margin-top: 10px;
-    cursor: pointer;
-  }
   
   .content {
     flex-grow: 1; /* Ocupa el espacio restante */
