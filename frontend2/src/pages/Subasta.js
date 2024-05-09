@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import {  Table, Button, Modal, Form } from "react-bootstrap";
 import axios from 'axios'
 import { useNavigate } from 'react-router-dom';
+import { formatDate } from "../utils/formatDate";
 const Subasta = () => {
     // Estado para controlar la visibilidad del modal
     const [showModal, setShowModal] = useState(false);
@@ -87,8 +88,8 @@ const Subasta = () => {
                         <tr key={subasta.id}>
                             <td>{subasta.id}</td>
                             <td>{subasta.nombre}</td>
-                            <td>{subasta.fechaCreacion}</td>
-                            <td>{subasta.fechaCierre}</td>
+                            <td>{formatDate(subasta.fechaCreacion)}</td>
+                            <td>{formatDate(subasta.fechaCierre)}</td>
                             <td>{subasta.estado}</td>
                             <td><Button variant="primary" onClick={()=>handleDetailsClick(subasta.id)}>Ver Detalles</Button></td>
                         </tr>

@@ -9,3 +9,38 @@
     flex: 1 1 270px; /* Crecer, encoger y base en 270px */
     margin: 10px; /* Espacio alrededor del card */
 }
+.text-center {
+    text-align: center;
+    font-weight: bold;
+    font-size: 2rem; /* Ajusta el tamaño de la fuente según la importancia en tu diseño */
+    color: #333; /* Color oscuro para mejor legibilidad */
+}
+
+.my-4 {
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+}
+
+.card {
+    margin-bottom: 20px; /* Añade espacio entre tarjetas */
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* Sombra para mejor profundidad */
+}
+
+.card-body {
+    padding: 20px; /* Más padding dentro de la tarjeta */
+}
+
+.card-title {
+    font-size: 24px; /* Hace el título más grande y visible */
+}
+
+.card-text {
+    font-size: 16px; /* Ajusta el tamaño del texto para mejor legibilidad */
+    color: #666; /* Color de texto más suave */
+    text-align: left;
+}
+
+.card-footer {
+    background-color: #f8f9fa; /* Fondo para el pie de página de la tarjeta */
+    border-top: 1px solid #eee; /* Línea para separar el cuerpo del pie de página */
+}

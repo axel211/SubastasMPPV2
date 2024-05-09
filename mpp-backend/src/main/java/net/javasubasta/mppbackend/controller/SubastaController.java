@@ -44,4 +44,11 @@ public class SubastaController {
         return ResponseEntity.ok(subastas);
     }
 
+    @CrossOrigin(origins = "http://localhost:3000") // Permitir solicitudes desde http://localhost:3000
+    @GetMapping("/subastaSolo/{id}")
+    public ResponseEntity <SubastaSoloDTO>  getSubastaSoloById(@PathVariable ("id") int id) {
+        SubastaSoloDTO subastaSoloDTO = subastaService.getSubastaSoloById(id);
+        return ResponseEntity.ok(subastaSoloDTO);
+    }
+
 }

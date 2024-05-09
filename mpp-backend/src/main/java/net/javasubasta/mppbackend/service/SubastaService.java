@@ -9,4 +9,5 @@ public interface SubastaService {
     SubastaDTO createSubasta(SubastaDTO subastaDto);
     SubastaDTO getSubastaById(int id);
     List<SubastaSoloDTO> getAllSubastas();
+    SubastaSoloDTO getSubastaSoloById(int id);
 }

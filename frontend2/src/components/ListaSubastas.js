@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import SubastaCard from './SubastaCard'; // Asegúrate de que la ruta sea correcta
-import '../styles/Styles.css'
+import { Row, Col } from 'react-bootstrap';
+import '../styles/Styles.css';
+
 const ListaSubastas = () => {
     const [subastas, setSubastas] = useState([]);
 
@@ -12,13 +14,17 @@ const ListaSubastas = () => {
             .catch(error => console.error('Error fetching subastas:', error));
     }, []);
 
-    console.log(subastas)
     return (
         <div className="lista-subastas-container contenido">
-        {subastas.map(subasta => (
-            <SubastaCard key={subasta.id} subasta={subasta} className="subasta-card" />
-        ))}
-    </div>
+            <h1 className="text-center my-4">Subastas</h1>  {/* Título añadido */}
+            <Row>
+            {subastas.map(subasta => (
+                <Col xs={12} sm={6} md={4} lg={3} key={subasta.id}>
+                    <SubastaCard subasta={subasta} />
+                </Col>
+            ))}
+            </Row>
+        </div>
     );
 };
 

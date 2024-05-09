@@ -46,4 +46,18 @@ public class SubastaServiceImpl implements SubastaService {
                 subasta.getEstado()
         )).collect(Collectors.toList());
     }
+
+    @Override
+    public SubastaSoloDTO getSubastaSoloById(int id) {
+        Subasta subasta = subastaRepository.findById(id).orElseThrow(  () -> new ResourceNotFoundException("Subasta no encontrada con el id " + id)) ;
+        SubastaSoloDTO subastaSoloDTO = new SubastaSoloDTO() ;
+        subastaSoloDTO.setId(subasta.getId());
+        subastaSoloDTO.setNombre(subasta.getNombre());
+        subastaSoloDTO.setDescripcion(subasta.getDescripcion());
+        subastaSoloDTO.setFechaCierre(subasta.getFechaCierre());
+        subastaSoloDTO.setEstado(subasta.getEstado());
+        return subastaSoloDTO ;
+    }
+
+
 }
