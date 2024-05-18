@@ -33,10 +33,16 @@ public class Lote {
 
     private String moneda ;
     private double precioBase ;
+    private double precioActual;
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "subasta_id")
     private Subasta subasta;
+
+
+    @OneToMany(mappedBy = "lote", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<Oferta> ofertas ;
+
 
 
 

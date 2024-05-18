@@ -74,6 +74,11 @@ public class LoteServiceImpl implements LoteService {
         dto.setDescripcion(lote.getDescripcion());
         dto.setKm(lote.getKm());
         dto.setPlaca(lote.getPlaca());
+        dto.setId(lote.getId());
+        dto.setTipoLote(lote.getTipo_lote());
+        dto.setNombre(lote.getNombre());
+        dto.setOfertas(lote.getOfertas());
+        dto.setAnio(lote.getAnio());
         // Copia otros campos necesarios
         return dto;
     }

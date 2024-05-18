@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
-import { Container, Card, Form, Button, Row, Col } from 'react-bootstrap';
-import FloatingLabel from 'react-bootstrap/FloatingLabel';
-import axios from 'axios'
+import { Container, Card, Form, Button, Row, Col, FloatingLabel } from 'react-bootstrap';
+import axios from 'axios';
 
 function RegisterForm() {
   const [formData, setFormData] = useState({
@@ -18,10 +17,10 @@ function RegisterForm() {
     email: '',
     password: '',
     fechaNacimiento: '',
-    tipoPersona: '' ,
-    actividadEconomica: '' , 
-    nombreComercial: '' ,
-    ruc: '' ,
+    tipoPersona: '',
+    actividadEconomica: '',
+    nombreComercial: '',
+    ruc: '',
   });
 
   const handleChange = (e) => {
@@ -30,9 +29,7 @@ function RegisterForm() {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    // Aquí manejarías la lógica para procesar los datos del formulario
-
-    console.log(formData)
+    console.log(formData);
 
     const data = {
       usuarioDTO: {
@@ -44,13 +41,13 @@ function RegisterForm() {
         tipo: formData.tipoPersona,
         dni: formData.dni,
         nombres: formData.nombres,
-        nombreComercial: formData.nombreComercial ,
-        ruc:formData.ruc ,
-        actividadEconomica: formData.actividadEconomica, 
+        nombreComercial: formData.nombreComercial,
+        ruc: formData.ruc,
+        actividadEconomica: formData.actividadEconomica,
         apellido: formData.apellidos,
         fechaNacimiento: formData.fechaNacimiento,
         sexo: formData.genero,
-        estadoCivil: formData.civilStatus,
+        estadoCivil: formData.estadoCivil,
         telefono: formData.telefono,
         departamento: formData.departamento,
         provincia: formData.provincia,
@@ -59,87 +56,70 @@ function RegisterForm() {
         numero: formData.numero,
         activo: true
       }
-
     };
-    try{
+
+    if (!formData.acceptTerms) {
+      alert('Debe aceptar los términos y condiciones para continuar.');
+      return;
+    }
+
+
+    try {
       const response = await axios.post('http://localhost:8080/api/usuarios/registrar', data);
-      console.log(response.data); // Muestra la respuesta del servidor
+      console.log(response.data);
       if (response.status === 200) {
-        setFormData({
-          nombres: '',
-          apellidos: '',
-          dni: '',
-          genero: '',
-          estadoCivil: '',
-          departamento: '',
-          provincia: '',
-          distrito: '',
-          direccion: '',
-          telefono: '',
-          email: '',
-          password: '',
-          fechaNacimiento: '',
-          tipoPersona: '',
-          actividadEconomica: '',
-          nombreComercial: '',
-          ruc: '',
-        });
-        alert('Registro exitoso'); // Puedes cambiar esto por una notificación más sofisticada
+        alert('Registro exitoso');
         window.location.reload();
       }
-    }catch(error){
-      console.error("Error al enviar la solicitud" , error);
-      alert("Error al reigstrar el usuario");
+    } catch (error) {
+      console.error("Error al enviar la solicitud", error);
+      alert("Error al registrar el usuario");
     }
-    
-
-
   };
 
   return (
-    <Container className="d-flex justify-content-center align-items-center" style={{ minHeight: "100vh", marginTop:"50px" }}>
-      <Card style={{ width: '90rem' }} className="p-4">
-        <Form onSubmit={handleSubmit}>
-          <h3>Registro de nuevo usuario</h3>
-          <Row  >
-            <Col>
-              <Form.Group>
-                <Form.Label>Tipo de Persona</Form.Label>
-                <Row>
-                  <Col xs={2}>
-                    <Form.Check
-                      type="radio"
-                      label="Persona Natural"
-                      name="tipoPersona"
-                      value="natural"
-                      checked={formData.tipoPersona === 'natural'}
-                      onChange={handleChange}
-                      id="natural"
-                    />
-                  </Col>
-                  <Col xs={2}>
-                    <Form.Check
-                      type="radio"
-                      label="Persona con RUC"
-                      name="tipoPersona"
-                      value="ruc"
-                      checked={formData.tipoPersona === 'ruc'}
-                      onChange={handleChange}
-                      id="conRuc"
-                    />
-                  </Col>
-                </Row>
-              </Form.Group>
-            </Col>
-          </Row>
-          
-          
-          <Row style={{ marginTop: '10px' }}>
-            <Col>
-              {formData.tipoPersona === 'natural' ? (
-                <>
-                  <h5>Datos Personales</h5>
-                  <Form.Group className="mb-3">
+    <Container fluid="md" className="d-flex justify-content-center align-items-center" style={{ minHeight: "100vh" }}>
+      <Card className="w-100" style={{ maxWidth: '720px' }}>
+        <Card.Body>
+          <Form onSubmit={handleSubmit}>
+            <h3 className="mb-3">Registro de nuevo usuario</h3>
+            <Row className="mb-3">
+              <Col md={12}>
+                <Form.Group>
+                  <Form.Label>Tipo de Persona</Form.Label>
+                  <Row>
+                    <Col sm={6}>
+                      <Form.Check
+                        type="radio"
+                        label="Persona Natural"
+                        name="tipoPersona"
+                        value="natural"
+                        checked={formData.tipoPersona === 'natural'}
+                        onChange={handleChange}
+                        id="natural"
+                      />
+                    </Col>
+                    <Col sm={6}>
+                      <Form.Check
+                        type="radio"
+                        label="Persona con RUC"
+                        name="tipoPersona"
+                        value="ruc"
+                        checked={formData.tipoPersona === 'ruc'}
+                        onChange={handleChange}
+                        id="conRuc"
+                      />
+                    </Col>
+                  </Row>
+                </Form.Group>
+              </Col>
+            </Row>
+
+            {formData.tipoPersona === 'natural' ? (
+              <>
+                <h5>Datos Personales</h5>
+                {/* Form controls for personal data */}
+                <Form.Group className="mb-3">
                 <FloatingLabel controlId="floatingInputNombres" label="Nombres" className="mb-3">
                   <Form.Control type="text" placeholder="Nombres" name="nombres" value={formData.nombres} onChange={handleChange} />
                 </FloatingLabel>
@@ -187,11 +167,12 @@ function RegisterForm() {
                       onChange={handleChange}
                     />
                 </Form.Group>
-                </>
-
-              ) : (
-                <>
+                
+              </>
+            ) : (
+              <>
                 <h5>Datos Comerciales</h5>
+                {/* Form controls for commercial data */}
                 <Form.Group className="mb-3">
                 <FloatingLabel
                   controlId="floatingInputNombreComercial"
@@ -228,12 +209,11 @@ function RegisterForm() {
                   </FloatingLabel>
               </Form.Group>
               </>
-              )}
-              
-            </Col>
-            <Col>
-              <h5>Datos de Contacto</h5>
-              <Form.Group className="mb-3">
+            )}
+
+            <h5>Datos de Contacto</h5>
+            {/* Form controls for contact data */}
+            <Form.Group className="mb-3">
                 <FloatingLabel
                     controlId="floatingInputDepartamento"
                     label="Departamento"
@@ -290,10 +270,10 @@ function RegisterForm() {
                         <Form.Control type="text" placeholder="Telefono"  name="telefono" onChange={handleChange}/>
                   </FloatingLabel>
               </Form.Group>
-            </Col>
-            <Col>
-              <h5>Datos de Acceso</h5>
-              <Form.Group className="mb-3">
+
+            <h5>Datos de Acceso</h5>
+            {/* Form controls for account data */}
+            <Form.Group className="mb-3">
                 <FloatingLabel
                           controlId="floatingInputEmail"
                           label="Email"
@@ -316,14 +296,23 @@ function RegisterForm() {
                     </FloatingLabel>
               </Form.Group>
 
-                  <Button variant="primary" type="submit">
-                Registrar
-              </Button>
-            </Col>
 
-          </Row>
-        
-        </Form>
+              <Form.Group className="mb-3">
+              <Form.Check
+                type="checkbox"
+                id="acceptTerms"
+                label="Acepto los términos y condiciones"
+                name="acceptTerms"
+                checked={formData.acceptTerms}
+                onChange={handleChange}
+              />
+            </Form.Group>
+
+            <Button variant="primary" type="submit" className="mt-4">
+              Registrar
+            </Button>
+          </Form>
+        </Card.Body>
       </Card>
     </Container>
   );

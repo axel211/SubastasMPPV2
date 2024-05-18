@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import net.javasubasta.mppbackend.entity.Oferta;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
@@ -14,6 +15,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class LoteRecuperarDTO {
+    private int id ;
     private String tipoLote;
     private String placa;
     private String nombre;
@@ -23,5 +25,7 @@ public class LoteRecuperarDTO {
     private String modelo;
     private String moneda;
     private double precioBase;
+
+    private List<Oferta> ofertas ;
     private List<byte[]> imagenes;
 }
