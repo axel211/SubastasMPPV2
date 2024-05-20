@@ -9,4 +9,6 @@ import java.util.List;
 public interface LoteRepository extends JpaRepository<Lote, Integer> {
     @Query("SELECT l FROM Lote l LEFT JOIN FETCH l.fotos WHERE l.subasta.id = :subastaId")
     List<Lote> findBySubastaIdWithFotos(int subastaId);
+
+    Lote findLoteById(int id);
 }

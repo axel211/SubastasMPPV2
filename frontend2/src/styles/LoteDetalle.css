@@ -1,0 +1,30 @@
+.lote-carousel {
+    height: 500px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.lote-carousel .carousel-inner {
+    height: 100%;
+}
+
+.lote-carousel-image {
+    height: 100%;
+    object-fit: contain;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.subasta-detalle-card {
+    width: 100%;
+    max-width: 450px; /* Ajusta el ancho máximo según sea necesario */
+    margin: auto;
+}
+
+@media (max-width: 768px) {
+    .subasta-detalle-card {
+        max-width: 100%;
+    }
+}

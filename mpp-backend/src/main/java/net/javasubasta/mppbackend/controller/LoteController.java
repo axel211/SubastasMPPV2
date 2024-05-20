@@ -36,4 +36,10 @@ public class LoteController {
         return ResponseEntity.ok(lotes);
     }
 
+    @GetMapping("/lote/{id}")
+    public LoteRecuperarDTO obtenerLotePorID(@PathVariable int id) throws Exception {
+        LoteRecuperarDTO lote = loteService.obtenerLotePorID(id);
+        return lote ;
+    }
+
 }

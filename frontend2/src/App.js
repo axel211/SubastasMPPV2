@@ -13,7 +13,7 @@ import Lotes from './pages/Lotes';
 import '../src/App.css'
 import ListaSubastas from './components/ListaSubastas';
 import ListaLotes from './components/ListaLotes';
-
+import LoteDetalle from './components/LoteDetalle';
 // otros imports...
 
 function App() {
@@ -34,6 +34,7 @@ function App() {
         <Route path='/detalle-subasta/:id' element={<DetalleSubasta/>}/>
         <Route path='/detalle-subasta/:id/lotes' element = {<Lotes/>} />
         <Route path="/subasta/:id/lotes" element={<ListaLotes />} />
+        <Route path="/oferta/lote/:id" element={<LoteDetalle />} />
         // otras rutas...
       </Routes>
               

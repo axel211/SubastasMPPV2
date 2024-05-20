@@ -67,6 +67,15 @@ public class LoteServiceImpl implements LoteService {
         return lotes.stream().map(this::convertirALoteDTO).collect(Collectors.toList());
     }
 
+    @Override
+    public LoteRecuperarDTO obtenerLotePorID(int id) throws Exception {
+        Lote lote = new Lote() ;
+        lote = loteRepository.findLoteById(id) ;
+        LoteRecuperarDTO loteRecuperarDTO = new LoteRecuperarDTO();
+        loteRecuperarDTO = convertirALoteDTO(lote);
+        return loteRecuperarDTO;
+    }
+
     private LoteRecuperarDTO convertirALoteDTO(Lote lote) {
         LoteRecuperarDTO dto = new LoteRecuperarDTO();
         // Asumiendo que has modificado LoteDTO para incluir una lista de byte[] para las imágenes
@@ -79,8 +88,10 @@ public class LoteServiceImpl implements LoteService {
         dto.setNombre(lote.getNombre());
         dto.setOfertas(lote.getOfertas());
         dto.setAnio(lote.getAnio());
+        dto.setModelo(lote.getModelo());
         // Copia otros campos necesarios
         return dto;
     }
+
 
 }

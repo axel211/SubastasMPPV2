@@ -9,4 +9,5 @@ import java.util.List;
 public interface LoteService {
     Lote guardarLoteConFotos(LoteDTO loteDTO, int subastaId) throws Exception;
     List<LoteRecuperarDTO> obtenerLotesPorSubastaId(int subastaId) throws Exception;
+    LoteRecuperarDTO obtenerLotePorID(int id) throws Exception;
 }

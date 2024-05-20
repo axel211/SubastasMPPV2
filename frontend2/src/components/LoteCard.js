@@ -15,7 +15,7 @@ const LoteCard = ({ lote  , subastaId}) => {
                 <Card.Text>
                     Valor actual: ${lote.valorActual}
                 </Card.Text>
-                <Button variant="primary" href={`/detalle-subasta/${subastaId}/lote/${lote.id}`}>
+                <Button variant="primary" href={`/oferta/lote/${lote.id}`}>
                     Ver detalles
                 </Button>
             </Card.Body>
@@ -24,3 +24,4 @@ const LoteCard = ({ lote  , subastaId}) => {
 };
 
 export default LoteCard ;
+
