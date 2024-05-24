@@ -1,86 +1,95 @@
-/* Estilos básicos del Navbar */
+/* src/styles/Navbar.css */
 .navbar {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  padding: 0 2rem;
-  background-color: #fff;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-  position: fixed;
-  width: 100%;
-  top: 0;
-  z-index: 1000;
-  transition: background-color 0.3s, box-shadow 0.3s;
-}
-
-.navbar-auth-btn, button {
-  padding: 8px 16px;
-  margin-left: 10px;
-  background-color: #007BFF;
-  border: none;
-  border-radius: 5px;
-  color: #fff;
-  cursor: pointer;
+  padding: 1rem 2rem;
+  background-color: white;
   transition: background-color 0.3s;
-}
-
-.navbar-auth-btn:hover, button:hover {
-  background-color: #0056b3;
-  color: #f8f9fa;
+  z-index: 1000;
 }
 
 .navbar.scrolled {
-  background-color: #f8f9fa;
+  background-color: #f8f9fa; /* Cambia el color de fondo al hacer scroll */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .navbar-logo img {
-  height: 80px;
-  width: 250px;
+  height: 50px;
+  width: 200px;
+}
+
+.navbar-mobile-toggle {
+  display: none;
+  background: none;
+  border: none;
+  cursor: pointer;
 }
 
 .navbar-menu {
   display: flex;
-  align-items: center;
-  transition: opacity 0.3s ease;
+  gap: 1.5rem;
 }
 
 .navbar-item {
-  margin: 0 1rem;
-  color: #333;
   text-decoration: none;
-  font-size: 16px;
-  font-weight: 500;
+  color: #333;
+  font-size: 1rem;
+  transition: color 0.3s;
 }
 
-.navbar-mobile-toggle {
-  background: none;
-  border: none;
-  display: none;  /* Asegurarse de que el botón de menú solo se muestre en dispositivos móviles */
+.navbar-item:hover {
+  color: #007bff;
 }
 
-/* Ajustes para dispositivos móviles */
+.navbar-auth {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.navbar-auth-btn {
+  text-decoration: none;
+  color: #007bff;
+  font-size: 1rem;
+  transition: color 0.3s;
+}
+
+.navbar-auth-btn:hover {
+  color: #0056b3;
+}
+
+.navbar-user {
+  font-size: 1rem;
+  margin-right: 1rem;
+}
+
 @media (max-width: 768px) {
+  .navbar-menu {
+      display: none;
+      flex-direction: column;
+      gap: 1rem;
+      background-color: white;
+      position: absolute;
+      top: 70px;
+      left: 0;
+      width: 100%;
+      padding: 1rem 2rem;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+
+  .navbar-menu.open {
+      display: flex;
+  }
+
   .navbar-mobile-toggle {
       display: block;
   }
 
-  .navbar-menu {
-      position: fixed;
-      top: 60px; /* Asegúrate de ajustar esto según la altura de tu Navbar */
-      left: 0;
-      right: 0;
+  .navbar-auth {
       flex-direction: column;
-      background-color: #fff;
-      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
-      visibility: hidden;
-      opacity: 0;
-      transform: translateY(-10px); /* Pequeña animación para el menú desplegable */
-      transition: all 0.3s ease;
-  }
-
-  .navbar-menu.open {
-      visibility: visible;
-      opacity: 1;
-      transform: translateY(0);
+      align-items: flex-start;
+      gap: 0.5rem;
+      padding: 1rem 2rem;
   }
 }

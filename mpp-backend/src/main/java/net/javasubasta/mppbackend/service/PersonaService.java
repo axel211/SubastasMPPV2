@@ -6,4 +6,5 @@ public interface PersonaService {
     PersonaDTO registrarPersona(PersonaDTO personaDto);
     PersonaDTO buscarPersonaPorDNI(String dni);
     PersonaDTO buscarPersonaPorRuc(String ruc);
+
 }

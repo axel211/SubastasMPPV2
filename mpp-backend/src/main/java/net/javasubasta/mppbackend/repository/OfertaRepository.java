@@ -8,6 +8,4 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 
 public interface OfertaRepository extends JpaRepository<Oferta, Integer> {
-    @Query("SELECT l FROM Oferta l  WHERE l.lote.id = :subastaId")
-    List<Oferta> findByLotesID(int subastaId);
 }

@@ -4,7 +4,6 @@ import CardPerfil from './CardPerfil';
 import Subasta from './Subasta';
 import Sidebar from '../components/Sidebar';
 
-
 const Dashboard = () => {
   const [activeMenu, setActiveMenu] = useState('home');
   const userInfo = {
@@ -28,6 +27,7 @@ const Dashboard = () => {
   };
 
   return (
+    
     <div className='dashboard'>
         <Sidebar user={userInfo} setActiveMenu={setActiveMenu} />
         <div className="content">

@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { Container, Row, Col, Image, Table, Tabs, Tab, Card, Button, Form, Carousel } from 'react-bootstrap';
+import { Container, Row, Col, Image, Tabs, Tab, Card, Button, Form, Carousel , Table } from 'react-bootstrap';
 import axios from 'axios';
 import '../styles/LoteDetalle.css'; // Asegúrate de crear este archivo y agregar los estilos
+import SubastaDetalle from './SubastaDetalle';
 
 const LoteDetalle = () => {
     const { id } = useParams();
@@ -24,7 +25,7 @@ const LoteDetalle = () => {
         if (lote) {
             const interval = setInterval(() => {
                 const now = new Date();
-                const endTime = new Date(lote.fechaCierre);
+                const endTime = new Date(lote.fechaHoraCierre);
                 const timeRemaining = endTime - now;
 
                 if (timeRemaining <= 0) {
@@ -67,10 +68,15 @@ const LoteDetalle = () => {
     }
 
     return (
-        <Container className="mt-4">
-            <Row>
-                <Col md={8}>
+        <Container className="mt-3">
+            <SubastaDetalle subastaId={lote.subastaId} />
+            <Row className="mb-4">
+                <Col>
                     <h2>{lote.nombre}</h2>
+                </Col>
+            </Row>
+            <Row>
+                <Col lg={8} md={12} className="mb-4">
                     {lote.imagenes && lote.imagenes.length > 0 && (
                         <Carousel className="lote-carousel">
                             {lote.imagenes.map((imagen, index) => (
@@ -81,33 +87,15 @@ const LoteDetalle = () => {
                         </Carousel>
                     )}
                 </Col>
-                <Col md={4}>
+                <Col lg={4} md={12}>
                     <Card className="subasta-detalle-card">
                         <Card.Body>
                             <Card.Title>Detalles de la Subasta</Card.Title>
                             <p><strong>Cierra en:</strong> {remainingTime}</p>
-                            <p><strong>Fecha de Cierre:</strong> {new Date(lote.fechaCierre).toLocaleString()}</p>
-                            <p><strong>Fecha de Apertura:</strong> {new Date(lote.fechaApertura).toLocaleString()}</p>
-                            <Table striped bordered hover>
-                                <tbody>
-                                    <tr>
-                                        <td>Visitas</td>
-                                        <td>{lote.visitas}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Participantes</td>
-                                        <td>{lote.participantes}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Ofertas</td>
-                                        <td>{ofertas.length}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Oferta Actual</td>
-                                        <td>${lote.ofertaActual}</td>
-                                    </tr>
-                                </tbody>
-                            </Table>
+                            <p><strong>Fecha de Cierre:</strong> {new Date(lote.fechaHoraCierre).toLocaleString()}</p>
+                            <p><strong>Participantes:</strong> {lote.participantes}</p>
+                            <p><strong>Ofertas:</strong> {ofertas.length}</p>
+                            <p><strong>Oferta Actual:</strong> ${lote.ofertaActual}</p>
                             <Form onSubmit={handleOfertaSubmit}>
                                 <Form.Group controlId="formOferta">
                                     <Form.Label>Oferta Sugerida</Form.Label>
@@ -134,54 +122,20 @@ const LoteDetalle = () => {
                                 <p>{lote.descripcion}</p>
                             </div>
                         </Tab>
-                        <Tab eventKey="identificacion" title="Identificación">
-                            <div className="p-3">
-                                <h4>Identificación</h4>
-                                <p>{lote.identificacion}</p>
-                            </div>
-                        </Tab>
-                        <Tab eventKey="anexos" title="Anexos">
-                            <div className="p-3">
-                                <h4>Anexos</h4>
-                                <p>{lote.anexos}</p>
-                            </div>
-                        </Tab>
                     </Tabs>
                 </Col>
             </Row>
             <Row className="mt-4">
-                <Col md={12}>
+                <Col>
                     <Card>
                         <Card.Body>
                             <Card.Title>Detalles del Lote</Card.Title>
-                            <Table striped bordered hover>
-                                <tbody>
-                                    <tr>
-                                        <td>Tipo de Lote</td>
-                                        <td>{lote.tipoLote}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Modelo</td>
-                                        <td>{lote.modelo}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Año</td>
-                                        <td>{lote.anio}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Kilometraje</td>
-                                        <td>{lote.km} km</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Placa</td>
-                                        <td>{lote.placa}</td>
-                                    </tr>
-                                    <tr>
-                                        <td>Precio Base</td>
-                                        <td>${lote.precioBase}</td>
-                                    </tr>
-                                </tbody>
-                            </Table>
+                            <p><strong>Tipo de Lote:</strong> {lote.tipoLote}</p>
+                            <p><strong>Modelo:</strong> {lote.modelo}</p>
+                            <p><strong>Año:</strong> {lote.anio}</p>
+                            <p><strong>Kilometraje:</strong> {lote.km} km</p>
+                            <p><strong>Placa:</strong> {lote.placa}</p>
+                            <p><strong>Precio Base:</strong> ${lote.precioBase}</p>
                         </Card.Body>
                     </Card>
                 </Col>
@@ -189,7 +143,7 @@ const LoteDetalle = () => {
             <Row className="mt-4">
                 <Col>
                     <h4>Ofertas Realizadas</h4>
-                    <Table striped bordered hover>
+                    <Table striped bordered hover responsive>
                         <thead>
                             <tr>
                                 <th>Valor</th>

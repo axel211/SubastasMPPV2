@@ -15,6 +15,9 @@ const ListaSubastas = () => {
     }, []);
 
     return (
+        <div className='container'>
+
+        
         <div className="lista-subastas-container contenido">
             <h1 className="text-center my-4">Subastas</h1>  {/* Título añadido */}
             <Row>
@@ -24,6 +27,8 @@ const ListaSubastas = () => {
                 </Col>
             ))}
             </Row>
+        </div>
+
         </div>
     );
 };

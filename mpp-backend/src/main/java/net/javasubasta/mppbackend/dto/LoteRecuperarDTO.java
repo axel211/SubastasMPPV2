@@ -7,6 +7,8 @@ import lombok.Setter;
 import net.javasubasta.mppbackend.entity.Oferta;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 
 
@@ -28,4 +30,7 @@ public class LoteRecuperarDTO {
 
     private List<Oferta> ofertas ;
     private List<byte[]> imagenes;
+
+    private LocalDateTime fechaHoraCierre;
+    private int subastaId ;
 }

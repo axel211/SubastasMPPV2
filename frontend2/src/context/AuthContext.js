@@ -1,52 +1,39 @@
-import React, { createContext, useContext, useState } from 'react';
+// src/context/AuthContext.js
+import React, { createContext, useContext, useState, useEffect } from 'react';
+import axios from '../axios'; // Usa la instancia configurada de Axios
 
 const AuthContext = createContext();
 
-export function useAuth() {
-  return useContext(AuthContext);
-}
-
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
-
-  const login = async (email, password) => {
-    // Aquí va la lógica de autenticación
-    try {
-        const response = await fetch('http://localhost:8080/api/usuarios/autenticar', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json'
-          },
-          body: JSON.stringify({ email, password })
-        });
-  
-        if (!response.ok) {
-          throw new Error('Authentication failed');
+    const [user, setUser] = useState(null);
+    useEffect(() => {
+        const token = localStorage.getItem('token');
+        const userId = localStorage.getItem('id') ; 
+        if (token && userId) {
+            setUser({ token , id:userId });
+            axios.defaults.headers.common['Authorization'] = `Bearer ${token}`;
         }
-  
-        const userData = await response.json();
-        setUser(userData); // Actualizar el estado con los datos del usuario
-        return true;
-      } catch (error) {
-        console.error(error);
-        return false;
-      }
-    
-  };
-  const logout = () => {
-    setUser(null) ; 
-  }
-  const value = {
-    user,
-    login , 
-    logout 
-  };
+    }, []);
 
+    const login = (userData) => {
+        setUser(userData);
+        localStorage.setItem('token', userData.token);
+        localStorage.setItem('id' , userData.usuario.id )
+        axios.defaults.headers.common['Authorization'] = `Bearer ${userData.token}`;
+    };
 
+    const logout = () => {
+        setUser(null);
+        localStorage.removeItem('token');
+        localStorage.removeItem('id')
+        delete axios.defaults.headers.common['Authorization'];
+    };
 
-  return (
-    <AuthContext.Provider value={value}>
-      {children}
-    </AuthContext.Provider>
-  );
+    return (
+        <AuthContext.Provider value={{ user, login, logout }}>
+            {children}
+        </AuthContext.Provider>
+    );
 };
+
+export const useAuth = () => useContext(AuthContext);

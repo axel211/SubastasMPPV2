@@ -7,6 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
@@ -44,6 +45,8 @@ public class Lote {
     private List<Oferta> ofertas ;
 
 
+    private LocalDateTime fechaHoraCierre ;
+    private String estado ; // abierto , cerrado , vendido  , desierto .
 
 
 }

@@ -6,6 +6,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 @Getter
 @Setter
@@ -23,4 +25,6 @@ public class LoteDTO {
     private double precioBase;
     private List<MultipartFile> imagenes;
 
+    private LocalDateTime fechaHoraCierre ;
+    private String estado;
 }

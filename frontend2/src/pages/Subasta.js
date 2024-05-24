@@ -150,6 +150,7 @@ const Subasta = () => {
                     </Col>
                 </Row>
             </div>
+            <Button variant="success" onClick={handleShowModal} style={{marginBottom:10}} >Crear Nueva Subasta</Button>
             <Table striped bordered hover>
                 <thead>
                     <tr>
@@ -178,7 +179,6 @@ const Subasta = () => {
                     ))}
                 </tbody>
             </Table>
-            <Button variant="success" onClick={handleShowModal}>Crear Nueva Subasta</Button>
 
             <Modal show={showModal} onHide={handleCloseModal}>
                 <Modal.Header closeButton>

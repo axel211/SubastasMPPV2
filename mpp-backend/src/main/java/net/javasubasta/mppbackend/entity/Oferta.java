@@ -19,7 +19,7 @@ public class Oferta {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    private int idUsuario ;
+    private Long idUsuario ;
     private String usuario ;
     private Date fechaOferta ;
     private String tipoOferta ;

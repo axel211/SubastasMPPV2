@@ -19,12 +19,22 @@
 
 .subasta-detalle-card {
     width: 100%;
-    max-width: 450px; /* Ajusta el ancho máximo según sea necesario */
+    max-width: 450px;
     margin: auto;
 }
 
 @media (max-width: 768px) {
+    .lote-carousel {
+        height: auto;
+    }
+    .lote-carousel-image {
+        height: auto;
+    }
     .subasta-detalle-card {
         max-width: 100%;
     }
+}
+
+.mt-3 {
+    margin-top: 1rem;
 }

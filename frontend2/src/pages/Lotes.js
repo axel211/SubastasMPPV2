@@ -2,14 +2,14 @@ import React, { useState } from 'react';
 import { Table, Button, Modal, Form } from 'react-bootstrap';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
-const Lotes = () => {
 
+const Lotes = () => {
     const { id } = useParams();
     const [showModal, setShowModal] = useState(false);
     const [loteType, setLoteType] = useState('');
     const [images, setImages] = useState([]);
 
-    const [formData, setFormData] = useState({
+    const initialFormData = {
         tipoLote: '',
         placa: '',
         nombre: '',
@@ -19,8 +19,12 @@ const Lotes = () => {
         modelo: '',
         direccion: '',
         precioBase: '',
-        moneda: ''
-    });
+        moneda: '' , 
+        fechaCierre : '' , 
+        estado : 'abierto'
+    };
+
+    const [formData, setFormData] = useState(initialFormData);
 
     const lotes = [
         { id: 1, type: 'Vehículo', description: 'Auto deportivo', price: '20000', currency: 'Dólares' },
@@ -30,10 +34,14 @@ const Lotes = () => {
 
     const handleShowModal = () => setShowModal(true);
     const handleCloseModal = () => setShowModal(false);
-    
+
     const handleTypeChange = (e) => {
         setLoteType(e.target.value);
-        setFormData({ ...formData, tipoLote: e.target.value });
+        setFormData({
+            ...initialFormData,
+            tipoLote: e.target.value
+        });
+        setImages([]); // Limpiar imágenes también si es necesario
     };
 
     const handleChange = (e) => {
@@ -44,31 +52,31 @@ const Lotes = () => {
         setImages([...e.target.files]);
     };
 
-
     const handleRegisterLote = async () => {
         const loteData = new FormData();
 
-            // Agregar cada campo del formulario como una entrada separada en el FormData
-            loteData.append('tipoLote', formData.tipoLote);
-            loteData.append('placa', formData.placa);
-            loteData.append('nombre', formData.nombre);
-            loteData.append('descripcion', formData.descripcion);
-            loteData.append('km', formData.km);
-            loteData.append('anio', formData.anio);
-            loteData.append('modelo', formData.modelo);
-            loteData.append('direccion', formData.direccion); // Asegúrate de que esto se maneje condicionalmente si es necesario
-            loteData.append('precioBase', formData.precioBase);
-            loteData.append('moneda', formData.moneda);
+        // Agregar cada campo del formulario como una entrada separada en el FormData
+        loteData.append('tipoLote', formData.tipoLote);
+        loteData.append('placa', formData.placa);
+        loteData.append('nombre', formData.nombre);
+        loteData.append('descripcion', formData.descripcion);
+        loteData.append('km', formData.km);
+        loteData.append('anio', formData.anio);
+        loteData.append('modelo', formData.modelo);
+        loteData.append('direccion', formData.direccion); 
+        loteData.append('precioBase', formData.precioBase);
+        loteData.append('moneda', formData.moneda);
+        loteData.append('fechaHoraCierre', formData.fechaCierre); // Agregar fecha y hora de cierre
+        loteData.append('estado', formData.estado); //
+        // Añade imágenes
+        images.forEach(image => {
+            loteData.append('imagenes', image);
+        });
 
-            // Añade imágenes
-            images.forEach(image => {
-                loteData.append('imagenes', image);
-            });
-            
-            console.log(formData)
-            for (let key of loteData.keys()) {
-                console.log(key, loteData.getAll(key));
-            }
+        console.log(formData)
+        for (let key of loteData.keys()) {
+            console.log(key, loteData.getAll(key));
+        }
         try {
             const response = await axios.post(`http://localhost:8080/api/lotes/subasta/${id}`, loteData, {
                 headers: {
@@ -82,8 +90,8 @@ const Lotes = () => {
             console.error('Error al registrar el lote:', error);
             alert("Error al registrar el lote");
         }
-        
     };
+
     return (
         <div className="container">
             <Table striped bordered hover>
@@ -137,27 +145,23 @@ const Lotes = () => {
                             <>
                                 <Form.Group className="mb-3">
                                     <Form.Label>Placa</Form.Label>
-                                    <Form.Control type="text" placeholder="Ingrese la placa" name = "placa" value={formData.placa} onChange={handleChange}/>
+                                    <Form.Control type="text" placeholder="Ingrese la placa" name="placa" value={formData.placa} onChange={handleChange} />
                                 </Form.Group>
                                 <Form.Group className="mb-3">
                                     <Form.Label>Nombre</Form.Label>
-                                    <Form.Control type="text" placeholder="Ingrese el nombre" name = "nombre" value={formData.nombre} onChange={handleChange} />
-                                </Form.Group>
-                                <Form.Group className="mb-3">
-                                    <Form.Label>Descripción</Form.Label>
-                                    <Form.Control type="text" placeholder="Descripción del lote" name = "descripcion" value={formData.descripcion} onChange={handleChange} />
+                                    <Form.Control type="text" placeholder="Ingrese el nombre" name="nombre" value={formData.nombre} onChange={handleChange} />
                                 </Form.Group>
                                 <Form.Group className="mb-3">
                                     <Form.Label>Kilometraje</Form.Label>
-                                    <Form.Control type="number" placeholder="Kilometraje" name = "km" value={formData.km} onChange={handleChange} />
+                                    <Form.Control type="number" placeholder="Kilometraje" name="km" value={formData.km} onChange={handleChange} />
                                 </Form.Group>
                                 <Form.Group className="mb-3">
                                     <Form.Label>Año de Fabricación</Form.Label>
-                                    <Form.Control type="number" placeholder="Año de fabricación" name = "anio" value={formData.anio} onChange={handleChange} />
+                                    <Form.Control type="number" placeholder="Año de fabricación" name="anio" value={formData.anio} onChange={handleChange} />
                                 </Form.Group>
                                 <Form.Group className="mb-3">
                                     <Form.Label>Modelo</Form.Label>
-                                    <Form.Control type="text" placeholder="Modelo" name = "modelo" value={formData.modelo} onChange={handleChange}/>
+                                    <Form.Control type="text" placeholder="Modelo" name="modelo" value={formData.modelo} onChange={handleChange} />
                                 </Form.Group>
                             </>
                         ) : null}
@@ -166,7 +170,7 @@ const Lotes = () => {
                             <>
                                 <Form.Group className="mb-3">
                                     <Form.Label>Dirección</Form.Label>
-                                    <Form.Control type="text" placeholder="Dirección del inmueble" name = "direccion" value={formData.direccion} onChange={handleChange}  />
+                                    <Form.Control type="text" placeholder="Dirección del inmueble" name="direccion" value={formData.direccion} onChange={handleChange} />
                                 </Form.Group>
                             </>
                         ) : null}
@@ -184,14 +188,13 @@ const Lotes = () => {
                         </Form.Group>
 
                         <Form.Group className="mb-3">
-                                    <Form.Label>Descripción</Form.Label>
-                                    <Form.Control type="text" placeholder="Descripción del inmueble"   name = "descripcion" value={formData.descripcion} onChange={handleChange}/>
+                            <Form.Label>Descripción</Form.Label>
+                            <Form.Control type="text" placeholder="Descripción" name="descripcion" value={formData.descripcion} onChange={handleChange} />
                         </Form.Group>
-
 
                         <Form.Group className="mb-3">
                             <Form.Label>Moneda</Form.Label>
-                            <Form.Control as="select" defaultValue="Soles"  name = "moneda" value={formData.moneda} onChange={handleChange}>
+                            <Form.Control as="select" defaultValue="Soles" name="moneda" value={formData.moneda} onChange={handleChange}>
                                 <option disabled value="">Seleccione...</option>
                                 <option>Soles</option>
                                 <option>Dólares</option>
@@ -199,7 +202,17 @@ const Lotes = () => {
                         </Form.Group>
                         <Form.Group className="mb-3">
                             <Form.Label>Precio Base</Form.Label>
-                            <Form.Control type="num" placeholder="Precio base"  name = "precioBase" value={formData.precioBase} onChange={handleChange} />
+                            <Form.Control type="number" placeholder="Precio base" name="precioBase" value={formData.precioBase} onChange={handleChange} />
+                        </Form.Group>
+
+                        <Form.Group className="mb-3">
+                            <Form.Label>Fecha y Hora de Cierre</Form.Label>
+                            <Form.Control
+                                type="datetime-local"
+                                name="fechaCierre"
+                                value={formData.fechaCierre}
+                                onChange={handleChange}
+                            />
                         </Form.Group>
 
                     </Form>

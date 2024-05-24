@@ -46,6 +46,9 @@ public class LoteServiceImpl implements LoteService {
         lote.setModelo(loteDTO.getModelo());
         lote.setMoneda(loteDTO.getMoneda());
         lote.setPrecioBase(loteDTO.getPrecioBase());
+        lote.setEstado(loteDTO.getEstado());
+        lote.setFechaHoraCierre(loteDTO.getFechaHoraCierre());
+        lote.setPrecioActual(loteDTO.getPrecioBase());
         lote.setSubasta(subasta); // Asignando la subasta
 
         lote = loteRepository.save(lote); // Guardar el lote en la base de datos
@@ -89,6 +92,8 @@ public class LoteServiceImpl implements LoteService {
         dto.setOfertas(lote.getOfertas());
         dto.setAnio(lote.getAnio());
         dto.setModelo(lote.getModelo());
+        dto.setFechaHoraCierre(lote.getFechaHoraCierre());
+        dto.setSubastaId(lote.getSubasta().getId());
         // Copia otros campos necesarios
         return dto;
     }
