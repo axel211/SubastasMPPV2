@@ -2,11 +2,11 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { FaUser, FaGavel, FaCog, FaSignOutAlt, FaBars } from 'react-icons/fa'; // Importar íconos de react-icons
 import '../styles/Sidebar.css';
-
+import axios from 'axios';
+import profile from '../Image/BannerSubasta/profile.svg'
 const Sidebar = ({ user, setActiveMenu }) => {
     const navigate = useNavigate();
     const [isOpen, setIsOpen] = useState(true);
-
     const toggleSidebar = () => {
         setIsOpen(!isOpen);
     };
@@ -15,23 +15,37 @@ const Sidebar = ({ user, setActiveMenu }) => {
         localStorage.removeItem('token');
         navigate('/login');
     };
-
     const getFullName = () => {
         if (user && user.personaDTO) {
             return `${user.personaDTO.apellido}, ${user.personaDTO.nombres}`;
         }
         return 'Usuario';
     };
+    
+    const getRol = () => {
+        if (user && user.personaDTO) {
+            return `${user.usuarioDTO.rol}`;
+        }
+        return 'Rol';
+    }
+
+    
+    const getEmail = () => {
+        if (user && user.personaDTO) {
+            return `${user.usuarioDTO.email}`;
+        }
+        return 'example@gmail.com';
+    }
 
     return (
         <div className={`sidebar ${isOpen ? 'open' : ''}`}>
             <button className="toggle-btn" onClick={toggleSidebar} aria-label="Toggle Sidebar">
             </button>
             <div className="user-info">
-                <img src={user.profilePic || 'default-profile.png'} alt="Perfil" className="profile-pic" />
+                <img src={profile} alt="Perfil" className="profile-pic" />
                 <h3>{getFullName()}</h3>
-                <p>{user.email}</p>
-                <p>{user.role}</p>
+                <p>{getRol()}</p>
+                <p>{getEmail()}</p>
             </div>
             <nav className="menu-options">
                 <button onClick={() => setActiveMenu('home')}>

@@ -17,5 +17,5 @@ public class OfertaDTO {
     private String tipoOferta;
     private double montoOferta;
     private int loteId;
-
+    private int subastaId;
 }

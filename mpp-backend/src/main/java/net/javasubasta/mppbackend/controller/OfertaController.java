@@ -20,6 +20,8 @@ public class OfertaController {
     @PostMapping
     public ResponseEntity<Oferta> realizarOferta(@RequestBody OfertaDTO ofertaDTO) {
         Oferta oferta = ofertaService.realizarOferta(ofertaDTO);
-        return ResponseEntity.ok(oferta);
+
+        Oferta ofertaS = new Oferta() ;
+        return ResponseEntity.ok(ofertaS);
     }
 }
