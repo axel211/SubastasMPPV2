@@ -28,18 +28,13 @@ public class LoteController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error al guardar el lote y las fotos.");
         }
     }
-
-    @GetMapping("/subasta/{subastaId}/lotes")
-    public ResponseEntity<List<LoteRecuperarDTO>> obtenerLotesPorSubastaId(@PathVariable int subastaId) throws Exception {
-        System.out.println("CLICK");
-        List<LoteRecuperarDTO> lotes = loteService.obtenerLotesPorSubastaId(subastaId);
-        return ResponseEntity.ok(lotes);
-    }
-
     @GetMapping("/lote/{id}")
-    public LoteRecuperarDTO obtenerLotePorID(@PathVariable int id) throws Exception {
-        LoteRecuperarDTO lote = loteService.obtenerLotePorID(id);
-        return lote ;
+    public ResponseEntity<LoteRecuperarDTO> obtenerLotePorID(
+            @PathVariable int id,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) throws Exception {
+        LoteRecuperarDTO lote = loteService.obtenerLotePorID(id, page, size);
+        return new ResponseEntity<>(lote, HttpStatus.OK);
     }
 
 }

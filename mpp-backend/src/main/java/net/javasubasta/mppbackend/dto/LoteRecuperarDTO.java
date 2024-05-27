@@ -28,9 +28,10 @@ public class LoteRecuperarDTO {
     private String moneda;
     private double precioBase;
 
-    private List<Oferta> ofertas ;
     private List<byte[]> imagenes;
 
     private LocalDateTime fechaHoraCierre;
     private int subastaId ;
+
+    private FotoPageDTO fotoPage ;
 }

@@ -14,6 +14,7 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class LoteDTO {
+    private int id ;
     private String tipoLote;
     private String placa;
     private String nombre;
@@ -27,4 +28,5 @@ public class LoteDTO {
 
     private LocalDateTime fechaHoraCierre ;
     private String estado;
+    private List<byte[]> fotos ;
 }

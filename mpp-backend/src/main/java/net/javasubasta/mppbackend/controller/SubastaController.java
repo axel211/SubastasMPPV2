@@ -1,10 +1,12 @@
 package net.javasubasta.mppbackend.controller;
 
 import lombok.AllArgsConstructor;
+import net.javasubasta.mppbackend.dto.LoteDTO;
 import net.javasubasta.mppbackend.dto.SubastaDTO;
 import net.javasubasta.mppbackend.dto.SubastaSoloDTO;
 import net.javasubasta.mppbackend.repository.SubastaRepository;
 import net.javasubasta.mppbackend.service.SubastaService;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -49,6 +51,15 @@ public class SubastaController {
     public ResponseEntity <SubastaSoloDTO>  getSubastaSoloById(@PathVariable ("id") int id) {
         SubastaSoloDTO subastaSoloDTO = subastaService.getSubastaSoloById(id);
         return ResponseEntity.ok(subastaSoloDTO);
+    }
+
+    @GetMapping("/{id}/lotes")
+    public ResponseEntity<Page<LoteDTO>> getLotesBySubastaId(
+            @PathVariable int id,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
+        Page<LoteDTO> lotes = subastaService.getLotesBySubastaId(id, page, size);
+        return new ResponseEntity<>(lotes, HttpStatus.OK);
     }
 
 }

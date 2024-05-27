@@ -15,20 +15,17 @@ const ListaSubastas = () => {
     }, []);
 
     return (
-        <div className='container'>
-
-        
-        <div className="lista-subastas-container contenido">
-            <h1 className="text-center my-4">Subastas</h1>  {/* Título añadido */}
-            <Row>
-            {subastas.map(subasta => (
-                <Col xs={12} sm={6} md={4} lg={3} key={subasta.id}>
-                    <SubastaCard subasta={subasta} />
-                </Col>
-            ))}
-            </Row>
-        </div>
-
+        <div className='container'>        
+            <div className="lista-subastas-container contenido">
+                <h1 className="text-center my-4">Subastas</h1>  {/* Título añadido */}
+                <Row>
+                    {subastas.map(subasta => (
+                        <Col xs={12} sm={6} md={4} lg={3} key={subasta.id} className="mb-4">
+                            <SubastaCard subasta={subasta} className="subasta-card" />
+                        </Col>
+                    ))}
+                </Row>
+            </div>
         </div>
     );
 };

@@ -1,14 +1,18 @@
+/* styles.css */
 .lista-subastas-container {
     display: flex;
-    flex-wrap: wrap;
-    justify-content: space-around; /* Esto ayuda a distribuir los espacios de manera uniforme */
-    gap: 20px; /* Espacio entre los cards */
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh; /* Asegura que ocupe al menos toda la altura de la ventana */
+    padding: 20px;
 }
 
 .subasta-card {
     flex: 1 1 270px; /* Crecer, encoger y base en 270px */
     margin: 10px; /* Espacio alrededor del card */
 }
+
 .text-center {
     text-align: center;
     font-weight: bold;
@@ -24,23 +28,29 @@
 .card {
     margin-bottom: 20px; /* Añade espacio entre tarjetas */
     box-shadow: 0 4px 8px rgba(0,0,0,0.1); /* Sombra para mejor profundidad */
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.card-img-top {
+    max-height: 200px;
+    object-fit: cover;
 }
 
 .card-body {
-    padding: 20px; /* Más padding dentro de la tarjeta */
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
 }
 
-.card-title {
-    font-size: 24px; /* Hace el título más grande y visible */
+.card-title, .card-text {
+    margin-bottom: 0.5rem;
 }
 
-.card-text {
-    font-size: 16px; /* Ajusta el tamaño del texto para mejor legibilidad */
-    color: #666; /* Color de texto más suave */
-    text-align: left;
-}
-
-.card-footer {
-    background-color: #f8f9fa; /* Fondo para el pie de página de la tarjeta */
-    border-top: 1px solid #eee; /* Línea para separar el cuerpo del pie de página */
+/* Añadir margen inferior a los elementos Col para espacio entre las filas */
+.row > .col {
+    margin-bottom: 20px;
 }

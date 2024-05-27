@@ -1,14 +1,18 @@
+import React from 'react';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
-
-const LoteCard = ({ lote  , subastaId}) => {
-    const imagenBase64 = lote.imagenes.length > 0 ? `data:image/jpeg;base64,${lote.imagenes[0]}` : 'url_a_una_imagen_por_defecto.jpg'; // Proporciona una imagen por defecto en caso de que no haya imágenes
+import noPhoto from '../Image/BannerSubasta/NoImagen.svg'
+import '../styles/Styles.css'
+const LoteCard = ({ lote, subastaId }) => {
+    // Verifica si 'imagenes' es un array antes de intentar acceder a sus elementos
+    const imagenes = Array.isArray(lote.fotos) ? lote.fotos : [];
+    const imagenBase64 = imagenes.length > 0 ? `data:image/jpeg;base64,${imagenes[0]}` : noPhoto; // Proporciona una imagen por defecto en caso de que no haya imágenes
     return (
         <Card style={{ width: '18rem' }}>
             <Card.Title>Lote {lote.id}</Card.Title>
             <Card.Img variant="top" src={imagenBase64} alt={`Lote ${lote.numero}`} />
             <Card.Body>
-            <Card.Title>{lote.nombre} - {lote.anio}</Card.Title>
+                <Card.Title>{lote.nombre} - {lote.anio}</Card.Title>
                 <Card.Text>
                     {lote.descripcion}
                 </Card.Text>
@@ -23,5 +27,4 @@ const LoteCard = ({ lote  , subastaId}) => {
     );
 };
 
-export default LoteCard ;
-
+export default LoteCard;

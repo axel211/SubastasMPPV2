@@ -1,13 +1,16 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import LoteCard from './LoteCard';
 import { useParams } from 'react-router-dom';
-import { Row, Col, Form, Button } from 'react-bootstrap';
+import { Row, Col, Form, Button, Pagination } from 'react-bootstrap';
 import SubastaDetalle from './SubastaDetalle';
 
 const ListaLotes = () => {
     const [lotes, setLotes] = useState([]);
     const [filteredLotes, setFilteredLotes] = useState([]);
     const { id } = useParams();
+    const [currentPage, setCurrentPage] = useState(0);
+    const [pageSize] = useState(10);
+    const [totalPages, setTotalPages] = useState(0);
 
     const [filters, setFilters] = useState({
         titulo: '',
@@ -17,14 +20,19 @@ const ListaLotes = () => {
     });
 
     useEffect(() => {
-        fetch(`http://localhost:8080/api/subasta/${id}/lotes`)
+        fetchLotes(currentPage);
+    }, [id, currentPage]);
+
+    const fetchLotes = (page) => {
+        fetch(`http://localhost:8080/api/subasta/${id}/lotes?page=${page}&size=${pageSize}`)
             .then(response => response.json())
             .then(data => {
-                setLotes(data);
-                setFilteredLotes(data);
+                setLotes(data.content || []);  // Asegurarse de que content no sea null
+                setFilteredLotes(data.content || []);
+                setTotalPages(data.totalPages || 0);  // Asegurarse de que totalPages no sea null
             })
             .catch(error => console.error('Error fetching lotes:', error));
-    }, [id]);
+    };
 
     const handleFilterChange = (e) => {
         const { name, value } = e.target;
@@ -65,10 +73,13 @@ const ListaLotes = () => {
         applyFilters();
     }, [filters, lotes, applyFilters]);
 
-
+    const handlePageChange = (pageNumber) => {
+        setCurrentPage(pageNumber);
+    };
     console.log(lotes)
+
     return (
-        <div className="lista-subastas-container">
+        <div className="container">
             <SubastaDetalle subastaId={id} />
             <div className="filters mb-4">
                 <Row>
@@ -130,17 +141,28 @@ const ListaLotes = () => {
                     Aplicar Filtros
                 </Button>
             </div>
-            {filteredLotes.length > 0 ? (
+            {filteredLotes && filteredLotes.length > 0 ? (
                 <Row>
                     {filteredLotes.map(lote => (
                         <Col xs={12} sm={6} md={4} lg={3} key={lote.id} className="mb-4">
-                            <LoteCard lote={lote} subastaId = {id}/>
+                            <LoteCard lote={lote} subastaId={id} />
                         </Col>
                     ))}
                 </Row>
             ) : (
                 <div>No hay lotes disponibles en esta subasta.</div>
             )}
+            <Pagination className="justify-content-center mt-4">
+                <Pagination.First onClick={() => handlePageChange(0)} disabled={currentPage === 0} />
+                <Pagination.Prev onClick={() => handlePageChange(currentPage - 1)} disabled={currentPage === 0} />
+                {[...Array(totalPages).keys()].map(number => (
+                    <Pagination.Item key={number} active={number === currentPage} onClick={() => handlePageChange(number)}>
+                        {number + 1}
+                    </Pagination.Item>
+                ))}
+                <Pagination.Next onClick={() => handlePageChange(currentPage + 1)} disabled={currentPage === totalPages - 1} />
+                <Pagination.Last onClick={() => handlePageChange(totalPages - 1)} disabled={currentPage === totalPages - 1} />
+            </Pagination>
         </div>
     );
 };
