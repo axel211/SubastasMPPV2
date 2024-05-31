@@ -47,15 +47,26 @@ public class UsuarioServiceImpl implements UsuarioService {
 
         UsuarioDTO usuarioDatos  = new UsuarioDTO() ;
         usuarioDatos.setId(usuario.get().getId()) ;
-        usuarioDatos.setEmail(usuario.get().getEmail()) ;
-        usuarioDatos.setRol(usuario.get().getRol()) ;
+        usuarioDatos.setEmail(usuario.get().getEmail().toUpperCase()) ;
+        usuarioDatos.setRol(usuario.get().getRol().toUpperCase()) ;
 
         PersonaDTO personaDatos = new PersonaDTO() ;
+        personaDatos.setApellido(usuario.get().getPersona().getApellido()) ;
+        personaDatos.setTelefono(usuario.get().getPersona().getTelefono()) ;
+        personaDatos.setNumero(usuario.get().getPersona().getNumero()) ;
+        personaDatos.setDireccion(usuario.get().getPersona().getDireccion()) ;
         personaDatos.setNombres(usuario.get().getPersona().getNombres()) ;
         personaDatos.setApellido(usuario.get().getPersona().getApellido()) ;
         personaDatos.setTelefono(usuario.get().getPersona().getTelefono()) ;
         personaDatos.setNumero(usuario.get().getPersona().getNumero()) ;
         personaDatos.setDireccion(usuario.get().getPersona().getDireccion()) ;
+        personaDatos.setDepartamento(usuario.get().getPersona().getDepartamento()) ;
+        personaDatos.setProvincia(usuario.get().getPersona().getProvincia()) ;
+        personaDatos.setDistrito(usuario.get().getPersona().getDistrito()) ;
+        personaDatos.setDni(usuario.get().getPersona().getDni()) ;
+        personaDatos.setRuc(usuario.get().getPersona().getRuc()) ;
+        personaDatos.setTelefono(usuario.get().getPersona().getTelefono()) ;
+        personaDatos.setTipo(usuario.get().getPersona().getTipo()) ;
 
 
         RegistroUsuarioPersonaDTO registroUsuarioPersonaDTO = new RegistroUsuarioPersonaDTO() ;
@@ -65,5 +76,35 @@ public class UsuarioServiceImpl implements UsuarioService {
         return registroUsuarioPersonaDTO;
     }
 
+    public UsuarioDTO obtenerUsuarioPorId(Long id) throws Exception {
+        Optional<Usuario> usuarioOptional = usuarioRepository.findById(id);
+        if (usuarioOptional.isPresent()) {
+            Usuario usuario = usuarioOptional.get();
+
+            UsuarioDTO usuarioDatos  = new UsuarioDTO() ;
+            usuarioDatos.setId(usuario.getId()) ;
+            usuarioDatos.setEmail(usuario.getEmail().toUpperCase()) ;
+            usuarioDatos.setRol(usuario.getRol().toUpperCase()) ;
+
+            Persona personaDatos = new Persona() ;
+            personaDatos.setNombres(usuario.getPersona().getNombres().toUpperCase()) ;
+            personaDatos.setApellido(usuario.getPersona().getApellido().toUpperCase()) ;
+            personaDatos.setTelefono(usuario.getPersona().getTelefono().toUpperCase()) ;
+            personaDatos.setNumero(usuario.getPersona().getNumero().toUpperCase()) ;
+            personaDatos.setDireccion(usuario.getPersona().getDireccion().toUpperCase()) ;
+            personaDatos.setDepartamento(usuario.getPersona().getDepartamento().toUpperCase()) ;
+            personaDatos.setProvincia(usuario.getPersona().getProvincia().toUpperCase()) ;
+            personaDatos.setDistrito(usuario.getPersona().getDistrito().toUpperCase()) ;
+            personaDatos.setDni(usuario.getPersona().getDni().toUpperCase()) ;
+            personaDatos.setRuc(usuario.getPersona().getRuc().toUpperCase()) ;
+            personaDatos.setTelefono(usuario.getPersona().getTelefono().toUpperCase()) ;
+            personaDatos.setTipo(usuario.getPersona().getTipo().toUpperCase()) ;
+            usuarioDatos.setPersona(personaDatos);
+
+            return usuarioDatos ;
+        } else {
+            throw new Exception("Usuario no encontrado");
+        }
+    }
 
 }

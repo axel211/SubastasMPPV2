@@ -8,4 +8,5 @@ public interface UsuarioService  {
     UsuarioDTO registrarUsuario(UsuarioDTO usuarioDto);
     UsuarioDTO obtenerUsuarioPorEmail(String email);
     RegistroUsuarioPersonaDTO obtenerRegistroUsuarioPersonaDTO(Long id);
+    UsuarioDTO obtenerUsuarioPorId(Long id) throws Exception;
 }

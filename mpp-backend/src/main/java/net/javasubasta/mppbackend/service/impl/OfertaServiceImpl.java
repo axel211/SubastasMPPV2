@@ -2,18 +2,23 @@ package net.javasubasta.mppbackend.service.impl;
 
 import lombok.AllArgsConstructor;
 import net.javasubasta.mppbackend.dto.OfertaDTO;
+import net.javasubasta.mppbackend.dto.OfertaResponseDTO;
 import net.javasubasta.mppbackend.entity.Lote;
 import net.javasubasta.mppbackend.entity.Oferta;
 import net.javasubasta.mppbackend.entity.Participante;
+import net.javasubasta.mppbackend.entity.Usuario;
 import net.javasubasta.mppbackend.repository.LoteRepository;
 import net.javasubasta.mppbackend.repository.OfertaRepository;
 import net.javasubasta.mppbackend.repository.ParticipanteRepository;
+import net.javasubasta.mppbackend.repository.UsuarioRepository;
 import net.javasubasta.mppbackend.service.OfertaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
+import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @AllArgsConstructor
@@ -27,6 +32,9 @@ public class OfertaServiceImpl implements OfertaService {
 
     @Autowired
     private ParticipanteRepository participanteRepository;
+
+    @Autowired
+    private UsuarioRepository usuarioRepository;
 
 
     @Override
@@ -53,4 +61,17 @@ public class OfertaServiceImpl implements OfertaService {
 
         return ofertaRepository.save(oferta);
     }
+
+    public List<OfertaResponseDTO> obtenerOfertasPorLote(int loteId) {
+        List<Oferta> ofertas = ofertaRepository.findByLoteId(loteId);
+        return ofertas.stream().map(oferta -> {
+            OfertaResponseDTO dto = new OfertaResponseDTO();
+            dto.setMonto(oferta.getMontoOferta());
+            dto.setFechaHora(oferta.getLote().getFechaHoraCierre());
+            Usuario usuario = usuarioRepository.findById(oferta.getIdUsuario()).orElse(null);
+            dto.setUsuario(usuario != null ? usuario.getEmail() : "Usuario desconocido");
+            return dto;
+        }).collect(Collectors.toList());
+    }
+
 }

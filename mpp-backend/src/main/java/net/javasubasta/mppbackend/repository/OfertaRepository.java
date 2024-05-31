@@ -10,4 +10,5 @@ import java.util.Optional;
 
 public interface OfertaRepository extends JpaRepository<Oferta, Integer> {
     Optional <Oferta> findTopByLoteIdOrderByMontoOfertaDesc(int loteId);
+    List<Oferta> findByLoteId(int loteId);
 }

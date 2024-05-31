@@ -26,8 +26,7 @@ const Navbar = () => {
     }, []);
 
     useEffect(() => {
-        if (user) {
-            console.log(user)
+        if (user && user.id) {
             axios.get(`http://localhost:8080/api/usuarios/usuario/${user.id}`)
                 .then(response => {
                     setPersona(response.data);

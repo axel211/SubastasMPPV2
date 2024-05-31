@@ -4,6 +4,7 @@ import { Container, Row, Col, Image, Tabs, Tab, Card, Button, Form, Carousel, Ta
 import axios from 'axios';
 import '../styles/LoteDetalle.css';
 import SubastaDetalle from './SubastaDetalle';
+import { useAuth } from '../context/AuthContext';
 
 const LoteDetalle = () => {
     const { id } = useParams();
@@ -16,16 +17,26 @@ const LoteDetalle = () => {
     const [currentPage, setCurrentPage] = useState(0);
     const [showModal, setShowModal] = useState(false);
     const [modalMessage, setModalMessage] = useState('');
+    const [idUsuario, setIdUsuario] = useState(null); 
+    const [subastaId, setSubastaId] = useState(null); 
+    const { user, logout } = useAuth();
+
     const pageSize = 5;
+
+    useEffect(() => {
+        if (user) {
+            setIdUsuario(user.id);
+        }
+    }, [user]);
 
     useEffect(() => {
         axios.get(`http://localhost:8080/api/lote/${id}`)
             .then(response => {
                 const loteData = response.data;
                 setLote(loteData);
-                setOfertas(loteData.ofertas || []);
                 setFotos(loteData.fotoPage.fotos || []);
                 setTotalPages(loteData.fotoPage.totalPages || 0);
+                setSubastaId(loteData.subastaId);
             })
             .catch(error => console.error('Error fetching lote details:', error));
     }, [id]);
@@ -33,6 +44,7 @@ const LoteDetalle = () => {
     useEffect(() => {
         if (lote) {
             fetchFotos(lote.id, currentPage, pageSize);
+            fetchOfertas(lote.id);
         }
     }, [currentPage, lote]);
 
@@ -43,6 +55,15 @@ const LoteDetalle = () => {
                 setTotalPages(response.data.totalPages || 0);
             })
             .catch(error => console.error('Error fetching fotos:', error));
+    };
+
+    const fetchOfertas = (loteId) => {
+        axios.get(`http://localhost:8080/api/ofertas/lote/${loteId}`)
+            .then(response => {
+                const sortedOfertas = (response.data || []).sort((a, b) => b.monto - a.monto);
+                setOfertas(sortedOfertas);
+            })
+            .catch(error => console.error('Error fetching ofertas:', error));
     };
 
     useEffect(() => {
@@ -74,19 +95,23 @@ const LoteDetalle = () => {
     };
 
     const handleOfertaSubmit = (e) => {
-        e.preventDefault();
+        e.preventDefault();   
         const nuevaOferta = {
-            valor: parseFloat(oferta),
-            fecha: new Date().toISOString()
+            idUsuario: idUsuario, 
+            tipoOferta: 'Inicial', 
+            montoOferta: parseFloat(oferta),
+            loteId: lote.id,
+            subastaId: subastaId 
         };
-
+        
+        console.log("Nueva Oferta" ,nuevaOferta);
         axios.post(`http://localhost:8080/api/ofertas`, nuevaOferta)
             .then(response => {
                 if (response.data === "Debe estar logueado para realizar una oferta" || response.data === "La oferta debe ser mayor a la oferta actual") {
                     setModalMessage(response.data);
                     setShowModal(true);
                 } else {
-                    setOfertas([...ofertas, response.data]);
+                    fetchOfertas(lote.id); // Volver a obtener las ofertas desde la BD
                     setOferta('');
                 }
             })
@@ -100,6 +125,9 @@ const LoteDetalle = () => {
     if (!lote) {
         return <div>Cargando...</div>;
     }
+
+    const ofertaActual = ofertas.length > 0 ? ofertas[0].monto : 'No disponible';
+    const numeroOfertas = ofertas.length;
 
     return (
         <Container className="mt-3">
@@ -145,8 +173,8 @@ const LoteDetalle = () => {
                             <p><strong>Cierra en:</strong> {remainingTime}</p>
                             <p><strong>Fecha de Cierre:</strong> {lote.fechaHoraCierre ? new Date(lote.fechaHoraCierre).toLocaleString() : 'No disponible'}</p>
                             <p><strong>Participantes:</strong> {lote.participantes || 'No disponible'}</p>
-                            <p><strong>Ofertas:</strong> {ofertas.length}</p>
-                            <p><strong>Oferta Actual:</strong> ${lote.ofertaActual || 'No disponible'}</p>
+                            <p><strong>Ofertas:</strong> {numeroOfertas}</p>
+                            <p><strong>Oferta Actual:</strong> ${ofertaActual}</p>
                             <Form onSubmit={handleOfertaSubmit}>
                                 <Form.Group controlId="formOferta">
                                     <Form.Label>Oferta Sugerida</Form.Label>
@@ -178,37 +206,23 @@ const LoteDetalle = () => {
             </Row>
             <Row className="mt-4">
                 <Col>
-                    <Card>
-                        <Card.Body>
-                            <Card.Title>Detalles del Lote</Card.Title>
-                            <p><strong>Tipo de Lote:</strong> {lote.tipoLote || 'No disponible'}</p>
-                            <p><strong>Modelo:</strong> {lote.modelo || 'No disponible'}</p>
-                            <p><strong>Año:</strong> {lote.anio || 'No disponible'}</p>
-                            <p><strong>Kilometraje:</strong> {lote.km} km</p>
-                            <p><strong>Placa:</strong> {lote.placa || 'No disponible'}</p>
-                            <p><strong>Moneda:</strong> {lote.moneda || 'No disponible'}</p>
-                            <p><strong>Precio Base:</strong> {lote.precioBase || 'No disponible'}</p>
-                        </Card.Body>
-                    </Card>
-                </Col>
-            </Row>
-            <Row className="mt-4">
-                <Col>
                     <h4>Historial de Ofertas</h4>
                     <Table striped bordered hover responsive>
                         <thead>
                             <tr>
                                 <th>#</th>
-                                <th>Valor de la Oferta</th>
-                                <th>Fecha de la Oferta</th>
+                                <th>Usuario</th>
+                                <th>Fecha</th>
+                                <th>Monto</th>
                             </tr>
                         </thead>
                         <tbody>
                             {ofertas.map((oferta, index) => (
                                 <tr key={index}>
                                     <td>{index + 1}</td>
-                                    <td>${oferta.valor}</td>
-                                    <td>{new Date(oferta.fecha).toLocaleString()}</td>
+                                    <td>{oferta.usuario}</td>
+                                    <td>{new Date(oferta.fechaHora).toLocaleString()}</td>
+                                    <td>S/. {oferta.monto}</td>
                                 </tr>
                             ))}
                         </tbody>

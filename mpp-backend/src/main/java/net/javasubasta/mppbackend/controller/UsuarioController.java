@@ -30,35 +30,38 @@ public class UsuarioController {
     @PostMapping("/registrar")
     public ResponseEntity<Map<String, Object>> registrarUsuario(@RequestBody RegistroUsuarioPersonaDTO dto) {
         Map<String, Object> response = new HashMap<>();
-
+        System.out.println("METODO USUARIO CONTROLLER");
         // Validar si el usuario ya existe por email
         UsuarioDTO usuarioExistente = usuarioService.obtenerUsuarioPorEmail(dto.getUsuarioDTO().getEmail());
         if (usuarioExistente != null) {
             response.put("error", "Usuario ya registrado con este email");
             return ResponseEntity.badRequest().body(response);
         }
-
+        System.out.println("USUARIO EXISTENTE PASADO");
         // Validar si la persona ya existe por DNI
         if (dto.getPersonaDTO().getDni() != null) {
             PersonaDTO personaExistenteDNI = personaService.buscarPersonaPorDNI(dto.getPersonaDTO().getDni());
             if (personaExistenteDNI != null) {
+                System.out.println("Persona ya registrada con este RUC" + personaExistenteDNI.getDni());
                 response.put("error", "Persona ya registrada con este DNI");
                 return ResponseEntity.badRequest().body(response);
             }
         }
-
+        System.out.println("DNI EXISTENTE PASADO");
         // Validar si la persona ya existe por RUC
         if (dto.getPersonaDTO().getRuc() != null) {
             PersonaDTO personaExistenteRUC = personaService.buscarPersonaPorRuc(dto.getPersonaDTO().getRuc());
+
             if (personaExistenteRUC != null) {
+                System.out.println("Persona ya registrada con este RUC" + personaExistenteRUC.getRuc());
                 response.put("error", "Persona ya registrada con este RUC");
                 return ResponseEntity.badRequest().body(response);
             }
         }
-
+        System.out.println("PASO DE TODOS LOS CONTROLES");
         // Registrar la persona
         PersonaDTO personaDTO = personaService.registrarPersona(dto.getPersonaDTO());
-
+        System.out.println("PASO DE CONTROL 2 ");
         // Crear y registrar el usuario
         UsuarioDTO usuario = new UsuarioDTO();
         usuario.setEmail(dto.getUsuarioDTO().getEmail());
@@ -122,4 +125,7 @@ public class UsuarioController {
             return null;
         }
     }
+
+
+
 }

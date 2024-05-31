@@ -31,7 +31,7 @@ public class PersonaServiceImpl implements PersonaService {
     @Override
     public PersonaDTO buscarPersonaPorDNI(String dni) {
         Persona persona = new Persona() ;
-        persona = personaRepository.findFirstByDni(dni) ;
+        persona = personaRepository.findDNI(dni ) ;
         if(persona == null) return null ;
         return personaMapper.toDTO(persona) ;
     }
@@ -39,7 +39,7 @@ public class PersonaServiceImpl implements PersonaService {
     @Override
     public PersonaDTO buscarPersonaPorRuc(String ruc) {
         Persona persona = new Persona() ;
-        persona = personaRepository.findFirstByRuc(ruc) ;
+        persona = personaRepository.findRUC(ruc) ;
         if(persona == null) return null ;
         return personaMapper.toDTO(persona) ;
     }
