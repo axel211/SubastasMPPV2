@@ -38,3 +38,12 @@
 .mt-3 {
     margin-top: 1rem;
 }
+@keyframes flash {
+    0% { background-color: #fff; }
+    50% { background-color: #f8d7da; }
+    100% { background-color: #fff; }
+}
+
+.animating {
+    animation: flash 1s ease-in-out;
+}

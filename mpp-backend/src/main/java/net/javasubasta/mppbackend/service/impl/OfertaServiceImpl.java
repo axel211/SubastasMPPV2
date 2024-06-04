@@ -49,6 +49,8 @@ public class OfertaServiceImpl implements OfertaService {
 
         Optional<Oferta> ofertaMaxima = ofertaRepository.findTopByLoteIdOrderByMontoOfertaDesc(ofertaDTO.getLoteId());
         if (ofertaMaxima.isPresent() && ofertaDTO.getMontoOferta() <= ofertaMaxima.get().getMontoOferta()) {
+            System.out.println(ofertaMaxima.get().getMontoOferta());
+            System.out.println(ofertaDTO.getMontoOferta());
             throw new RuntimeException("El monto ofertado debe ser mayor que la oferta actual más alta");
         }
 
@@ -67,7 +69,7 @@ public class OfertaServiceImpl implements OfertaService {
         return ofertas.stream().map(oferta -> {
             OfertaResponseDTO dto = new OfertaResponseDTO();
             dto.setMonto(oferta.getMontoOferta());
-            dto.setFechaHora(oferta.getLote().getFechaHoraCierre());
+            dto.setFechaHora(oferta.getFechaOferta());
             Usuario usuario = usuarioRepository.findById(oferta.getIdUsuario()).orElse(null);
             dto.setUsuario(usuario != null ? usuario.getEmail() : "Usuario desconocido");
             return dto;

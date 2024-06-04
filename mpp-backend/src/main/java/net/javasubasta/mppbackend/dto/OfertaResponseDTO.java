@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 
 @Getter
 @Setter
@@ -14,6 +15,6 @@ import java.time.LocalDateTime;
 public class OfertaResponseDTO {
 
     private double monto ;
-    private LocalDateTime fechaHora ;
+    private Date fechaHora ;
     private String usuario ;
 }

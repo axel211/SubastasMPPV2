@@ -6,6 +6,7 @@ import net.javasubasta.mppbackend.entity.Oferta;
 import net.javasubasta.mppbackend.service.OfertaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -17,11 +18,18 @@ public class OfertaController {
     @Autowired
     private OfertaService ofertaService;
 
+    @Autowired
+    private SimpMessagingTemplate messagingTemplate;
+
     @PostMapping
     public ResponseEntity<Oferta> realizarOferta(@RequestBody OfertaDTO ofertaDTO) {
         Oferta oferta = ofertaService.realizarOferta(ofertaDTO);
-
         Oferta ofertaS = new Oferta() ;
+        ofertaS.setId(oferta.getId());
+        ofertaS.setFechaOferta(oferta.getFechaOferta());
+        ofertaS.setTipoOferta(oferta.getTipoOferta());
+        ofertaS.setUsuario(oferta.getUsuario());
+        messagingTemplate.convertAndSend("/topic/ofertas", ofertaS);
         return ResponseEntity.ok(ofertaS);
     }
 

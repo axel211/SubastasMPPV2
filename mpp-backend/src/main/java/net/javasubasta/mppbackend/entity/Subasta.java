@@ -39,4 +39,6 @@ public class Subasta {
 
     @OneToMany(mappedBy = "subasta" , cascade = CascadeType.ALL , fetch = FetchType.LAZY)
     private List<Lote> lotes ;
+
+    
 }

@@ -1,10 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { useParams } from 'react-router-dom';
 import { Container, Row, Col, Image, Tabs, Tab, Card, Button, Form, Carousel, Table, Modal } from 'react-bootstrap';
 import axios from 'axios';
+import { useAuth } from '../context/AuthContext';
 import '../styles/LoteDetalle.css';
 import SubastaDetalle from './SubastaDetalle';
-import { useAuth } from '../context/AuthContext';
 
 const LoteDetalle = () => {
     const { id } = useParams();
@@ -20,8 +20,12 @@ const LoteDetalle = () => {
     const [idUsuario, setIdUsuario] = useState(null); 
     const [subastaId, setSubastaId] = useState(null); 
     const { user, logout } = useAuth();
+    const [animatingOffer, setAnimatingOffer] = useState(false);
+    const [animatingForm, setAnimatingForm] = useState(false);
+    const [baseOferta, setBaseOferta] = useState(0);
 
     const pageSize = 5;
+    const pollInterval = 1000; // 5 segundos
 
     useEffect(() => {
         if (user) {
@@ -45,6 +49,10 @@ const LoteDetalle = () => {
         if (lote) {
             fetchFotos(lote.id, currentPage, pageSize);
             fetchOfertas(lote.id);
+            const intervalId = setInterval(() => {
+                fetchOfertas(lote.id);
+            }, pollInterval);
+            return () => clearInterval(intervalId); // Clear interval on component unmount
         }
     }, [currentPage, lote]);
 
@@ -62,6 +70,11 @@ const LoteDetalle = () => {
             .then(response => {
                 const sortedOfertas = (response.data || []).sort((a, b) => b.monto - a.monto);
                 setOfertas(sortedOfertas);
+                if (sortedOfertas.length > 0) {
+                    setBaseOferta(sortedOfertas[0].monto + 50);
+                } else {
+                    setBaseOferta(50); // Si no hay ofertas, la oferta inicial es 50
+                }
             })
             .catch(error => console.error('Error fetching ofertas:', error));
     };
@@ -90,12 +103,18 @@ const LoteDetalle = () => {
         }
     }, [lote]);
 
+    useEffect(() => {
+        if (!oferta || oferta === baseOferta - 50) {
+            setOferta(baseOferta);
+        }
+    }, [baseOferta]);
+
     const handleOfertaChange = (e) => {
         setOferta(e.target.value);
     };
 
     const handleOfertaSubmit = (e) => {
-        e.preventDefault();   
+        e.preventDefault();
         const nuevaOferta = {
             idUsuario: idUsuario, 
             tipoOferta: 'Inicial', 
@@ -104,15 +123,20 @@ const LoteDetalle = () => {
             subastaId: subastaId 
         };
         
-        console.log("Nueva Oferta" ,nuevaOferta);
         axios.post(`http://localhost:8080/api/ofertas`, nuevaOferta)
             .then(response => {
                 if (response.data === "Debe estar logueado para realizar una oferta" || response.data === "La oferta debe ser mayor a la oferta actual") {
                     setModalMessage(response.data);
                     setShowModal(true);
                 } else {
-                    fetchOfertas(lote.id); // Volver a obtener las ofertas desde la BD
+                    fetchOfertas(lote.id);
                     setOferta('');
+                    setAnimatingOffer(true);
+                    setAnimatingForm(true);
+                    setTimeout(() => {
+                        setAnimatingOffer(false);
+                        setAnimatingForm(false);
+                    }, 1000);
                 }
             })
             .catch(error => {
@@ -128,6 +152,7 @@ const LoteDetalle = () => {
 
     const ofertaActual = ofertas.length > 0 ? ofertas[0].monto : 'No disponible';
     const numeroOfertas = ofertas.length;
+    const ganadorActual = ofertas.length > 0 ? ofertas[0].usuario : 'No hay participantes';
 
     return (
         <Container className="mt-3">
@@ -167,26 +192,27 @@ const LoteDetalle = () => {
                     </div>
                 </Col>
                 <Col lg={4} md={12}>
-                    <Card className="subasta-detalle-card">
+                    <Card className={`subasta-detalle-card ${animatingOffer ? 'animating' : ''}`}>
                         <Card.Body>
                             <Card.Title>Detalles de la Subasta</Card.Title>
                             <p><strong>Cierra en:</strong> {remainingTime}</p>
                             <p><strong>Fecha de Cierre:</strong> {lote.fechaHoraCierre ? new Date(lote.fechaHoraCierre).toLocaleString() : 'No disponible'}</p>
-                            <p><strong>Participantes:</strong> {lote.participantes || 'No disponible'}</p>
                             <p><strong>Ofertas:</strong> {numeroOfertas}</p>
-                            <p><strong>Oferta Actual:</strong> ${ofertaActual}</p>
-                            <Form onSubmit={handleOfertaSubmit}>
+                            <p><strong>Oferta Actual:</strong> S/. {ofertaActual}</p>
+                            <p><strong>Ganador Actual:</strong> {ganadorActual}</p>
+                            <Form onSubmit={handleOfertaSubmit} className={animatingForm ? 'animating' : ''}>
                                 <Form.Group controlId="formOferta">
-                                    <Form.Label>Oferta Sugerida</Form.Label>
-                                    <Form.Control 
-                                        type="number" 
-                                        placeholder="Ingrese su oferta" 
-                                        value={oferta} 
-                                        onChange={handleOfertaChange} 
-                                        required 
+                                    <Form.Label>Hacer una Oferta</Form.Label>
+                                    <Form.Control
+                                        type="number"
+                                        value={oferta}
+                                        onChange={handleOfertaChange}
+                                        placeholder={`S/. ${baseOferta}`}
                                     />
                                 </Form.Group>
-                                <Button variant="primary" type="submit" className="w-100 mt-2">Ofertar</Button>
+                                <Button variant="primary" type="submit">
+                                    Ofertar
+                                </Button>
                             </Form>
                         </Card.Body>
                     </Card>
