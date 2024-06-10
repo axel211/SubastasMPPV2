@@ -58,7 +58,7 @@ const Sidebar = ({ user, setActiveMenu }) => {
                     const rol = getRol();
                     if (rol === 'FUNCIONARIO') {
                         setActiveMenu('subastas');
-                    } else if (rol === 'Usuario') {
+                    } else if (rol === 'USUARIO') {
                         setActiveMenu('subastasHistorial');
                     }
                 }}>

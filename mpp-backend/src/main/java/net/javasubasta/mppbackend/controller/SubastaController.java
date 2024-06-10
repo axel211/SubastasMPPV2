@@ -3,6 +3,7 @@ package net.javasubasta.mppbackend.controller;
 import lombok.AllArgsConstructor;
 import net.javasubasta.mppbackend.dto.LoteDTO;
 import net.javasubasta.mppbackend.dto.SubastaDTO;
+import net.javasubasta.mppbackend.dto.SubastaParticipanteDTO;
 import net.javasubasta.mppbackend.dto.SubastaSoloDTO;
 import net.javasubasta.mppbackend.repository.SubastaRepository;
 import net.javasubasta.mppbackend.service.SubastaService;
@@ -60,6 +61,14 @@ public class SubastaController {
             @RequestParam(defaultValue = "10") int size) {
         Page<LoteDTO> lotes = subastaService.getLotesBySubastaId(id, page, size);
         return new ResponseEntity<>(lotes, HttpStatus.OK);
+    }
+
+
+
+    @GetMapping("/usuario/{idUsuario}")
+    public ResponseEntity<List<SubastaParticipanteDTO>> getSubastasByUsuarioId(@PathVariable Long idUsuario) {
+        List<SubastaParticipanteDTO> subastas = subastaService.getSubastasByUsuarioId(idUsuario);
+        return ResponseEntity.ok(subastas);
     }
 
 }

@@ -42,8 +42,9 @@ public class OfertaServiceImpl implements OfertaService {
         Lote lote = loteRepository.findById(ofertaDTO.getLoteId())
                 .orElseThrow(() -> new RuntimeException("Lote no encontrado"));
 
-        Participante participante = participanteRepository.findByIdSubastaAndIdUsuario(ofertaDTO.getSubastaId(), ofertaDTO.getIdUsuario());
-        if (participante == null || !"HABILITADO".equals(participante.getEstado())) {
+
+        Optional<Participante>  participante = participanteRepository.findByIdSubastaAndIdUsuario(ofertaDTO.getSubastaId(), ofertaDTO.getIdUsuario());
+        if (participante == null || !"HABILITADO".equals(participante.get().getEstado())) {
             throw new RuntimeException("Participante no habilitado para esta subasta");
         }
 

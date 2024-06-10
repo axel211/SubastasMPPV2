@@ -1,0 +1,49 @@
+/* src/styles/HistorialSubastas.css */
+.historial-subastas {
+    padding: 20px;
+}
+
+.subastas-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.subastas-table th, .subastas-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+.subastas-table th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+}
+
+.subastas-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.subastas-table tr:hover {
+    background-color: #f1f1f1;
+}
+
+.estado-subasta.activo {
+    color: green;
+    font-weight: bold;
+}
+
+.estado-participante.habilitado {
+    color: green;
+    font-weight: bold;
+}
+
+.estado-participante.por-aprobar {
+    color: orange;
+    font-weight: bold;
+}
+
+.estado-participante.rechazado {
+    color: red;
+    font-weight: bold;
+}

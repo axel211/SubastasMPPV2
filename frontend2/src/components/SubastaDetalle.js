@@ -4,8 +4,10 @@ import { Modal, Button } from 'react-bootstrap';
 import '../styles/SubastaDetalle.css';
 import { formatDate } from '../utils/formatDate';
 import FormularioHabilitacion from './FormularioHabilitacion';
+import { useAuth } from '../context/AuthContext';
 
 const SubastaDetalle = ({ subastaId, userId }) => {
+    const { user, logout } = useAuth();
     const [subasta, setSubasta] = useState(null);
     const [showModal, setShowModal] = useState(false);
 
@@ -24,8 +26,6 @@ const SubastaDetalle = ({ subastaId, userId }) => {
     }, [subastaId]);
 
     const handleHabilitateClick = () => {
-        // Lógica para habilitar al usuario
-        console.log('Habilitar usuario:', userId, 'para la subasta:', subastaId);
         setShowModal(true);
     };
 
@@ -47,7 +47,7 @@ const SubastaDetalle = ({ subastaId, userId }) => {
                     <Modal.Title>Formulario de habilitación para la subasta: {subasta.nombre}</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <FormularioHabilitacion subastaNombre={subasta.nombre} />
+                    <FormularioHabilitacion subastaNombre={subasta.nombre} subastaId={subastaId} userId={user.id} />
                 </Modal.Body>
                 <Modal.Footer>
                     <Button variant="secondary" onClick={handleClose}>Cerrar</Button>

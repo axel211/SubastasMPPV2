@@ -6,6 +6,8 @@ import Sidebar from '../components/Sidebar';
 import axios from 'axios';
 import { useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
+import HistorialSubastas from '../components/HistorialSubastas';
+
 const Dashboard = () => {
   const { user, logout } = useAuth();
   const [persona, setPersona] = useState([]); // Inicializar persona como un objeto vacío
@@ -37,6 +39,8 @@ console.log(persona)
         return <Subasta />;
       case 'settings':
         return <div>Configuraciones del usuario</div>;
+      case 'subastasHistorial' :
+        return  <HistorialSubastas idUsuario={user.id} />
       default:
         return <div>Selecciona una opción</div>;
     }

@@ -3,6 +3,7 @@ package net.javasubasta.mppbackend.service.impl;
 import lombok.AllArgsConstructor;
 import net.javasubasta.mppbackend.dto.LoteDTO;
 import net.javasubasta.mppbackend.dto.SubastaDTO;
+import net.javasubasta.mppbackend.dto.SubastaParticipanteDTO;
 import net.javasubasta.mppbackend.dto.SubastaSoloDTO;
 import net.javasubasta.mppbackend.entity.Foto;
 import net.javasubasta.mppbackend.entity.Lote;
@@ -99,5 +100,8 @@ public class SubastaServiceImpl implements SubastaService {
         return loteDTOPage;
     }
 
+    public List<SubastaParticipanteDTO> getSubastasByUsuarioId(Long idUsuario) {
+        return subastaRepository.findSubastasByUsuarioId(idUsuario);
+    }
 
 }

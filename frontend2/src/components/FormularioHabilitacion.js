@@ -1,16 +1,45 @@
 import React, { useState } from 'react';
 import '../styles/FormularioHabilitacion.css';
-import voucher from '../Image/BannerSubasta/voucher.png'
-const FormularioHabilitacion = ({ subastaNombre }) => {
+import voucher from '../Image/BannerSubasta/voucher.png';
+
+const FormularioHabilitacion = ({ subastaNombre, subastaId, userId }) => {
     const [fecha, setFecha] = useState('');
     const [monto, setMonto] = useState('');
     const [dni, setDni] = useState('');
     const [acceptedTerms, setAcceptedTerms] = useState(false);
+    const [mensaje, setMensaje] = useState('');
 
-    const handleSubmit = (event) => {
+    const handleSubmit = async (event) => {
         event.preventDefault();
-        // Lógica para manejar el envío del formulario
-        console.log('Voucher de garantía:', { fecha, monto, dni });
+        
+        const data = {
+            idSubasta: subastaId,
+            idUsuario: userId,
+            dni: dni,
+            fechaVoucher: fecha,
+            monto: monto,
+        };
+        
+        try {
+            const response = await fetch('http://localhost:8080/api/participantes/registrar', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data),
+            });
+    
+            if (response.ok) {
+                setMensaje('Solicitud registrada exitosamente');
+            } else if (response.status === 409) {
+                setMensaje('El usuario ya tiene una solicitud en curso');
+            } else {
+                const result = await response.json();
+                setMensaje(`Error: ${result.message}`);
+            }
+        } catch (error) {
+            setMensaje(`Error: No se pudo registrar la solicitud`);
+        }
     };
 
     return (
@@ -18,6 +47,7 @@ const FormularioHabilitacion = ({ subastaNombre }) => {
             <div className="form-content">
                 <div className="form-left">
                     <h3 className="voucher-title">Voucher de garantía</h3>
+                    {mensaje && <p>{mensaje}</p>}
                     <form onSubmit={handleSubmit}>
                         <div className="form-group">
                             <label htmlFor="fecha">Fecha</label>
