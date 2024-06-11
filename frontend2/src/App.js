@@ -15,6 +15,7 @@ import LoteDetalle from './components/LoteDetalle';
 import PrivateRoute from './components/PrivateRoute';
 import Sidebar from './components/Sidebar';
 import Footer from './components/Footer'
+import ListaParticipantes from './components/ListaParticipantes';
 // otros imports...
 
 function App() {
@@ -30,6 +31,7 @@ function App() {
 
         <Route element={<PrivateRoute/>}>
           <Route path="/dashboard" element={<Dashboard />}/>
+          <Route path="/participantes/:idSubasta" element={<ListaParticipantes />} />
         </Route>
 
         <Route path="/" element={<LandingPage />} />

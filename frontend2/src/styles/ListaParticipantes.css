@@ -1,0 +1,85 @@
+/* src/styles/ListaParticipantes.css */
+.lista-participantes {
+    padding: 20px;
+}
+
+.filtros {
+    margin-bottom: 20px;
+    display: flex;
+    gap: 10px;
+}
+
+.filtros input, .filtros select {
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+.participantes-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+.participantes-table th, .participantes-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: left;
+}
+
+.participantes-table th {
+    background-color: #f2f2f2;
+    font-weight: bold;
+}
+
+.participantes-table tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+.participantes-table tr:hover {
+    background-color: #f1f1f1;
+}
+
+.estado-participante.habilitado {
+    background-color: green;
+    color: white;
+    font-weight: bold;
+}
+
+.estado-participante.por-aprobar {
+    background-color: yellow;
+    color: black;
+    font-weight: bold;
+}
+
+.estado-participante.rechazado {
+    background-color: red;
+    color: white;
+    font-weight: bold;
+}
+
+button {
+    margin: 0 5px;
+    padding: 5px 10px;
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
+}
+
+button:hover {
+    opacity: 0.8;
+}
+
+button:focus {
+    outline: none;
+}
+
+button.Aprobar {
+    background-color: green;
+    color: white;
+}
+
+button.Rechazar {
+    background-color: red;
+    color: white;
+}

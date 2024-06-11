@@ -19,6 +19,7 @@ const ListaLotes = () => {
         categoria: ''
     });
 
+    console.log("idsubasta: " + id); 
     useEffect(() => {
         fetchLotes(currentPage);
     }, [id, currentPage]);

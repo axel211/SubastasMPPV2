@@ -3,7 +3,7 @@ import { Card, Button } from 'react-bootstrap';
 import { useNavigate, useParams } from 'react-router-dom';
 
 const DetalleSubasta = () => {
-    const {id} = useParams() ;
+    const { id } = useParams();
     let navigate = useNavigate();
 
     const handleNavigate = (path) => {
@@ -13,6 +13,11 @@ const DetalleSubasta = () => {
     const goToLotes = () => {
         navigate(`/detalle-subasta/${id}/lotes`);
     }
+
+    const goToParticipantes = () => {
+        navigate(`/participantes/${id}`);
+    }
+
     return (
         <div className="container mt-5">
             <h1>Detalles de la Subasta</h1>
@@ -23,7 +28,7 @@ const DetalleSubasta = () => {
                         <Card.Text>
                             Ver y aceptar a los participantes de la subasta.
                         </Card.Text>
-                        <Button variant="primary" onClick={() => handleNavigate('/participantes')}>
+                        <Button variant="primary" onClick={goToParticipantes}>
                             Ir a Participantes
                         </Button>
                     </Card.Body>
@@ -35,7 +40,7 @@ const DetalleSubasta = () => {
                         <Card.Text>
                             Registrar y ver los lotes que están en la subasta.
                         </Card.Text>
-                        <Button variant="primary" onClick={() => goToLotes()}>
+                        <Button variant="primary" onClick={goToLotes}>
                             Ir a Lotes
                         </Button>
                     </Card.Body>

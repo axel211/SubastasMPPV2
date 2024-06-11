@@ -2,9 +2,12 @@ package net.javasubasta.mppbackend.controller;
 
 import net.javasubasta.mppbackend.dto.OfertaResponseDTO;
 import net.javasubasta.mppbackend.dto.ParticipanteDTO;
+import net.javasubasta.mppbackend.dto.ParticipantesSolicitudDTO;
+import net.javasubasta.mppbackend.dto.SubastaParticipanteDTO;
 import net.javasubasta.mppbackend.entity.Participante;
 
 import net.javasubasta.mppbackend.repository.ParticipanteRepository;
+import net.javasubasta.mppbackend.service.ParticipanteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -19,6 +22,9 @@ public class ParticipanteController {
 
     @Autowired
     private ParticipanteRepository participanteRepository;
+
+    @Autowired
+    private ParticipanteService participanteService;
 
     @PostMapping("/registrar")
     public ResponseEntity<?> registrarParticipante(@RequestBody ParticipanteDTO participanteDTO) {
@@ -53,4 +59,17 @@ public class ParticipanteController {
         return ResponseEntity.ok(participantes);
     }
 
+    @GetMapping("/listaParticipantes/completo/{idSubasta}")
+    public ResponseEntity<List<ParticipantesSolicitudDTO>> getParticipantesPorIdSubasta(@PathVariable int idSubasta) {
+        List<ParticipantesSolicitudDTO> participantes = participanteRepository.findSolicitudesParticipantesByIdSubasta(idSubasta);
+        return ResponseEntity.ok(participantes);
+    }
+
+
+    @PutMapping("/actualizarEstado/{idSolicitud}")
+    public ResponseEntity<Participante> actualizarEstado(@PathVariable int idSolicitud, @RequestParam String estado) {
+        System.out.println(idSolicitud+ estado) ;
+        Participante participanteActualizado = participanteService.actualizarEstado(idSolicitud, estado);
+        return ResponseEntity.ok(participanteActualizado);
+    }
 }

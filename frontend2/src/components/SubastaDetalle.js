@@ -35,6 +35,7 @@ const SubastaDetalle = ({ subastaId, userId }) => {
         return <div>Cargando detalles de la subasta...</div>;
     }
 
+
     return (
         <div className="subasta-detalle">
             <h1>{subasta.nombre}</h1>
@@ -47,7 +48,7 @@ const SubastaDetalle = ({ subastaId, userId }) => {
                     <Modal.Title>Formulario de habilitación para la subasta: {subasta.nombre}</Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <FormularioHabilitacion subastaNombre={subasta.nombre} subastaId={subastaId} userId={user.id} />
+                    <FormularioHabilitacion subastaNombre={subasta.nombre} subastaId={subastaId} userId={user ? user.id : 0} />
                 </Modal.Body>
                 <Modal.Footer>
                     <Button variant="secondary" onClick={handleClose}>Cerrar</Button>
