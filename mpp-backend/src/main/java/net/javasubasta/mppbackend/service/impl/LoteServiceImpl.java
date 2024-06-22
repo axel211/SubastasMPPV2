@@ -5,13 +5,9 @@ import net.javasubasta.mppbackend.dto.FotoDTO;
 import net.javasubasta.mppbackend.dto.FotoPageDTO;
 import net.javasubasta.mppbackend.dto.LoteDTO;
 import net.javasubasta.mppbackend.dto.LoteRecuperarDTO;
-import net.javasubasta.mppbackend.entity.Foto;
-import net.javasubasta.mppbackend.entity.Lote;
-import net.javasubasta.mppbackend.entity.Subasta;
+import net.javasubasta.mppbackend.entity.*;
 import net.javasubasta.mppbackend.exception.ResourceNotFoundException;
-import net.javasubasta.mppbackend.repository.FotoRepository;
-import net.javasubasta.mppbackend.repository.LoteRepository;
-import net.javasubasta.mppbackend.repository.SubastaRepository;
+import net.javasubasta.mppbackend.repository.*;
 import net.javasubasta.mppbackend.service.LoteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -20,6 +16,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -33,6 +30,15 @@ public class LoteServiceImpl implements LoteService {
 
     @Autowired
     private SubastaRepository subastaRepository;
+
+    @Autowired
+    private OfertaRepository ofertaRepository;
+
+    @Autowired
+    private AdjudicadoRepository adjudicadoRepository;
+
+    @Autowired
+    private UsuarioRepository usuarioRepository;
 
     @Override
     @Transactional
@@ -98,6 +104,35 @@ public class LoteServiceImpl implements LoteService {
         loteRecuperarDTO.setFotoPage(fotoPageDTO);
 
         return loteRecuperarDTO;
+    }
+
+    @Override
+    public Lote adjudicarLote(int loteId) throws Exception {
+
+        Lote lote = loteRepository.findById(loteId)
+                .orElseThrow(() -> new ResourceNotFoundException("Lote not found with id " + loteId));
+
+        List<Oferta> ofertas = ofertaRepository.findByLoteIdOrderByMontoOfertaDesc(loteId);
+
+        if (!ofertas.isEmpty()) {
+            Oferta ofertaGanadora = ofertas.get(0);
+            Usuario ganador = usuarioRepository.findById(ofertaGanadora.getIdUsuario())
+                    .orElseThrow(() -> new ResourceNotFoundException("Participante not found with id " + ofertaGanadora.getIdUsuario()));
+            lote.setEstado("ADJUDICADO");
+            loteRepository.save(lote);
+
+            Adjudicado adjudicado = new Adjudicado();
+            adjudicado.setLote(lote);
+            adjudicado.setGanador(ganador);
+            adjudicado.setFechaAdjudicacion(LocalDateTime.now());
+            adjudicadoRepository.save(adjudicado);
+        }
+        else{
+            lote.setEstado("DESIERTO");
+            loteRepository.save(lote);
+        }
+
+        return lote;
     }
 
     private LoteRecuperarDTO convertirALoteDTO(Lote lote) {

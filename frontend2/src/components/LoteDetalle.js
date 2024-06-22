@@ -1,10 +1,13 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Container, Row, Col, Image, Tabs, Tab, Card, Button, Form, Carousel, Table, Modal } from 'react-bootstrap';
 import axios from 'axios';
 import { useAuth } from '../context/AuthContext';
 import '../styles/LoteDetalle.css';
 import SubastaDetalle from './SubastaDetalle';
+import FotoCarousel from './FotoCarousel';
+import OfertaForm from './OfertaForm';
+import HistorialOfertas from './HistorialOfertas';
 
 const LoteDetalle = () => {
     const { id } = useParams();
@@ -19,13 +22,14 @@ const LoteDetalle = () => {
     const [modalMessage, setModalMessage] = useState('');
     const [idUsuario, setIdUsuario] = useState(null); 
     const [subastaId, setSubastaId] = useState(null); 
-    const { user, logout } = useAuth();
+    const { user } = useAuth();
     const [animatingOffer, setAnimatingOffer] = useState(false);
     const [animatingForm, setAnimatingForm] = useState(false);
     const [baseOferta, setBaseOferta] = useState(0);
+    const [animatingCard, setAnimatingCard] = useState(''); // Estado para manejar las animaciones del card
 
     const pageSize = 5;
-    const pollInterval = 1000; // 5 segundos
+    const pollInterval = 1000; // 1 segundo
 
     useEffect(() => {
         if (user) {
@@ -33,7 +37,7 @@ const LoteDetalle = () => {
         }
     }, [user]);
 
-    useEffect(() => {
+    const fetchLoteDetails = () => {
         axios.get(`http://localhost:8080/api/lote/${id}`)
             .then(response => {
                 const loteData = response.data;
@@ -43,6 +47,10 @@ const LoteDetalle = () => {
                 setSubastaId(loteData.subastaId);
             })
             .catch(error => console.error('Error fetching lote details:', error));
+    };
+
+    useEffect(() => {
+        fetchLoteDetails();
     }, [id]);
 
     useEffect(() => {
@@ -51,6 +59,8 @@ const LoteDetalle = () => {
             fetchOfertas(lote.id);
             const intervalId = setInterval(() => {
                 fetchOfertas(lote.id);
+                fetchLoteDetails(); // Actualiza los detalles del lote periódicamente
+                updateRemainingTime(lote.fechaHoraCierre);
             }, pollInterval);
             return () => clearInterval(intervalId); // Clear interval on component unmount
         }
@@ -69,9 +79,18 @@ const LoteDetalle = () => {
         axios.get(`http://localhost:8080/api/ofertas/lote/${loteId}`)
             .then(response => {
                 const sortedOfertas = (response.data || []).sort((a, b) => b.monto - a.monto);
-                setOfertas(sortedOfertas);
-                if (sortedOfertas.length > 0) {
-                    setBaseOferta(sortedOfertas[0].monto + 50);
+                const uniquePostores = [];
+                const uniqueOfertas = sortedOfertas.filter(oferta => {
+                    if (uniquePostores.includes(oferta.usuario)) {
+                        return false;
+                    } else {
+                        uniquePostores.push(oferta.usuario);
+                        return true;
+                    }
+                });
+                setOfertas(uniqueOfertas);
+                if (uniqueOfertas.length > 0) {
+                    setBaseOferta(uniqueOfertas[0].monto + 50);
                 } else {
                     setBaseOferta(50); // Si no hay ofertas, la oferta inicial es 50
                 }
@@ -81,27 +100,38 @@ const LoteDetalle = () => {
 
     useEffect(() => {
         if (lote && lote.fechaHoraCierre) {
+            updateRemainingTime(lote.fechaHoraCierre);
             const interval = setInterval(() => {
-                const now = new Date();
-                const endTime = new Date(lote.fechaHoraCierre);
-                const timeRemaining = endTime - now;
-
-                if (timeRemaining <= 0) {
-                    clearInterval(interval);
-                    setRemainingTime('Finalizado');
-                } else {
-                    const days = Math.floor(timeRemaining / (1000 * 60 * 60 * 24));
-                    const hours = Math.floor((timeRemaining % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                    const minutes = Math.floor((timeRemaining % (1000 * 60 * 60)) / (1000 * 60));
-                    const seconds = Math.floor((timeRemaining % (1000 * 60)) / 1000);
-
-                    setRemainingTime(`${days}d ${hours}h ${minutes}m ${seconds}s`);
-                }
+                updateRemainingTime(lote.fechaHoraCierre);
             }, 1000);
 
             return () => clearInterval(interval);
         }
     }, [lote]);
+
+    const updateRemainingTime = (fechaHoraCierre) => {
+        const now = new Date();
+        const endTime = new Date(fechaHoraCierre);
+        const timeRemaining = endTime - now;
+
+        if (timeRemaining <= 0) {
+            setRemainingTime('Finalizado');
+            setAnimatingCard(''); // Clear any animations when time is up
+        } else {
+            const days = Math.floor(timeRemaining / (1000 * 60 * 60 * 24));
+            const hours = Math.floor((timeRemaining % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            const minutes = Math.floor((timeRemaining % (1000 * 60 * 60)) / (1000 * 60));
+            const seconds = Math.floor((timeRemaining % (1000 * 60)) / 1000);
+
+            setRemainingTime(`${days}d ${hours}h ${minutes}m ${seconds}s`);
+
+            if (timeRemaining <= 10000) {
+                setAnimatingCard('animating-red'); // Less than 10 seconds remaining
+            } else {
+                setAnimatingCard(''); // Clear the red animation if more than 10 seconds
+            }
+        }
+    };
 
     useEffect(() => {
         if (!oferta || oferta === baseOferta - 50) {
@@ -129,13 +159,16 @@ const LoteDetalle = () => {
                     setModalMessage(response.data);
                     setShowModal(true);
                 } else {
+                    fetchLoteDetails(); // Fetch updated lote details to reflect the new closing time
                     fetchOfertas(lote.id);
                     setOferta('');
                     setAnimatingOffer(true);
                     setAnimatingForm(true);
+                    setAnimatingCard('animating-green'); // Trigger green animation on successful offer
                     setTimeout(() => {
                         setAnimatingOffer(false);
                         setAnimatingForm(false);
+                        setAnimatingCard(''); // Clear the green animation after 1 second
                     }, 1000);
                 }
             })
@@ -164,35 +197,10 @@ const LoteDetalle = () => {
             </Row>
             <Row>
                 <Col lg={8} md={12} className="mb-4">
-                    {fotos.length > 0 && (
-                        <Carousel className="lote-carousel">
-                            {fotos.map((foto, index) => (
-                                <Carousel.Item key={index}>
-                                    <Image src={`data:image/jpeg;base64,${foto}`} alt={`Imagen ${index + 1}`} className="d-block w-100 lote-carousel-image" />
-                                </Carousel.Item>
-                            ))}
-                        </Carousel>
-                    )}
-                    <div className="foto-pagination">
-                        <Button
-                            variant="secondary"
-                            onClick={() => setCurrentPage(prevPage => Math.max(prevPage - 1, 0))}
-                            disabled={currentPage === 0}
-                        >
-                            Anterior
-                        </Button>
-                        <span>{currentPage + 1} / {totalPages}</span>
-                        <Button
-                            variant="secondary"
-                            onClick={() => setCurrentPage(prevPage => Math.min(prevPage + 1, totalPages - 1))}
-                            disabled={currentPage === totalPages - 1}
-                        >
-                            Siguiente
-                        </Button>
-                    </div>
+                    <FotoCarousel fotos={fotos} currentPage={currentPage} totalPages={totalPages} setCurrentPage={setCurrentPage} />
                 </Col>
                 <Col lg={4} md={12}>
-                    <Card className={`subasta-detalle-card ${animatingOffer ? 'animating' : ''}`}>
+                    <Card className={`subasta-detalle-card ${animatingCard}`}>
                         <Card.Body>
                             <Card.Title>Detalles de la Subasta</Card.Title>
                             <p><strong>Cierra en:</strong> {remainingTime}</p>
@@ -200,20 +208,33 @@ const LoteDetalle = () => {
                             <p><strong>Ofertas:</strong> {numeroOfertas}</p>
                             <p><strong>Oferta Actual:</strong> S/. {ofertaActual}</p>
                             <p><strong>Ganador Actual:</strong> {ganadorActual}</p>
-                            <Form onSubmit={handleOfertaSubmit} className={animatingForm ? 'animating' : ''}>
-                                <Form.Group controlId="formOferta">
-                                    <Form.Label>Hacer una Oferta</Form.Label>
-                                    <Form.Control
-                                        type="number"
-                                        value={oferta}
-                                        onChange={handleOfertaChange}
-                                        placeholder={`S/. ${baseOferta}`}
-                                    />
-                                </Form.Group>
-                                <Button variant="primary" type="submit">
-                                    Ofertar
-                                </Button>
-                            </Form>
+                            {remainingTime === 'Finalizado' && (
+                                <Table striped bordered hover>
+                                    <thead>
+                                        <tr>
+                                            <th>Posición</th>
+                                            <th>Usuario</th>
+                                            <th>Monto</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {ofertas.slice(0, 5).map((oferta, index) => (
+                                            <tr key={oferta.id}>
+                                                <td>{index + 1}</td>
+                                                <td>{oferta.usuario}</td>
+                                                <td>S/. {oferta.monto}</td>
+                                            </tr>
+                                        ))}
+                                    </tbody>
+                                </Table>
+                            )}
+                            <OfertaForm 
+                                oferta={oferta} 
+                                baseOferta={baseOferta} 
+                                handleOfertaChange={handleOfertaChange} 
+                                handleOfertaSubmit={handleOfertaSubmit} 
+                                animatingForm={animatingForm} 
+                            />
                         </Card.Body>
                     </Card>
                 </Col>
@@ -233,26 +254,7 @@ const LoteDetalle = () => {
             <Row className="mt-4">
                 <Col>
                     <h4>Historial de Ofertas</h4>
-                    <Table striped bordered hover responsive>
-                        <thead>
-                            <tr>
-                                <th>#</th>
-                                <th>Usuario</th>
-                                <th>Fecha</th>
-                                <th>Monto</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {ofertas.map((oferta, index) => (
-                                <tr key={index}>
-                                    <td>{index + 1}</td>
-                                    <td>{oferta.usuario}</td>
-                                    <td>{new Date(oferta.fechaHora).toLocaleString()}</td>
-                                    <td>S/. {oferta.monto}</td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </Table>
+                    <HistorialOfertas ofertas={ofertas} />
                 </Col>
             </Row>
             <Modal show={showModal} onHide={() => setShowModal(false)}>

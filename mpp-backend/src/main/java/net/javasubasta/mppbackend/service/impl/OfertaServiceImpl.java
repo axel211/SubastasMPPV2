@@ -15,6 +15,9 @@ import net.javasubasta.mppbackend.service.OfertaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -43,6 +46,17 @@ public class OfertaServiceImpl implements OfertaService {
                 .orElseThrow(() -> new RuntimeException("Lote no encontrado"));
 
 
+        LocalDateTime fechaHoraCierreLocalDateTime = lote.getFechaHoraCierre();
+        ZonedDateTime zonedDateTime = fechaHoraCierreLocalDateTime.atZone(ZoneId.systemDefault());
+        Date fechaHoraCierreDate = Date.from(zonedDateTime.toInstant());
+
+        // Verificar si la oferta está dentro de la fecha_hora_cierre
+        Date now = new Date();
+        if (now.after(fechaHoraCierreDate)) {
+            throw new RuntimeException("La subasta ha cerrado. No se pueden aceptar más ofertas.");
+        }
+
+
         Optional<Participante>  participante = participanteRepository.findByIdSubastaAndIdUsuario(ofertaDTO.getSubastaId(), ofertaDTO.getIdUsuario());
         if (participante == null || !"HABILITADO".equals(participante.get().getEstado())) {
             throw new RuntimeException("Participante no habilitado para esta subasta");
@@ -53,6 +67,13 @@ public class OfertaServiceImpl implements OfertaService {
             System.out.println(ofertaMaxima.get().getMontoOferta());
             System.out.println(ofertaDTO.getMontoOferta());
             throw new RuntimeException("El monto ofertado debe ser mayor que la oferta actual más alta");
+        }
+
+        long diffInMillies = fechaHoraCierreDate.getTime() - now.getTime();
+        if (diffInMillies <= 30000) {
+            LocalDateTime nuevaFechaHoraCierre = fechaHoraCierreLocalDateTime.plusSeconds(30);
+            lote.setFechaHoraCierre(nuevaFechaHoraCierre);
+            loteRepository.save(lote);  // Guardar el cambio en la base de datos
         }
 
         Oferta oferta = new Oferta();

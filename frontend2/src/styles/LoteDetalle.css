@@ -1,3 +1,6 @@
+/* LoteDetalle.css */
+
+/* Carousel Styles */
 .lote-carousel {
     height: 500px;
     display: flex;
@@ -17,12 +20,14 @@
     margin-right: auto;
 }
 
+/* Subasta Detalle Card Styles */
 .subasta-detalle-card {
     width: 100%;
     max-width: 450px;
     margin: auto;
 }
 
+/* Media Query for Responsive Design */
 @media (max-width: 768px) {
     .lote-carousel {
         height: auto;
@@ -35,15 +40,28 @@
     }
 }
 
+/* Margin Utility Class */
 .mt-3 {
     margin-top: 1rem;
 }
-@keyframes flash {
+
+/* Animation for Flash Effect */
+@keyframes flash-red {
     0% { background-color: #fff; }
     50% { background-color: #f8d7da; }
     100% { background-color: #fff; }
 }
 
-.animating {
-    animation: flash 1s ease-in-out;
+@keyframes flash-green {
+    0% { background-color: #fff; }
+    50% { background-color: #d4edda; }
+    100% { background-color: #fff; }
+}
+
+.animating-red {
+    animation: flash-red 1s ease-in-out infinite;
+}
+
+.animating-green {
+    animation: flash-green 1s ease-in-out;
 }

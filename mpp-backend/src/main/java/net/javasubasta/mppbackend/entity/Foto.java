@@ -17,6 +17,7 @@ public class Foto {
     private int id;
 
     @Lob
+    @Column(columnDefinition = "LONGBLOB")
     private byte[] contenido;
 
     @ManyToOne(fetch = FetchType.LAZY)

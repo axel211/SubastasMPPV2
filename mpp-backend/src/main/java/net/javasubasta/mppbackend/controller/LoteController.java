@@ -37,4 +37,10 @@ public class LoteController {
         return new ResponseEntity<>(lote, HttpStatus.OK);
     }
 
+    @PutMapping("/lote/{id}/adjudicar")
+    public ResponseEntity<Lote> adjudicarLote(@PathVariable int id) throws Exception {
+        Lote adjudicadoLote = loteService.adjudicarLote(id) ;
+        return ResponseEntity.ok(adjudicadoLote);
+    }
+
 }

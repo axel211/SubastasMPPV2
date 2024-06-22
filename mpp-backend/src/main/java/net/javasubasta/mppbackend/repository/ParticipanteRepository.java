@@ -44,6 +44,7 @@ public interface ParticipanteRepository extends JpaRepository<Participante, Inte
         return dtos;
     }
 
+    Participante findById (Long id);
 
 
 }

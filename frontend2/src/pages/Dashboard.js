@@ -7,7 +7,8 @@ import axios from 'axios';
 import { useEffect } from 'react';
 import { useAuth } from '../context/AuthContext';
 import HistorialSubastas from '../components/HistorialSubastas';
-
+import AdjudicarSubasta from '../components/AdjudicarSubasta';
+import AdjudicacionesParticipante from '../components/AdjudicacionesParticipante';
 const Dashboard = () => {
   const { user, logout } = useAuth();
   const [persona, setPersona] = useState([]); // Inicializar persona como un objeto vacío
@@ -41,6 +42,10 @@ console.log(persona)
         return <div>Configuraciones del usuario</div>;
       case 'subastasHistorial' :
         return  <HistorialSubastas idUsuario={user.id} />
+      case 'adjudicar' :
+        return <AdjudicarSubasta/>
+      case 'adjudicacionesParticipante':
+        return <AdjudicacionesParticipante />; // Renderizar el nuevo componente
       default:
         return <div>Selecciona una opción</div>;
     }

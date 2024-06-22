@@ -1,18 +1,4 @@
 /* src/styles/Footer.css */
-.footer {
-    background-color: #2c3e50;
-    color: #ecf0f1;
-    padding: 1rem 1rem;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    text-align: center;
-    position: fixed;
-    bottom: 0;
-    width: 100%;
-    z-index: 1000;
-    margin-top: 50px;
-  }
   
   .footer-content {
     display: flex;

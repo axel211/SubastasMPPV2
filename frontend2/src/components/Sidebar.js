@@ -1,13 +1,15 @@
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { FaUser, FaGavel, FaCog, FaSignOutAlt, FaBars, FaUserPlus } from 'react-icons/fa'; // Importar íconos de react-icons
+import { FaUser, FaGavel, FaCog, FaSignOutAlt, FaBars, FaUserPlus, FaCheck, FaListAlt } from 'react-icons/fa'; // Importar íconos de react-icons
 import '../styles/Sidebar.css';
 import profile from '../Image/BannerSubasta/profile.svg';
 import { useAuth } from '../context/AuthContext';
+
 const Sidebar = ({ user, setActiveMenu }) => {
     const navigate = useNavigate();
     const [isOpen, setIsOpen] = useState(true);
-    const {  logout } = useAuth();
+    const { logout } = useAuth();
+
     const toggleSidebar = () => {
         setIsOpen(!isOpen);
     };
@@ -58,13 +60,25 @@ const Sidebar = ({ user, setActiveMenu }) => {
                     const rol = getRol();
                     if (rol === 'FUNCIONARIO') {
                         setActiveMenu('subastas');
-                    } else if (rol === 'USUARIO') {
+                    } else if (rol === 'PARTICIPANTE') {
                         setActiveMenu('subastasHistorial');
                     }
                 }}>
                     <FaGavel className="icon" />
                     <span className="menu-text">Subastas</span>
                 </button>
+                {getRol() === 'FUNCIONARIO' && (
+                    <button onClick={() => setActiveMenu('adjudicar')}>
+                        <FaCheck className="icon" />
+                        <span className="menu-text">Adjudicar</span>
+                    </button>
+                )}
+                {getRol() === 'PARTICIPANTE' && (
+                    <button onClick={() => setActiveMenu('adjudicacionesParticipante')}>
+                        <FaListAlt className="icon" />
+                        <span className="menu-text">Adjudicaciones</span>
+                    </button>
+                )}
                 <button onClick={() => setActiveMenu('settings')}>
                     <FaCog className="icon" />
                     <span className="menu-text">Configuraciones</span>
