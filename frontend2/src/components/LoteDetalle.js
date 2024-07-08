@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { Container, Row, Col, Image, Tabs, Tab, Card, Button, Form, Carousel, Table, Modal } from 'react-bootstrap';
+import { Container, Row, Col, Card, Button, Table, Modal, Tabs, Tab } from 'react-bootstrap';
 import axios from 'axios';
 import { useAuth } from '../context/AuthContext';
 import '../styles/LoteDetalle.css';
@@ -188,7 +188,7 @@ const LoteDetalle = () => {
     const ganadorActual = ofertas.length > 0 ? ofertas[0].usuario : 'No hay participantes';
 
     return (
-        <Container className="mt-3">
+        <Container className="">
             <SubastaDetalle subastaId={lote.subastaId} />
             <Row className="mb-4">
                 <Col>
@@ -209,24 +209,26 @@ const LoteDetalle = () => {
                             <p><strong>Oferta Actual:</strong> S/. {ofertaActual}</p>
                             <p><strong>Ganador Actual:</strong> {ganadorActual}</p>
                             {remainingTime === 'Finalizado' && (
-                                <Table striped bordered hover>
-                                    <thead>
-                                        <tr>
-                                            <th>Posición</th>
-                                            <th>Usuario</th>
-                                            <th>Monto</th>
-                                        </tr>
-                                    </thead>
-                                    <tbody>
-                                        {ofertas.slice(0, 5).map((oferta, index) => (
-                                            <tr key={oferta.id}>
-                                                <td>{index + 1}</td>
-                                                <td>{oferta.usuario}</td>
-                                                <td>S/. {oferta.monto}</td>
+                                <div className="tabla-participantes">
+                                    <Table striped bordered hover className="tabla-coloreada">
+                                        <thead>
+                                            <tr>
+                                                <th>Posición</th>
+                                                <th>Usuario</th>
+                                                <th>Monto</th>
                                             </tr>
-                                        ))}
-                                    </tbody>
-                                </Table>
+                                        </thead>
+                                        <tbody>
+                                            {ofertas.slice(0, 5).map((oferta, index) => (
+                                                <tr key={oferta.id}>
+                                                    <td>{index + 1}</td>
+                                                    <td>{oferta.usuario}</td>
+                                                    <td>S/. {oferta.monto}</td>
+                                                </tr>
+                                            ))}
+                                        </tbody>
+                                    </Table>
+                                </div>
                             )}
                             <OfertaForm 
                                 oferta={oferta} 
