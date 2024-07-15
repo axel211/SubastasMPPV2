@@ -1,65 +1,61 @@
-.container {
-  max-width: 1200px;
-  margin: auto;
-  padding-top: 0px;
-  margin-top: 0;
-}
-
-.header {
+.landing-page .header-content {
   display: flex;
-  justify-content: space-between;
+  flex-direction: column;
   align-items: center;
-  padding: 20px;
 }
 
-.header-content {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  width: 100%;
+.landing-page .tituloSubasta {
+  text-align: left;
 }
 
-.tituloSubasta {
-  flex-grow: 1; /* Asegura que el texto ocupe el espacio necesario */
-}
-
-.banner {
-  max-width: 50%; /* Ajusta esto según tus necesidades */
+.landing-page .banner {
+  max-width: 100%;
   height: auto;
 }
 
-.main-section {
+.landing-page .main-section {
   text-align: center;
 }
 
-.card-container {
+.landing-page .landing-card-container {
   display: flex;
+  justify-content: space-around;
   flex-wrap: wrap;
-  justify-content: center;
 }
 
-.card {
+.landing-page .landing-card-link {
+  text-decoration: none;
+  color: inherit;
   flex: 1;
+  max-width: 300px; /* Ajusta este valor según sea necesario */
   margin: 10px;
+}
+
+.landing-page .landing-card {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
   padding: 20px;
   box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-  border-radius: 5px;
-  min-width: 250px;
-  max-width: 31%;
+  height: 200px; /* Ajusta este valor según sea necesario */
+  transition: transform 0.3s;
 }
 
-@media (max-width: 768px) {
-  .header-content {
-      flex-direction: column;
-  }
-
-  .banner {
-      max-width: 100%;
-  }
+.landing-page .landing-card:hover {
+  transform: translateY(-5px);
 }
 
-@media (max-width: 480px) {
-  .card {
-      max-width: 90%;
-  }
+.landing-page .icon {
+  width: 24px;
+  height: 24px;
+  margin-right: 8px;
+  vertical-align: middle;
+}
+
+.landing-page .card-text {
+  font-size: 0.9rem; /* Ajusta el tamaño del texto para que sea más pequeño */
 }

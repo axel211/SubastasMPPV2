@@ -1,0 +1,38 @@
+.instructions-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+    background-color: #f8f9fa;
+    padding: 20px;
+}
+
+.instructions-card {
+    max-width: 800px;
+    width: 100%;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    background-color: #ffffff;
+}
+
+.instructions-card h2 {
+    margin-bottom: 10px; /* Reduce el margen inferior */
+    color: #333333;
+    font-size: 24px;
+}
+
+.instructions-card ol {
+    margin-top: 10px; /* Reduce el margen superior */
+    padding-left: 20px;
+}
+
+.instructions-card ol li {
+    margin-bottom: 10px;
+    font-size: 18px;
+    color: #555555;
+}
+
+.instructions-card ol li strong {
+    color: #333333;
+}

@@ -1,7 +1,11 @@
-export const formatDate = (dateString) => {
-    const date = new Date(dateString);
-    const day = (`0${date.getDate()}`).slice(-2); // Añade un cero al inicio y toma los últimos dos dígitos
-    const month = (`0${date.getMonth() + 1}`).slice(-2); // Los meses son base 0
-    const year = date.getFullYear();
-    return `${day}-${month}-${year}`;
+export const formatDate = (isoString) => {
+    const date = new Date(isoString);
+
+    // Convertir la fecha a la zona horaria local
+    const localDate = new Date(date.getTime() + date.getTimezoneOffset() * 60000);
+
+    const day = String(localDate.getDate()).padStart(2, '0');
+    const month = String(localDate.getMonth() + 1).padStart(2, '0'); // Los meses van de 0 a 11
+    const year = localDate.getFullYear();
+    return `${day}/${month}/${year}`;
 };

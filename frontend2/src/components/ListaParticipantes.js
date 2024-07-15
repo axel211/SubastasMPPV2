@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import '../styles/ListaParticipantes.css';
 import { useParams } from 'react-router-dom';
-
+import { formatDate } from '../utils/formatDate';
 const ListaParticipantes = () => {
     const [participantes, setParticipantes] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -127,8 +127,8 @@ const ListaParticipantes = () => {
                                 <td>{participante.idSolicitud}</td>
                                 <td>{participante.nombre}</td>
                                 <td>{participante.apellidos}</td>
-                                <td>{new Date(participante.fechaRegistro).toLocaleDateString()}</td>
-                                <td>{new Date(participante.fechaRevision).toLocaleDateString()}</td>
+                                <td>{formatDate(participante.fechaRegistro)}</td>
+                                <td>{formatDate(participante.fechaRevision)}</td>
                                 <td>{participante.dni ? participante.dni : 'N/A'}</td>
                                 <td>{participante.monto}</td>
                                 <td className={`estado-participante ${getClassForEstadoParticipante(participante.estado)}`}>

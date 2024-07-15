@@ -70,3 +70,10 @@
     max-width: 100%;
     height: auto;
 }
+
+
+/* FormularioHabilitacion.css */
+.success-message {
+    color: green;
+    font-weight: bold;
+}

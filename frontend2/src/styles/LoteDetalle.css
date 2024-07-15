@@ -167,3 +167,16 @@
     text-align: center;
     padding: 8px;
 }
+
+@keyframes greenFlash {
+    0% {
+        background-color: transparent;
+    }
+    50% {
+        background-color: #d4edda; /* Verde claro */
+    }
+    100% {
+        background-color: transparent;
+    }
+}
+

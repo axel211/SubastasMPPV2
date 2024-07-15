@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Table, Button, Modal, Form, Row, Col } from "react-bootstrap";
-import axios from 'axios'
+import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { formatDate } from "../utils/formatDate";
 
@@ -22,6 +22,8 @@ const Subasta = () => {
         fechaCreacion: '',
         fechaCierre: ''
     });
+
+    
 
     const navigate = useNavigate();
 
@@ -70,6 +72,26 @@ const Subasta = () => {
     const handleFilterChange = (e) => {
         const { name, value } = e.target;
         setSearchFilters({ ...searchFilters, [name]: value });
+    };
+
+    const handleFinalizeSubasta = async (id) => {
+        try {
+            await axios.put(`http://localhost:8080/api/subasta/${id}/finalizar`, { estado: 'Finalizado' });
+            alert("Subasta finalizada");
+            fetchSubastas();
+        } catch (error) {
+            console.error('Error al finalizar la subasta:', error);
+        }
+    };
+
+    const handleDeleteSubasta = async (id) => {
+        try {
+            await axios.delete(`http://localhost:8080/api/subasta/${id}`);
+            alert("Subasta eliminada");
+            fetchSubastas();
+        } catch (error) {
+            console.error('Error al eliminar la subasta:', error);
+        }
     };
 
     useEffect(() => {
@@ -123,6 +145,7 @@ const Subasta = () => {
                                 <option value="">Todos</option>
                                 <option value="activo">Activo</option>
                                 <option value="inactivo">Inactivo</option>
+                                <option value="finalizado">Finalizado</option>
                             </Form.Control>
                         </Form.Group>
                     </Col>
@@ -171,9 +194,19 @@ const Subasta = () => {
                             <td>{formatDate(subasta.fechaCierre)}</td>
                             <td>{subasta.estado}</td>
                             <td>
-                                <Button variant="primary" onClick={() => handleDetailsClick(subasta.id)}>
+                                <Button variant="primary" onClick={() => handleDetailsClick(subasta.id)} className="me-2">
                                     Ver Detalles
                                 </Button>
+                                {subasta.estado.toLowerCase() !== 'finalizado' && (
+                                    <>
+                                        <Button variant="warning" onClick={() => handleFinalizeSubasta(subasta.id)} className="me-2">
+                                            Finalizar
+                                        </Button>
+                                        <Button variant="danger" onClick={() => handleDeleteSubasta(subasta.id)}>
+                                            Eliminar
+                                        </Button>
+                                    </>
+                                )}
                             </td>
                         </tr>
                     ))}

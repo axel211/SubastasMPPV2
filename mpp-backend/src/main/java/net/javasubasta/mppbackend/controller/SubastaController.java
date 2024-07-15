@@ -5,6 +5,7 @@ import net.javasubasta.mppbackend.dto.LoteDTO;
 import net.javasubasta.mppbackend.dto.SubastaDTO;
 import net.javasubasta.mppbackend.dto.SubastaParticipanteDTO;
 import net.javasubasta.mppbackend.dto.SubastaSoloDTO;
+import net.javasubasta.mppbackend.entity.Subasta;
 import net.javasubasta.mppbackend.repository.SubastaRepository;
 import net.javasubasta.mppbackend.service.SubastaService;
 import org.springframework.data.domain.Page;
@@ -69,6 +70,24 @@ public class SubastaController {
     public ResponseEntity<List<SubastaParticipanteDTO>> getSubastasByUsuarioId(@PathVariable Long idUsuario) {
         List<SubastaParticipanteDTO> subastas = subastaService.getSubastasByUsuarioId(idUsuario);
         return ResponseEntity.ok(subastas);
+    }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<Subasta> updateSubasta(@PathVariable int id, @RequestBody Subasta subastaDetails) {
+        Subasta updatedSubasta = subastaService.updateSubasta(id, subastaDetails);
+        return ResponseEntity.ok(updatedSubasta);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteSubasta(@PathVariable int id) {
+        subastaService.deleteSubasta(id);
+        return ResponseEntity.noContent().build();
+    }
+
+    @PatchMapping("/{id}/finalizar")
+    public ResponseEntity<Subasta> finalizarSubasta(@PathVariable int id) {
+        Subasta finalizadaSubasta = subastaService.finalizarSubasta(id);
+        return ResponseEntity.ok(finalizadaSubasta);
     }
 
 }

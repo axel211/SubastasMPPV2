@@ -1,10 +1,7 @@
 package net.javasubasta.mppbackend.service.impl;
 
 import jakarta.transaction.Transactional;
-import net.javasubasta.mppbackend.dto.FotoDTO;
-import net.javasubasta.mppbackend.dto.FotoPageDTO;
-import net.javasubasta.mppbackend.dto.LoteDTO;
-import net.javasubasta.mppbackend.dto.LoteRecuperarDTO;
+import net.javasubasta.mppbackend.dto.*;
 import net.javasubasta.mppbackend.entity.*;
 import net.javasubasta.mppbackend.exception.ResourceNotFoundException;
 import net.javasubasta.mppbackend.repository.*;
@@ -17,6 +14,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -133,6 +131,23 @@ public class LoteServiceImpl implements LoteService {
         }
 
         return lote;
+    }
+
+    @Override
+    public List<LoteListaDTO> obtenerAllLotesPorSubastaId(int subastaId) throws Exception {
+        List<Lote> lotes = loteRepository.findBySubastaId(subastaId);
+        List<LoteListaDTO> lotesDTO = new ArrayList<>();
+        for (Lote lote : lotes) {
+            LoteListaDTO loteDTO = new LoteListaDTO();
+            loteDTO.setId(lote.getId());
+            loteDTO.setDescripcion(lote.getDescripcion());
+            loteDTO.setTipo(lote.getTipo_lote());
+            loteDTO.setMoneda(lote.getMoneda());
+            loteDTO.setPrecioBase(lote.getPrecioBase());
+            lotesDTO.add(loteDTO);
+        }
+
+        return lotesDTO ;
     }
 
     private LoteRecuperarDTO convertirALoteDTO(Lote lote) {

@@ -8,6 +8,7 @@ const FormularioHabilitacion = ({ subastaNombre, subastaId, userId }) => {
     const [dni, setDni] = useState('');
     const [acceptedTerms, setAcceptedTerms] = useState(false);
     const [mensaje, setMensaje] = useState('');
+    const [isSuccess, setIsSuccess] = useState(false);
 
     const handleSubmit = async (event) => {
         event.preventDefault();
@@ -31,14 +32,18 @@ const FormularioHabilitacion = ({ subastaNombre, subastaId, userId }) => {
     
             if (response.ok) {
                 setMensaje('Solicitud registrada exitosamente');
+                setIsSuccess(true);
             } else if (response.status === 409) {
                 setMensaje('El usuario ya tiene una solicitud en curso');
+                setIsSuccess(false);
             } else {
                 const result = await response.json();
                 setMensaje(`Error: ${result.message}`);
+                setIsSuccess(false);
             }
         } catch (error) {
             setMensaje(`Error: No se pudo registrar la solicitud`);
+            setIsSuccess(false);
         }
     };
 
@@ -47,7 +52,7 @@ const FormularioHabilitacion = ({ subastaNombre, subastaId, userId }) => {
             <div className="form-content">
                 <div className="form-left">
                     <h3 className="voucher-title">Voucher de garantía</h3>
-                    {mensaje && <p>{mensaje}</p>}
+                    {mensaje && <p className={isSuccess ? 'success-message' : ''}>{mensaje}</p>}
                     <form onSubmit={handleSubmit}>
                         <div className="form-group">
                             <label htmlFor="fecha">Fecha</label>

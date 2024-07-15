@@ -7,6 +7,7 @@ import net.javasubasta.mppbackend.repository.ParticipanteRepository;
 import net.javasubasta.mppbackend.service.ParticipanteService;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -22,6 +23,7 @@ public class ParticipanteServiceImpl implements ParticipanteService {
     public Participante actualizarEstado(int idSolicitud, String nuevoEstado) {
         Participante participante = participanteRepository.findById(idSolicitud).orElseThrow(() -> new RuntimeException("Participante no encontrado"));
         participante.setEstado(nuevoEstado);
+        participante.setFechaActualizacion(LocalDateTime.now());
         return participanteRepository.save(participante);
     }
 }

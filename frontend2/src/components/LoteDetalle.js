@@ -27,7 +27,7 @@ const LoteDetalle = () => {
     const [animatingForm, setAnimatingForm] = useState(false);
     const [baseOferta, setBaseOferta] = useState(0);
     const [animatingCard, setAnimatingCard] = useState(''); // Estado para manejar las animaciones del card
-
+    
     const pageSize = 5;
     const pollInterval = 1000; // 1 segundo
 
@@ -178,7 +178,7 @@ const LoteDetalle = () => {
                 console.error('Error al realizar la oferta:', error);
             });
     };
-
+    
     if (!lote) {
         return <div>Cargando...</div>;
     }
@@ -186,6 +186,7 @@ const LoteDetalle = () => {
     const ofertaActual = ofertas.length > 0 ? ofertas[0].monto : 'No disponible';
     const numeroOfertas = ofertas.length;
     const ganadorActual = ofertas.length > 0 ? ofertas[0].usuario : 'No hay participantes';
+    const isAuctionEnded = remainingTime === 'Finalizado';
 
     return (
         <Container className="">
@@ -236,6 +237,7 @@ const LoteDetalle = () => {
                                 handleOfertaChange={handleOfertaChange} 
                                 handleOfertaSubmit={handleOfertaSubmit} 
                                 animatingForm={animatingForm} 
+                                isAuctionEnded={isAuctionEnded}
                             />
                         </Card.Body>
                     </Card>

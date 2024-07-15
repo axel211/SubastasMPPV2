@@ -1,7 +1,77 @@
-.centrado {
-    display: flex;
-    justify-content: center; /* Centrar horizontalmente */
-    align-items: center; /* Centrar verticalmente */
-    height: 100vh; /* Opcional: ajusta la altura según sea necesario */
-  }
-  
+.login-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 50vh; /* Asegura que ocupe toda la altura de la ventana */
+  background-color: #ffffff; /* Fondo blanco */
+  padding: 20px; /* Asegura un espacio alrededor del contenido */
+}
+
+.login-card {
+  display: flex;
+  flex-direction: column; /* Coloca los elementos en una columna */
+  width: 100%;
+  max-width: 500px; /* Ajusta el tamaño máximo del card */
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra ligera */
+  border-radius: 8px; /* Bordes redondeados */
+  background-color: #ffffff;
+}
+
+.login-card-right {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.login-card h2 {
+  margin-bottom: 20px;
+  color: #333333;
+  font-size: 24px;
+}
+
+.login-card .form-label {
+  color: #333333;
+  font-weight: bold;
+}
+
+.login-card .form-control {
+  margin-bottom: 20px;
+  border-radius: 5px;
+  border: 1px solid #ced4da;
+}
+
+.login-card .btn-primary {
+  background-color: #2b3990; /* Color azul oscuro */
+  border: none;
+  border-radius: 5px;
+  padding: 10px;
+  font-weight: bold;
+  font-size: 16px;
+}
+
+.login-card .btn-primary:hover {
+  background-color: #1d2a6d;
+}
+
+.login-card .forgot-password,
+.login-card .register-btn {
+  display: block;
+  text-align: center;
+  margin-top: 10px;
+  color: #2b3990;
+  font-weight: bold;
+  text-decoration: none;
+}
+
+.login-card .register-btn {
+  margin-top: 20px;
+  border: 2px solid #2b3990;
+  border-radius: 5px;
+  padding: 10px;
+}
+
+.login-card .register-btn:hover {
+  background-color: #2b3990;
+  color: #ffffff;
+}

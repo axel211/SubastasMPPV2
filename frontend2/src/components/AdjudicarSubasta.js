@@ -42,6 +42,8 @@ const AdjudicarSubasta = () => {
                 return <Badge bg="success">Habilitado</Badge>;
             case 'RECHAZADO':
                 return <Badge bg="danger">Rechazado</Badge>;
+            case 'ADJUDICADO':
+                return <Badge bg="success">ADJUDICADO</Badge>;
             default:
                 return <Badge bg="secondary">Por verificar</Badge>;
         }

@@ -50,8 +50,8 @@ public class SubastaServiceImpl implements SubastaService {
                 subasta.getId(),
                 subasta.getNombre(),
                 subasta.getDescripcion(),
-                subasta.getFechaCierre(),
                 subasta.getFechaCreacion(),
+                subasta.getFechaCierre(),
                 subasta.getEstado()
         )).collect(Collectors.toList());
     }
@@ -102,6 +102,23 @@ public class SubastaServiceImpl implements SubastaService {
 
     public List<SubastaParticipanteDTO> getSubastasByUsuarioId(Long idUsuario) {
         return subastaRepository.findSubastasByUsuarioId(idUsuario);
+    }
+
+    public Subasta updateSubasta(int id, Subasta subastaDetails) {
+        Subasta subasta = subastaRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Subasta not found"));
+        subasta.setEstado(subastaDetails.getEstado());
+        return subastaRepository.save(subasta);
+    }
+
+    public void deleteSubasta(int id) {
+        Subasta subasta = subastaRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Subasta not found"));
+        subastaRepository.delete(subasta);
+    }
+
+    public Subasta finalizarSubasta(int id) {
+        Subasta subasta = subastaRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Subasta not found"));
+        subasta.setEstado("Finalizado");
+        return subastaRepository.save(subasta);
     }
 
 }

@@ -11,4 +11,5 @@ public interface LoteRepository extends JpaRepository<Lote, Integer> {
     List<Lote> findBySubastaIdWithFotos(int subastaId);
 
     Lote findLoteById(int id);
+    List<Lote> findBySubastaId(int subastaId);
 }

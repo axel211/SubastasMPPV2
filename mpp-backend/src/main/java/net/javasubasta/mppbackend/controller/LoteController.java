@@ -1,6 +1,7 @@
 package net.javasubasta.mppbackend.controller;
 
 import net.javasubasta.mppbackend.dto.LoteDTO;
+import net.javasubasta.mppbackend.dto.LoteListaDTO;
 import net.javasubasta.mppbackend.dto.LoteRecuperarDTO;
 import net.javasubasta.mppbackend.entity.Lote;
 import net.javasubasta.mppbackend.service.LoteService;
@@ -41,6 +42,13 @@ public class LoteController {
     public ResponseEntity<Lote> adjudicarLote(@PathVariable int id) throws Exception {
         Lote adjudicadoLote = loteService.adjudicarLote(id) ;
         return ResponseEntity.ok(adjudicadoLote);
+    }
+
+
+    @GetMapping("/lotesXSubasta/{subastaId}")
+    public ResponseEntity <List<LoteListaDTO>> obtenerLotePorID( @PathVariable int subastaId) throws Exception {
+        List<LoteListaDTO> lotes  = loteService.obtenerAllLotesPorSubastaId(subastaId);
+        return ResponseEntity.ok( lotes) ;
     }
 
 }

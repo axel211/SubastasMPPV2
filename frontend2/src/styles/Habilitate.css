@@ -1,0 +1,21 @@
+.habilitate-page .steps {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .habilitate-page .step {
+    width: 100%;
+    max-width: 600px;
+    text-align: left;
+  }
+  
+  .habilitate-page .step img {
+    margin-top: 10px;
+    max-width: 100%;
+    height: auto;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  }
+  

@@ -1,9 +1,10 @@
-// src/components/Login.js
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from '../axios'; // Usa la instancia configurada de Axios
 import { Form, Button, Container, Card, Modal } from 'react-bootstrap';
 import { useAuth } from '../context/AuthContext';
+import '../styles/Login.css'; // Importa el archivo CSS
+import LogoMPP from '../Image/BannerSubasta/LogoMPP.svg';
 
 const Login = () => {
     const [email, setEmail] = useState('');
@@ -27,16 +28,16 @@ const Login = () => {
     };
 
     return (
-        <Container className="d-flex justify-content-center align-items-center" style={{ minHeight: '50vh' }}>
-            <Card style={{ width: '30rem' }}>
-                <Card.Body>
-                    <h2 className="text-center mb-4">Login</h2>
+        <Container className="login-container">
+            <Card className="login-card">
+                <div className="login-card-right">
+                    <h2 className="text-center">¡Bienvenido!</h2>
                     <Form onSubmit={handleSubmit}>
                         <Form.Group controlId="formBasicEmail">
-                            <Form.Label>Email</Form.Label>
+                            <Form.Label>Correo electronico</Form.Label>
                             <Form.Control
                                 type="email"
-                                placeholder="Enter email"
+                                placeholder="Ingrese su correo electronico"
                                 value={email}
                                 onChange={(e) => setEmail(e.target.value)}
                                 required
@@ -44,10 +45,10 @@ const Login = () => {
                         </Form.Group>
 
                         <Form.Group controlId="formBasicPassword" className="mt-3">
-                            <Form.Label>Password</Form.Label>
+                            <Form.Label>Contraseña</Form.Label>
                             <Form.Control
                                 type="password"
-                                placeholder="Password"
+                                placeholder="Contraseña"
                                 value={password}
                                 onChange={(e) => setPassword(e.target.value)}
                                 required
@@ -55,10 +56,16 @@ const Login = () => {
                         </Form.Group>
 
                         <Button variant="primary" type="submit" className="w-100 mt-4">
-                            Login
+                            Ingresar
                         </Button>
                     </Form>
-                </Card.Body>
+                    <a href="/forgot-password" className="forgot-password">
+                        ¿Has olvidado tu contraseña?
+                    </a>
+                    <a href="/registro" className="register-btn mt-4">
+                        Registrarse
+                    </a>
+                </div>
             </Card>
 
             <Modal show={showModal} onHide={handleClose}>

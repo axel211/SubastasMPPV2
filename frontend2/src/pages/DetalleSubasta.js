@@ -46,17 +46,6 @@ const DetalleSubasta = () => {
                     </Card.Body>
                 </Card>
 
-                <Card style={{ width: '18rem' }}>
-                    <Card.Body>
-                        <Card.Title>Información Adicional</Card.Title>
-                        <Card.Text>
-                            Ver la información adicional de la subasta como términos y condiciones.
-                        </Card.Text>
-                        <Button variant="primary" onClick={() => handleNavigate('/info-adicional')}>
-                            Ir a Información Adicional
-                        </Button>
-                    </Card.Body>
-                </Card>
             </div>
         </div>
     );

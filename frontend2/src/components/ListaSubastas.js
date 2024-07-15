@@ -75,7 +75,7 @@ const ListaSubastas = () => {
                     >
                         <option value="">Todos los estados</option>
                         <option value="Activo">Activo</option>
-                        <option value="Finalizada">Finalizada</option>
+                        <option value="Finalizado">Finalizada</option>
                     </select>
                     <input
                         type="date"

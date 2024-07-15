@@ -62,7 +62,7 @@ const Navbar = () => {
             </button>
             <div className={`navbar-menu ${isOpen ? 'open' : ''}`}>
                 <Link to="/" className="navbar-item" onClick={toggleMenu}>Inicio</Link>
-                <Link to="/informes" className="navbar-item" onClick={toggleMenu}>Informes</Link>
+                {/*<Link to="/informes" className="navbar-item" onClick={toggleMenu}>Informes</Link>*/}
                 <Link to="/subasta" className="navbar-item" onClick={toggleMenu}>Subasta</Link>
             </div>
             <div className="navbar-auth">

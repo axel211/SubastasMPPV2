@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Table, Button, Modal, Form } from 'react-bootstrap';
 import axios from 'axios';
 import { useParams } from 'react-router-dom';
@@ -8,7 +8,7 @@ const Lotes = () => {
     const [showModal, setShowModal] = useState(false);
     const [loteType, setLoteType] = useState('');
     const [images, setImages] = useState([]);
-
+    const [lotes, setLotes] = useState([]);
     const initialFormData = {
         tipoLote: '',
         placa: '',
@@ -19,18 +19,24 @@ const Lotes = () => {
         modelo: '',
         direccion: '',
         precioBase: '',
-        moneda: '' , 
-        fechaCierre : '' , 
-        estado : 'abierto'
+        moneda: '',
+        fechaCierre: '',
+        estado: 'abierto'
     };
 
     const [formData, setFormData] = useState(initialFormData);
 
-    const lotes = [
-        { id: 1, type: 'Vehículo', description: 'Auto deportivo', price: '20000', currency: 'Dólares' },
-        { id: 2, type: 'Inmueble', description: 'Casa en la playa', price: '50000', currency: 'Soles' },
-        // Más lotes pueden ser agregados aquí
-    ];
+    useEffect(() => {
+        const fetchLotes = async () => {
+            try {
+                const response = await axios.get(`http://localhost:8080/api/lotesXSubasta/${id}`);
+                setLotes(response.data);
+            } catch (error) {
+                console.error('Error al obtener los lotes:', error);
+            }
+        };
+        fetchLotes();
+    }, [id]);
 
     const handleShowModal = () => setShowModal(true);
     const handleCloseModal = () => setShowModal(false);
@@ -86,6 +92,7 @@ const Lotes = () => {
             console.log(response.data);
             alert("Lote registrado con éxito");
             setShowModal(false); // Cierra el modal después del registro exitoso
+            setLotes([...lotes, response.data]); // Añadir el nuevo lote a la lista de lotes
         } catch (error) {
             console.error('Error al registrar el lote:', error);
             alert("Error al registrar el lote");
@@ -94,33 +101,37 @@ const Lotes = () => {
 
     return (
         <div className="container">
-            <Table striped bordered hover>
-                <thead>
-                    <tr>
-                        <th>ID</th>
-                        <th>Tipo</th>
-                        <th>Descripción</th>
-                        <th>Precio Base</th>
-                        <th>Moneda</th>
-                        <th>Acciones</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {lotes.map((lote) => (
-                        <tr key={lote.id}>
-                            <td>{lote.id}</td>
-                            <td>{lote.type}</td>
-                            <td>{lote.description}</td>
-                            <td>{lote.price}</td>
-                            <td>{lote.currency}</td>
-                            <td>
-                                <Button variant="primary" className="me-2">Editar</Button>
-                                <Button variant="danger">Eliminar</Button>
-                            </td>
+            {lotes.length > 0 ? (
+                <Table striped bordered hover>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Tipo</th>
+                            <th>Descripción</th>
+                            <th>Precio Base</th>
+                            <th>Moneda</th>
+                            <th>Acciones</th>
                         </tr>
-                    ))}
-                </tbody>
-            </Table>
+                    </thead>
+                    <tbody>
+                        {lotes.map((lote) => (
+                            <tr key={lote.id}>
+                                <td>{lote.id}</td>
+                                <td>{lote.tipo ? lote.tipo.toUpperCase() : ''}</td>
+                                <td>{lote.descripcion}</td>
+                                <td>{lote.precioBase}</td>
+                                <td>{lote.moneda ? lote.moneda.toUpperCase() : ''}</td>
+                                <td>
+                                    <Button variant="primary" className="me-2">Editar</Button>
+                                    <Button variant="danger">Eliminar</Button>
+                                </td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </Table>
+            ) : (
+                <p>No hay lotes registrados para esta subasta.</p>
+            )}
             <Button variant="success" onClick={handleShowModal}>Registrar Nuevo Lote</Button>
 
             {/* Modal para registrar nuevo lote */}
@@ -189,9 +200,15 @@ const Lotes = () => {
 
                         <Form.Group className="mb-3">
                             <Form.Label>Descripción</Form.Label>
-                            <Form.Control type="text" placeholder="Descripción" name="descripcion" value={formData.descripcion} onChange={handleChange} />
+                            <Form.Control
+                                as="textarea"
+                                rows={5} // Ajusta el número de filas según lo necesites
+                                placeholder="Descripción"
+                                name="descripcion"
+                                value={formData.descripcion}
+                                onChange={handleChange}
+                            />
                         </Form.Group>
-
                         <Form.Group className="mb-3">
                             <Form.Label>Moneda</Form.Label>
                             <Form.Control as="select" defaultValue="Soles" name="moneda" value={formData.moneda} onChange={handleChange}>

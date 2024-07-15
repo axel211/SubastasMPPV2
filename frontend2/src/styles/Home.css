@@ -1,3 +1,15 @@
+.icon {
+  width: 24px;
+  height: 24px;
+  margin-right: 8px;
+  vertical-align: middle;
+}
+
+.card-text {
+  font-size: 0.9rem; /* Ajusta el tamaño del texto para que sea más pequeño */
+}
+
+
 /*
 .subasta-container {
     display: flex;
